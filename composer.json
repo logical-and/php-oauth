@@ -1,0 +1,57 @@
+{
+    "name": "and/oauth",
+    "description": "PHP 5.4+ oAuth Library",
+    "keywords": ["oauth", "oauth1", "oauth2", "authentication", "authorization", "security"],
+    "license": "MIT",
+    "authors": [
+		{
+			"name": "And",
+			"email": "and.webdev@gmail.com",
+			"role": "Developer"
+		},
+        {
+            "name": "David Desberg",
+            "email": "david@daviddesberg.com",
+			"role": "Developer of OAuth"
+        },
+        {
+            "name": "Pieter Hordijk",
+            "email": "info@pieterhordijk.com",
+			"role": "Developer of OAuth"
+		},
+		{
+			"name": "Luciano Mammino",
+			"email": "lmammino@oryzone.com",
+			"homepage": "http://oryzone.com",
+			"role": "Developer of UserData package"
+		}
+    ],
+    "require": {
+        "php": ">=5.4.0",
+		"ext-reflection": "*",
+		"ext-spl": "*",
+		"kriswallsmith/buzz": "~0.13",
+		"league/url": "~3.2.1"
+    },
+    "require-dev": {
+        "symfony/http-foundation": "~2.1",
+        "predis/predis": "0.8.*@dev",
+        "phpunit/phpunit": "4.4.*"
+    },
+    "suggest": {
+        "symfony/http-foundation": "Allows using the Symfony Session storage backend.",
+        "predis/predis": "Allows using the Redis storage backend.",
+        "ext-openssl": "Allows for usage of secure connections with the stream-based HTTP client."
+    },
+    "autoload": {
+        "psr-4": {
+            "OAuth\\": "src/",
+            "OAuthTest\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5"
+        }
+    }
+}
