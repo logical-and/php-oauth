@@ -43,7 +43,9 @@ if ($googleService->isGlobalRequestArgumentsPassed()) {
     echo 'Your unique google user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
 
 	echo '<br />';
-	echo 'Your extracted email is a: ' . $googleService->constructExtractor()->getEmail();
+	$extractor = $googleService->constructExtractor();
+	echo 'Your extracted email is a: ' . $extractor->getEmail() . ', ' .
+		'<br>and image: ' . inline_image($extractor->getImageRawData(50));
 
 } elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
     $googleService->redirectToAuthorizationUri();

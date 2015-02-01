@@ -22,6 +22,14 @@ ini_set('date.timezone', 'Europe/Amsterdam');
 $currentUri = \League\Url\Url::createFromServer($_SERVER);
 $currentUri->setQuery('');
 
+function inline_image($rawData)
+{
+	return '<img src="' .
+		'data:image/'. Gregwar\Image\Image::fromData($rawData)->guessType() .';' .
+		'base64,' . base64_encode($rawData) .
+	'">';
+}
+
 /**
  * Load the credential for the different services
  */

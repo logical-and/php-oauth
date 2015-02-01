@@ -10,6 +10,8 @@
  */
 
 namespace OAuth\UserData\Extractor;
+use Gregwar\Image\Image;
+use OAuth\Common\Exception\Exception;
 use OAuth\UserData\Arguments\FieldsValues;
 
 /**
@@ -47,6 +49,8 @@ class Extractor implements ExtractorInterface
         $this->supports = $fieldsValues->getSupportedFields();
         $this->fields = $fieldsValues->getFieldsValues();
     }
+
+	// --- Accessors
 
     /**
      * {@inheritDoc}
@@ -266,13 +270,85 @@ class Extractor implements ExtractorInterface
         return $this->getField(self::FIELD_EXTRA);
     }
 
+	// --- Helpers
+
+	/**
+	 * Save image file by given path
+	 *
+	 * @param $savePath
+	 * @param bool $width
+	 * @param bool $height
+	 * @return $this
+	 * @throws Exception
+	 */
+	public function saveImage($savePath, $width = FALSE, $height = FALSE)
+	{
+		$ext = pathinfo($savePath, PATHINFO_EXTENSION);
+
+		if (!$ext) throw new Exception('Path passed as arguments is path without extension!');
+
+		try {
+			Image::fromData($this->getImageRawData($width, $height))->save($savePath, $ext);
+		}
+		// Catch any exception
+		catch (\Exception $e)
+		{
+			throw new Exception('Exception occurred  during saving image: ' . $e->getMessage(), $e->getCode(), $e);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get image raw data
+	 *
+	 * @param bool $width
+	 * @param bool $height
+	 * @return bool|mixed|string
+	 * @throws \OAuth\Common\Exception\Exception
+	 */
+	public function getImageRawData($width = FALSE, $height = FALSE)
+	{
+		if (!$this->supportsImageUrl())
+		{
+			throw new Exception('Image url is not supported by "' . basename(get_class($this)) . '" class!');
+		}
+
+		if (!$this->getImageUrl())
+		{
+			throw new Exception('Image url is empty');
+		}
+
+		$rawImage = $this->service->httpRequest($this->getImageUrl(), [], [], 'GET');
+		$image = Image::fromData($rawImage);
+
+		if ($width OR $height)
+		{
+			/** @noinspection PhpUndefinedMethodInspection */
+			$image->resize($width ? $width : NULL, $height ? $height : NULL);
+		}
+
+		try {
+			return $image->get();
+		}
+			// Catch any exception
+		catch (\Exception $e)
+		{
+			throw new Exception('Exception occurred  during saving image: ' . $e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
     /**
      * {@inheritDoc}
      */
     public function setService($service)
     {
         $this->service = $service;
+
+	    return $this;
     }
+
+	// --- Internal methods
 
     /**
      * Get the value for a given field

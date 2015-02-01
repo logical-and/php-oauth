@@ -10,6 +10,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
+use Gregwar\Image\Image;
 use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\OAuth2\Service\Vkontakte;
@@ -43,8 +44,9 @@ if ($vkService->isGlobalRequestArgumentsPassed()) {
 	echo '<br />';
 	$extractor = $vkService->constructExtractor();
 	echo 'Your extracted url is a: ' .
-		'<a target="_blank" href="' . $extractor->getProfileUrl() . '">' . $extractor->getProfileUrl() . '</a>' .
-		'and city is a: ' . $extractor->getLocation()['name'];
+		'<a target="_blank" href="' . $extractor->getProfileUrl() . '">' . $extractor->getProfileUrl() . '</a>, ' .
+		'city is a: ' . $extractor->getLocation()['name'] . ',' .
+		'<br> and image: <br>' . inline_image($extractor->getImageRawData(200));
 } elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
     $vkService->redirectToAuthorizationUri();
 } else {
