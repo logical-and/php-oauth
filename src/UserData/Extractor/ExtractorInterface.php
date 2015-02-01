@@ -10,6 +10,7 @@
  */
 
 namespace OAuth\UserData\Extractor;
+use OAuth\UserData\Exception\Exception;
 
 /**
  * Interface ExtractorInterface
@@ -228,4 +229,25 @@ interface ExtractorInterface
      * @return array
      */
     public function getExtras();
+
+	/**
+	 * Save image file by given path. Path extension is mandatory and it's determine, which image type will be used
+	 *
+	 * @param $savePath
+	 * @param bool $width Optional value, max width
+	 * @param bool $height Optional value, max height
+	 * @return $this
+	 * @throws Exception
+	 */
+	public function saveImage($savePath, $width = FALSE, $height = FALSE);
+
+	/**
+	 * Get image raw data
+	 *
+	 * @param bool $width Optional value, max width
+	 * @param bool $height Optional value, max height
+	 * @return bool|mixed|string
+	 * @throws Exception
+	 */
+	public function getImageRawData($width = FALSE, $height = FALSE);
 }

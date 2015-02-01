@@ -10,6 +10,7 @@
  */
 
 namespace OAuth\UserData\Extractor;
+
 use Gregwar\Image\Image;
 use OAuth\Common\Exception\Exception;
 use OAuth\UserData\Arguments\FieldsValues;
@@ -273,13 +274,7 @@ class Extractor implements ExtractorInterface
 	// --- Helpers
 
 	/**
-	 * Save image file by given path
-	 *
-	 * @param $savePath
-	 * @param bool $width
-	 * @param bool $height
-	 * @return $this
-	 * @throws Exception
+	 * {@inheritdoc}
 	 */
 	public function saveImage($savePath, $width = FALSE, $height = FALSE)
 	{
@@ -300,12 +295,7 @@ class Extractor implements ExtractorInterface
 	}
 
 	/**
-	 * Get image raw data
-	 *
-	 * @param bool $width
-	 * @param bool $height
-	 * @return bool|mixed|string
-	 * @throws \OAuth\Common\Exception\Exception
+	 * {@inheritdoc}
 	 */
 	public function getImageRawData($width = FALSE, $height = FALSE)
 	{
