@@ -10,6 +10,7 @@
  */
 
 namespace OAuth\UserData\Extractor;
+use OAuth\UserData\Arguments\FieldsValues;
 use OAuth\UserData\Utils\ArrayUtils;
 
 /**
@@ -27,7 +28,20 @@ class Vkontakte extends LazyExtractor {
 	public function __construct()
 	{
 		parent::__construct(
-			self::getAllFields(),
+			FieldsValues::construct([
+				self::FIELD_UNIQUE_ID,
+				self::FIELD_USERNAME,
+				self::FIELD_FIRST_NAME,
+				self::FIELD_LAST_NAME,
+				self::FIELD_FULL_NAME,
+				self::FIELD_EMAIL,
+				self::FIELD_DESCRIPTION,
+				self::FIELD_LOCATION,
+				self::FIELD_PROFILE_URL,
+				self::FIELD_IMAGE_URL,
+				self::FIELD_VERIFIED_EMAIL,
+				self::FIELD_EXTRA
+			]),
 			self::getDefaultNormalizersMap()
 				->pathContext('response.0')
 				->paths(					[
@@ -69,11 +83,6 @@ class Vkontakte extends LazyExtractor {
 	protected function verifiedEmailNormalizer()
 	{
 		return !!$this->getEmail();
-	}
-
-	protected function websitesNormalizer()
-	{
-		return [];
 	}
 
 	protected function locationNormalizer($data)
