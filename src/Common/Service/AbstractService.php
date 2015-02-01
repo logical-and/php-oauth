@@ -7,8 +7,8 @@ use Buzz\Client\ClientInterface;
 use Buzz\Exception\RequestException;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Consumer\CredentialsInterface;
-use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Exception\Exception;
+use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Http\Url;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\UserData\ExtractorFactory;
@@ -17,16 +17,16 @@ use OAuth\UserData\ExtractorFactoryInterface;
 /**
  * Abstract OAuth service, version-agnostic
  */
-abstract class AbstractService implements ServiceInterface
-{
-    /** @var Credentials */
-    protected $credentials;
+abstract class AbstractService implements ServiceInterface {
 
-    /** @var Browser */
-    protected $httpTransporter;
+	/** @var Credentials */
+	protected $credentials;
 
-    /** @var TokenStorageInterface */
-    protected $storage;
+	/** @var Browser */
+	protected $httpTransporter;
+
+	/** @var TokenStorageInterface */
+	protected $storage;
 
 	/** @var Url|null */
 	protected $baseApiUri;
@@ -46,21 +46,22 @@ abstract class AbstractService implements ServiceInterface
 	 * @param TokenStorageInterface $storage
 	 * @param $baseApiUrl
 	 */
-    public function __construct(
-        CredentialsInterface $credentials,
-	    Browser $httpTransporter,
-        TokenStorageInterface $storage,
+	public function __construct(
+		CredentialsInterface $credentials,
+		Browser $httpTransporter,
+		TokenStorageInterface $storage,
 		$baseApiUrl
-    ) {
-        $this->credentials = $credentials;
-        $this->httpTransporter = $httpTransporter;
-        $this->storage = $storage;
+	)
+	{
+		$this->credentials     = $credentials;
+		$this->httpTransporter = $httpTransporter;
+		$this->storage         = $storage;
 
-	    if ($baseApiUrl) $this->baseApiUri = new Url($baseApiUrl);
-	    elseif (is_string($this->baseApiUri)) $this->baseApiUri = new Url($this->baseApiUri);
+		if ($baseApiUrl) $this->baseApiUri = new Url($baseApiUrl);
+		elseif (is_string($this->baseApiUri)) $this->baseApiUri = new Url($this->baseApiUri);
 
-	    $this->initialize();
-    }
+		$this->initialize();
+	}
 
 	public function initialize()
 	{
@@ -69,7 +70,8 @@ abstract class AbstractService implements ServiceInterface
 
 	public function getBaseApiUri($clone = TRUE)
 	{
-		if (null === $this->baseApiUri) {
+		if (NULL === $this->baseApiUri)
+		{
 			throw new Exception(
 				'An absolute URI must be passed to ServiceInterface::request as no baseApiUri is set.'
 			);
@@ -98,49 +100,54 @@ abstract class AbstractService implements ServiceInterface
 		return new Url($this->accessTokenEndpoint);
 	}
 
-    /**
-     * @param Url|string $path
-     *
-     * @return Url
-     *
-     * @throws Exception
-     */
-    protected function determineRequestUriFromPath($path)
-    {
-        if ($path instanceof Url) {
-            $uri = $path;
-        } elseif (stripos($path, 'http://') === 0 || stripos($path, 'https://') === 0) {
-            $uri = new Url($path);
-        } else {
-	        $path = (string) $path;
-	        $uri = $this->getBaseApiUri();
+	/**
+	 * @param Url|string $path
+	 * @return Url
+	 * @throws Exception
+	 */
+	protected function determineRequestUriFromPath($path)
+	{
+		if ($path instanceof Url)
+		{
+			$uri = $path;
+		}
+		elseif (stripos($path, 'http://') === 0 || stripos($path, 'https://') === 0)
+		{
+			$uri = new Url($path);
+		}
+		else
+		{
+			$path = (string) $path;
+			$uri  = $this->getBaseApiUri();
 
-            if (false !== strpos($path, '?')) {
-                $parts = explode('?', $path, 2);
-                $path = $parts[0];
-                $query = $parts[1];
-                $uri->setQuery($query);
-            }
+			if (FALSE !== strpos($path, '?'))
+			{
+				$parts = explode('?', $path, 2);
+				$path  = $parts[ 0 ];
+				$query = $parts[ 1 ];
+				$uri->setQuery($query);
+			}
 
-            if ($path[0] === '/') {
-                $path = substr($path, 1);
-            }
+			if ($path[ 0 ] === '/')
+			{
+				$path = substr($path, 1);
+			}
 
-            $uri->setPath($uri->getPath() . '/' . $path);
-        }
+			$uri->setPath($uri->getPath() . '/' . $path);
+		}
 
-        return $uri;
-    }
+		return $uri;
+	}
 
-    /**
-     * Accessor to the storage adapter to be able to retrieve tokens
-     *
-     * @return TokenStorageInterface
-     */
-    public function getStorage()
-    {
-        return $this->storage;
-    }
+	/**
+	 * Accessor to the storage adapter to be able to retrieve tokens
+	 *
+	 * @return TokenStorageInterface
+	 */
+	public function getStorage()
+	{
+		return $this->storage;
+	}
 
 	/**
 	 * Accessor to the storage adapter to be able to make request
@@ -165,10 +172,10 @@ abstract class AbstractService implements ServiceInterface
 	 */
 	public function httpRequest($uri, array $body = [], array $headers = [], $method = 'POST')
 	{
-		try {
+		try
+		{
 			$response = $this->httpTransporter->submit($uri, $body, $method, $headers);
-		}
-		catch (RequestException $e)
+		} catch (RequestException $e)
 		{
 			throw new TokenResponseException($e->getMessage() ? $e->getMessage() : 'Failed to request resource.');
 		}
@@ -176,17 +183,18 @@ abstract class AbstractService implements ServiceInterface
 		return $response->getContent();
 	}
 
-    /**
-     * @return string
-     */
-    public function service()
-    {
-        // get class name without backslashes
-        return basename(get_class($this));
-    }
+	/**
+	 * @return string
+	 */
+	public function service()
+	{
+		// get class name without backslashes
+		return basename(get_class($this));
+	}
 
 	/**
 	 * Get _POST + _GET
+	 *
 	 * @return array
 	 */
 	protected function getGlobalRequestArguments()

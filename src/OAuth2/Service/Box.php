@@ -17,7 +17,7 @@ class Box extends AbstractService {
 	protected $authorizationEndpoint = 'https://www.box.com/api/oauth2/authorize';
 	protected $accessTokenEndpoint = 'https://www.box.com/api/oauth2/token';
 	protected $authorizationMethod = self::AUTHORIZATION_METHOD_HEADER_BEARER;
-	protected $stateParameterInAuthUrl = true;
+	protected $stateParameterInAuthUrl = TRUE;
 
 	/**
 	 * {@inheritdoc}

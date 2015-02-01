@@ -15,116 +15,122 @@ use OAuth\UserData\Arguments\FieldsValues;
 
 /**
  * Class GitHub
+ *
  * @package OAuth\UserData\Extractor
  */
-class GitHub extends LazyExtractor
-{
-    const REQUEST_PROFILE = '/user';
-    const REQUEST_EMAIL = '/user/emails';
+class GitHub extends LazyExtractor {
 
-    public function __construct()
-    {
-	    parent::__construct(
-		    FieldsValues::construct([
-			    self::FIELD_UNIQUE_ID,
-			    self::FIELD_USERNAME,
-			    self::FIELD_FIRST_NAME,
-			    self::FIELD_LAST_NAME,
-			    self::FIELD_FULL_NAME,
-			    self::FIELD_EMAIL,
-			    self::FIELD_LOCATION,
-			    self::FIELD_DESCRIPTION,
-			    self::FIELD_IMAGE_URL,
-			    self::FIELD_PROFILE_URL,
-			    self::FIELD_VERIFIED_EMAIL,
-			    self::FIELD_EXTRA
-		    ]),
-		    self::getDefaultNormalizersMap()
-			    ->paths([
-				    self::FIELD_UNIQUE_ID   => 'id',
-				    self::FIELD_USERNAME    => 'login',
-				    self::FIELD_FULL_NAME   => 'name',
-				    self::FIELD_LOCATION    => 'location',
-				    self::FIELD_DESCRIPTION => 'bio',
-				    self::FIELD_IMAGE_URL   => 'avatar_url',
-				    self::FIELD_PROFILE_URL => 'html_url'
-			    ]),
-		    self::getDefaultLoadersMap()
-			    ->loader('email')->readdFields([self::FIELD_EMAIL, self::FIELD_VERIFIED_EMAIL])
-	    );
-    }
+	const REQUEST_PROFILE = '/user';
+	const REQUEST_EMAIL   = '/user/emails';
 
-    protected function profileLoader()
-    {
-        return $this->service->requestJSON(self::REQUEST_PROFILE);
-    }
+	public function __construct()
+	{
+		parent::__construct(
+			FieldsValues::construct([
+				self::FIELD_UNIQUE_ID,
+				self::FIELD_USERNAME,
+				self::FIELD_FIRST_NAME,
+				self::FIELD_LAST_NAME,
+				self::FIELD_FULL_NAME,
+				self::FIELD_EMAIL,
+				self::FIELD_LOCATION,
+				self::FIELD_DESCRIPTION,
+				self::FIELD_IMAGE_URL,
+				self::FIELD_PROFILE_URL,
+				self::FIELD_VERIFIED_EMAIL,
+				self::FIELD_EXTRA
+			]),
+			self::getDefaultNormalizersMap()
+				->paths([
+					self::FIELD_UNIQUE_ID   => 'id',
+					self::FIELD_USERNAME    => 'login',
+					self::FIELD_FULL_NAME   => 'name',
+					self::FIELD_LOCATION    => 'location',
+					self::FIELD_DESCRIPTION => 'bio',
+					self::FIELD_IMAGE_URL   => 'avatar_url',
+					self::FIELD_PROFILE_URL => 'html_url'
+				]),
+			self::getDefaultLoadersMap()
+				->loader('email')->readdFields([self::FIELD_EMAIL, self::FIELD_VERIFIED_EMAIL])
+		);
+	}
 
-    protected function emailLoader()
-    {
-        return $this->service->requestJSON(self::REQUEST_EMAIL);
-    }
+	protected function profileLoader()
+	{
+		return $this->service->requestJSON(self::REQUEST_PROFILE);
+	}
 
-    protected function firstNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+	protected function emailLoader()
+	{
+		return $this->service->requestJSON(self::REQUEST_EMAIL);
+	}
 
-            return $names[0];
-        }
+	protected function firstNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-        return null;
-    }
+			return $names[ 0 ];
+		}
 
-    protected function lastNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+		return NULL;
+	}
 
-            return $names[sizeof($names) - 1];
-        }
+	protected function lastNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-        return null;
-    }
+			return $names[ sizeof($names) - 1 ];
+		}
 
-    protected function emailNormalizer($emails)
-    {
-        $email = $this->getEmailObject($emails);
+		return NULL;
+	}
 
-        return $email['email'];
-    }
+	protected function emailNormalizer($emails)
+	{
+		$email = $this->getEmailObject($emails);
 
-    protected function verifiedEmailNormalizer($emails)
-    {
-        $email = $this->getEmailObject($emails);
+		return $email[ 'email' ];
+	}
 
-        return $email['verified'];
-    }
+	protected function verifiedEmailNormalizer($emails)
+	{
+		$email = $this->getEmailObject($emails);
 
-    /**
-     * Get the right email address from the one's the user provides.
-     *
-     * @param array $emails The array of email array objects provided by GitHub.
-     *
-     * @return array The email array object.
-     */
-    private function getEmailObject($emails)
-    {
-        // Try to find an email address which is primary and verified.
-        foreach ($emails as $email) {
-            if ($email['primary'] && $email['verified']) {
-                return $email;
-            }
-        }
+		return $email[ 'verified' ];
+	}
 
-        // Try to find an email address which is primary.
-        foreach ($emails as $email) {
-            if ($email['primary']) {
-                return $email;
-            }
-        }
+	/**
+	 * Get the right email address from the one's the user provides.
+	 *
+	 * @param array $emails The array of email array objects provided by GitHub.
+	 * @return array The email array object.
+	 */
+	private function getEmailObject($emails)
+	{
+		// Try to find an email address which is primary and verified.
+		foreach ($emails as $email)
+		{
+			if ($email[ 'primary' ] && $email[ 'verified' ])
+			{
+				return $email;
+			}
+		}
 
-        return $emails[0];
-    }
+		// Try to find an email address which is primary.
+		foreach ($emails as $email)
+		{
+			if ($email[ 'primary' ])
+			{
+				return $email;
+			}
+		}
+
+		return $emails[ 0 ];
+	}
 }

@@ -17,259 +17,262 @@ use OAuth\UserData\Arguments\FieldsValues;
 
 /**
  * Class Extractor
+ *
  * @package OAuth\UserData\Extractor
  */
-class Extractor implements ExtractorInterface
-{
-    /**
-     * @var \OAuth\Common\Service\ServiceInterface $service
-     */
-    protected $service;
+class Extractor implements ExtractorInterface {
 
-    /**
-     * Array of supported fields
-     * @var array $supports
-     */
-    protected $supports;
+	/**
+	 * @var \OAuth\Common\Service\ServiceInterface $service
+	 */
+	protected $service;
 
-    /**
-     * Associative array with all the fields value
-     * @var array
-     */
-    protected $fields;
+	/**
+	 * Array of supported fields
+	 *
+	 * @var array $supports
+	 */
+	protected $supports;
+
+	/**
+	 * Associative array with all the fields value
+	 *
+	 * @var array
+	 */
+	protected $fields;
 
 	/**
 	 * Constructor
 	 *
 	 * @param FieldsValues $fieldsValues
 	 */
-    public function __construct(FieldsValues $fieldsValues = NULL)
-    {
-	    if (!$fieldsValues) $fieldsValues = self::getAllFields();
+	public function __construct(FieldsValues $fieldsValues = NULL)
+	{
+		if (!$fieldsValues) $fieldsValues = self::getAllFields();
 
-        $this->supports = $fieldsValues->getSupportedFields();
-        $this->fields = $fieldsValues->getFieldsValues();
-    }
+		$this->supports = $fieldsValues->getSupportedFields();
+		$this->fields   = $fieldsValues->getFieldsValues();
+	}
 
 	// --- Accessors
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsUniqueId()
-    {
-        return $this->isFieldSupported(self::FIELD_UNIQUE_ID);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsUniqueId()
+	{
+		return $this->isFieldSupported(self::FIELD_UNIQUE_ID);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getUniqueId()
-    {
-        return $this->getField(self::FIELD_UNIQUE_ID);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getUniqueId()
+	{
+		return $this->getField(self::FIELD_UNIQUE_ID);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsUsername()
-    {
-        return $this->isFieldSupported(self::FIELD_USERNAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsUsername()
+	{
+		return $this->isFieldSupported(self::FIELD_USERNAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsername()
-    {
-        return $this->getField(self::FIELD_USERNAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getUsername()
+	{
+		return $this->getField(self::FIELD_USERNAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsFirstName()
-    {
-        return $this->isFieldSupported(self::FIELD_FIRST_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsFirstName()
+	{
+		return $this->isFieldSupported(self::FIELD_FIRST_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFirstName()
-    {
-        return $this->getField(self::FIELD_FIRST_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getFirstName()
+	{
+		return $this->getField(self::FIELD_FIRST_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsLastName()
-    {
-        return $this->isFieldSupported(self::FIELD_LAST_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsLastName()
+	{
+		return $this->isFieldSupported(self::FIELD_LAST_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getLastName()
-    {
-        return $this->getField(self::FIELD_LAST_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getLastName()
+	{
+		return $this->getField(self::FIELD_LAST_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsFullName()
-    {
-        return $this->isFieldSupported(self::FIELD_FULL_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsFullName()
+	{
+		return $this->isFieldSupported(self::FIELD_FULL_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFullName()
-    {
-        return $this->getField(self::FIELD_FULL_NAME);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getFullName()
+	{
+		return $this->getField(self::FIELD_FULL_NAME);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsEmail()
-    {
-        return $this->isFieldSupported(self::FIELD_EMAIL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsEmail()
+	{
+		return $this->isFieldSupported(self::FIELD_EMAIL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getEmail()
-    {
-        return $this->getField(self::FIELD_EMAIL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEmail()
+	{
+		return $this->getField(self::FIELD_EMAIL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsLocation()
-    {
-        return $this->isFieldSupported(self::FIELD_LOCATION);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsLocation()
+	{
+		return $this->isFieldSupported(self::FIELD_LOCATION);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getLocation()
-    {
-        return $this->getField(self::FIELD_LOCATION);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getLocation()
+	{
+		return $this->getField(self::FIELD_LOCATION);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsDescription()
-    {
-        return $this->isFieldSupported(self::FIELD_DESCRIPTION);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsDescription()
+	{
+		return $this->isFieldSupported(self::FIELD_DESCRIPTION);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getDescription()
-    {
-        return $this->getField(self::FIELD_DESCRIPTION);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDescription()
+	{
+		return $this->getField(self::FIELD_DESCRIPTION);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsImageUrl()
-    {
-        return $this->isFieldSupported(self::FIELD_IMAGE_URL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsImageUrl()
+	{
+		return $this->isFieldSupported(self::FIELD_IMAGE_URL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getImageUrl()
-    {
-        return $this->getField(self::FIELD_IMAGE_URL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getImageUrl()
+	{
+		return $this->getField(self::FIELD_IMAGE_URL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsProfileUrl()
-    {
-        return $this->isFieldSupported(self::FIELD_PROFILE_URL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsProfileUrl()
+	{
+		return $this->isFieldSupported(self::FIELD_PROFILE_URL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getProfileUrl()
-    {
-        return $this->getField(self::FIELD_PROFILE_URL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getProfileUrl()
+	{
+		return $this->getField(self::FIELD_PROFILE_URL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsWebsites()
-    {
-        return $this->isFieldSupported(self::FIELD_WEBSITES);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsWebsites()
+	{
+		return $this->isFieldSupported(self::FIELD_WEBSITES);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getWebsites()
-    {
-        return $this->getField(self::FIELD_WEBSITES);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getWebsites()
+	{
+		return $this->getField(self::FIELD_WEBSITES);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsVerifiedEmail()
-    {
-        return $this->isFieldSupported(self::FIELD_VERIFIED_EMAIL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsVerifiedEmail()
+	{
+		return $this->isFieldSupported(self::FIELD_VERIFIED_EMAIL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isEmailVerified()
-    {
-        return $this->getField(self::FIELD_VERIFIED_EMAIL);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isEmailVerified()
+	{
+		return $this->getField(self::FIELD_VERIFIED_EMAIL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsExtra()
-    {
-        return $this->isFieldSupported(self::FIELD_EXTRA);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function supportsExtra()
+	{
+		return $this->isFieldSupported(self::FIELD_EXTRA);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getExtra($key)
-    {
-        $extras = $this->getExtras();
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getExtra($key)
+	{
+		$extras = $this->getExtras();
 
-        return (isset($extras[$key]) ? $extras[$key] : null);
-    }
+		return (isset($extras[ $key ]) ? $extras[ $key ] : NULL);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getExtras()
-    {
-        return $this->getField(self::FIELD_EXTRA);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getExtras()
+	{
+		return $this->getField(self::FIELD_EXTRA);
+	}
 
 	// --- Helpers
 
@@ -282,10 +285,10 @@ class Extractor implements ExtractorInterface
 
 		if (!$ext) throw new Exception('Path passed as arguments is path without extension!');
 
-		try {
+		try
+		{
 			Image::fromData($this->getImageRawData($width, $height))->save($savePath, $ext);
-		}
-		// Catch any exception
+		} // Catch any exception
 		catch (\Exception $e)
 		{
 			throw new Exception('Exception occurred  during saving image: ' . $e->getMessage(), $e->getCode(), $e);
@@ -310,7 +313,7 @@ class Extractor implements ExtractorInterface
 		}
 
 		$rawImage = $this->service->httpRequest($this->getImageUrl(), [], [], 'GET');
-		$image = Image::fromData($rawImage);
+		$image    = Image::fromData($rawImage);
 
 		if ($width OR $height)
 		{
@@ -318,75 +321,76 @@ class Extractor implements ExtractorInterface
 			$image->resize($width ? $width : NULL, $height ? $height : NULL);
 		}
 
-		try {
+		try
+		{
 			return $image->get();
-		}
-			// Catch any exception
+		} // Catch any exception
 		catch (\Exception $e)
 		{
 			throw new Exception('Exception occurred  during saving image: ' . $e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setService($service)
-    {
-        $this->service = $service;
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setService($service)
+	{
+		$this->service = $service;
 
-	    return $this;
-    }
+		return $this;
+	}
 
 	// --- Internal methods
 
-    /**
-     * Get the value for a given field
-     *
-     * @param  string     $field the name of the field
-     * @return null|mixed
-     */
-    protected function getField($field)
-    {
-        if ($this->isFieldSupported($field) && isset($this->fields[$field])) {
-            return $this->fields[$field];
-        }
+	/**
+	 * Get the value for a given field
+	 *
+	 * @param  string $field the name of the field
+	 * @return null|mixed
+	 */
+	protected function getField($field)
+	{
+		if ($this->isFieldSupported($field) && isset($this->fields[ $field ]))
+		{
+			return $this->fields[ $field ];
+		}
 
-        return null;
-    }
+		return NULL;
+	}
 
-    /**
-     * Check if a given field is supported
-     *
-     * @param  string $field the name of the field
-     * @return bool
-     */
-    protected function isFieldSupported($field)
-    {
-        return in_array($field, $this->supports);
-    }
+	/**
+	 * Check if a given field is supported
+	 *
+	 * @param  string $field the name of the field
+	 * @return bool
+	 */
+	protected function isFieldSupported($field)
+	{
+		return in_array($field, $this->supports);
+	}
 
-    /**
-     * Get an array listing all fields names
-     *
-     * @return FieldsValues
-     */
-    protected static function getAllFields()
-    {
-        return FieldsValues::construct([
-            self::FIELD_UNIQUE_ID,
-            self::FIELD_USERNAME,
-            self::FIELD_FIRST_NAME,
-            self::FIELD_LAST_NAME,
-            self::FIELD_FULL_NAME,
-            self::FIELD_EMAIL,
-            self::FIELD_DESCRIPTION,
-            self::FIELD_LOCATION,
-            self::FIELD_PROFILE_URL,
-            self::FIELD_IMAGE_URL,
-            self::FIELD_WEBSITES,
-            self::FIELD_VERIFIED_EMAIL,
-            self::FIELD_EXTRA
-        ]);
-    }
+	/**
+	 * Get an array listing all fields names
+	 *
+	 * @return FieldsValues
+	 */
+	protected static function getAllFields()
+	{
+		return FieldsValues::construct([
+			self::FIELD_UNIQUE_ID,
+			self::FIELD_USERNAME,
+			self::FIELD_FIRST_NAME,
+			self::FIELD_LAST_NAME,
+			self::FIELD_FULL_NAME,
+			self::FIELD_EMAIL,
+			self::FIELD_DESCRIPTION,
+			self::FIELD_LOCATION,
+			self::FIELD_PROFILE_URL,
+			self::FIELD_IMAGE_URL,
+			self::FIELD_WEBSITES,
+			self::FIELD_VERIFIED_EMAIL,
+			self::FIELD_EXTRA
+		]);
+	}
 }

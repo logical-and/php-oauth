@@ -21,9 +21,9 @@ class Pocket extends AbstractService {
 
 	public function getAuthorizationUri(array $additionalParameters = [])
 	{
-		$requestToken = empty($additionalParameters['request_token']) ?
+		$requestToken = empty($additionalParameters[ 'request_token' ]) ?
 			$this->requestRequestToken() :
-			$additionalParameters['request_token'];
+			$additionalParameters[ 'request_token' ];
 
 		$redirectUri = new Url($this->credentials->getCallbackUrl());
 		$redirectUri->getQuery()->modify(['code' => $requestToken]);
@@ -31,7 +31,7 @@ class Pocket extends AbstractService {
 		$parameters = array_merge(
 			array(
 				'request_token' => $requestToken,
-				'redirect_uri' => (string) $redirectUri
+				'redirect_uri'  => (string) $redirectUri
 			),
 			$additionalParameters
 		);

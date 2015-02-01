@@ -6,8 +6,8 @@ use OAuth\UserData\Exception\GenericException;
 
 class NormalizersMap extends AbstractArgument {
 
-	const TYPE_METHOD = 1;
-	const TYPE_ARRAY_PATH   = 2;
+	const TYPE_METHOD          = 1;
+	const TYPE_ARRAY_PATH      = 2;
 	const TYPE_PREFILLED_VALUE = 3;
 
 	protected $contextPath = '';
@@ -23,7 +23,7 @@ class NormalizersMap extends AbstractArgument {
 	{
 		$prepFields = [];
 
-		foreach ($fields as $field) $prepFields[] = '::' . $field;
+		foreach ($fields as $field) $prepFields[ ] = '::' . $field;
 
 		return new static($prepFields);
 	}
@@ -69,7 +69,7 @@ class NormalizersMap extends AbstractArgument {
 				// 'field' => ['field.path', 'defaultValue']
 				if (2 == count($normalizer))
 				{
-					$this->path($field, $normalizer[0], $normalizer[1]);
+					$this->path($field, $normalizer[ 0 ], $normalizer[ 1 ]);
 				}
 				else throw new GenericException('Array can contain only 2 elements!');
 			}
@@ -112,6 +112,7 @@ class NormalizersMap extends AbstractArgument {
 
 	/**
 	 * Add fields methods
+	 *
 	 * @param array $fieldsMethods
 	 * @return $this
 	 */
@@ -160,7 +161,7 @@ class NormalizersMap extends AbstractArgument {
 	{
 		foreach ($fieldPaths as $field => $path)
 		{
-			if (is_array($path)) $this->path($field, $path[0], $path[1]);
+			if (is_array($path)) $this->path($field, $path[ 0 ], $path[ 1 ]);
 			else $this->path($field, $path);
 		}
 
@@ -169,12 +170,13 @@ class NormalizersMap extends AbstractArgument {
 
 	/**
 	 * Not normalized, accessor returns loaded data
+	 *
 	 * @param $field
 	 * @return $this
 	 */
 	public function noNormalizer($field)
 	{
-		unset($this->fields[$field]);
+		unset($this->fields[ $field ]);
 
 		return $this;
 	}
@@ -188,8 +190,8 @@ class NormalizersMap extends AbstractArgument {
 	 */
 	public function prefilled($field, $value)
 	{
-		$this->fields[$field] = [
-			'type' => self::TYPE_PREFILLED_VALUE,
+		$this->fields[ $field ] = [
+			'type'  => self::TYPE_PREFILLED_VALUE,
 			'value' => $value
 		];
 
@@ -218,7 +220,7 @@ class NormalizersMap extends AbstractArgument {
 		{
 			if ($type == $normalizer[ 'type' ])
 			{
-				$normalizers[$field] = $normalizer;
+				$normalizers[ $field ] = $normalizer;
 			}
 		}
 
@@ -274,6 +276,7 @@ class NormalizersMap extends AbstractArgument {
 
 	/**
 	 * Get last path context
+	 *
 	 * @return string
 	 */
 	public function getPathContext()

@@ -32,7 +32,7 @@ class FieldsValues extends AbstractArgument {
 	public function setFieldsWithValues(array $fieldsValues)
 	{
 		$this->supports = [];
-		$this->values = [];
+		$this->values   = [];
 
 		foreach ($fieldsValues as $field => $value)
 		{
@@ -42,8 +42,8 @@ class FieldsValues extends AbstractArgument {
 				$value = NULL;
 			}
 
-			$this->supports[] = $field;
-			if (!is_null($value)) $this->values[$field] = $value;
+			$this->supports[ ] = $field;
+			if (!is_null($value)) $this->values[ $field ] = $value;
 		}
 
 		return $this;
@@ -58,8 +58,8 @@ class FieldsValues extends AbstractArgument {
 	 */
 	public function fieldValue($field, $value)
 	{
-		if (!in_array($field, $this->supports)) $this->supports[] = $field;
-		$this->values[$field] = $value;
+		if (!in_array($field, $this->supports)) $this->supports[ ] = $field;
+		$this->values[ $field ] = $value;
 
 		return $this;
 	}

@@ -15,92 +15,98 @@ use OAuth\UserData\Arguments\FieldsValues;
 
 /**
  * Class Twitter
+ *
  * @package OAuth\UserData\Extractor
  */
-class Twitter extends LazyExtractor
-{
-    /**
-     * Request constants
-     */
-    const REQUEST_PROFILE = '/account/verify_credentials.json';
+class Twitter extends LazyExtractor {
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-	        FieldsValues::construct([
-		        self::FIELD_UNIQUE_ID,
-		        self::FIELD_USERNAME,
-		        self::FIELD_FULL_NAME,
-		        self::FIELD_FIRST_NAME,
-		        self::FIELD_LAST_NAME,
-		        self::FIELD_DESCRIPTION,
-		        self::FIELD_LOCATION,
-		        self::FIELD_PROFILE_URL,
-		        self::FIELD_IMAGE_URL,
-		        self::FIELD_WEBSITES,
-		        self::FIELD_EXTRA
-	        ]),
-            self::getDefaultNormalizersMap()
-                ->paths([
-		            self::FIELD_UNIQUE_ID => 'id',
-		            self::FIELD_USERNAME => 'screen_name',
-		            self::FIELD_FULL_NAME => 'name',
-		            self::FIELD_DESCRIPTION => 'description',
-		            self::FIELD_LOCATION => 'location',
-		            self::FIELD_IMAGE_URL => 'profile_image_url'
-	            ])
-        );
-    }
+	/**
+	 * Request constants
+	 */
+	const REQUEST_PROFILE = '/account/verify_credentials.json';
 
-    protected function profileLoader()
-    {
-        return $this->service->requestJSON(self::REQUEST_PROFILE);
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct(
+			FieldsValues::construct([
+				self::FIELD_UNIQUE_ID,
+				self::FIELD_USERNAME,
+				self::FIELD_FULL_NAME,
+				self::FIELD_FIRST_NAME,
+				self::FIELD_LAST_NAME,
+				self::FIELD_DESCRIPTION,
+				self::FIELD_LOCATION,
+				self::FIELD_PROFILE_URL,
+				self::FIELD_IMAGE_URL,
+				self::FIELD_WEBSITES,
+				self::FIELD_EXTRA
+			]),
+			self::getDefaultNormalizersMap()
+				->paths([
+					self::FIELD_UNIQUE_ID   => 'id',
+					self::FIELD_USERNAME    => 'screen_name',
+					self::FIELD_FULL_NAME   => 'name',
+					self::FIELD_DESCRIPTION => 'description',
+					self::FIELD_LOCATION    => 'location',
+					self::FIELD_IMAGE_URL   => 'profile_image_url'
+				])
+		);
+	}
 
-    protected function firstNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+	protected function profileLoader()
+	{
+		return $this->service->requestJSON(self::REQUEST_PROFILE);
+	}
 
-            return $names[0];
-        }
+	protected function firstNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-        return null;
-    }
+			return $names[ 0 ];
+		}
 
-    protected function lastNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+		return NULL;
+	}
 
-            return $names[sizeof($names) - 1];
-        }
+	protected function lastNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-        return null;
-    }
+			return $names[ sizeof($names) - 1 ];
+		}
 
-    protected function profileUrlNormalizer($data)
-    {
-        return isset($data['screen_name']) ? sprintf('https://twitter.com/%s', $data['screen_name']) : null;
-    }
+		return NULL;
+	}
 
-    protected function websitesNormalizer($data)
-    {
-        $websites = [];
-        if (isset($data['url'])) {
-            $websites[] = $data['url'];
-        }
-        if (isset($data['entities']['url']['urls'])) {
-            foreach ($data['entities']['url']['urls'] as $urlData) {
-                $websites[] = $urlData['expanded_url'];
-            }
-        }
+	protected function profileUrlNormalizer($data)
+	{
+		return isset($data[ 'screen_name' ]) ? sprintf('https://twitter.com/%s', $data[ 'screen_name' ]) : NULL;
+	}
 
-        return array_unique($websites);
-    }
+	protected function websitesNormalizer($data)
+	{
+		$websites = [];
+		if (isset($data[ 'url' ]))
+		{
+			$websites[ ] = $data[ 'url' ];
+		}
+		if (isset($data[ 'entities' ][ 'url' ][ 'urls' ]))
+		{
+			foreach ($data[ 'entities' ][ 'url' ][ 'urls' ] as $urlData)
+			{
+				$websites[ ] = $urlData[ 'expanded_url' ];
+			}
+		}
+
+		return array_unique($websites);
+	}
 }

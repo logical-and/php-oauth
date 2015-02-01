@@ -16,56 +16,58 @@ use OAuth\UserData\Utils\ArrayUtils;
 
 /**
  * Class Harvest
+ *
  * @package OAuth\UserData\Extractor
  */
-class Harvest extends LazyExtractor
-{
-    /**
-     * Request constants
-     */
-    const REQUEST_PROFILE = '/account/who_am_i';
+class Harvest extends LazyExtractor {
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-	        FieldsValues::construct([
-		        self::FIELD_UNIQUE_ID,
-		        self::FIELD_USERNAME,
-		        self::FIELD_FIRST_NAME,
-		        self::FIELD_LAST_NAME,
-		        self::FIELD_FULL_NAME,
-		        self::FIELD_IMAGE_URL,
-		        self::FIELD_EMAIL,
-		        self::FIELD_EXTRA
-	        ]),
-            self::getDefaultNormalizersMap()
-                ->pathContext('user')
-                ->paths([
-		            self::FIELD_UNIQUE_ID => 'id',
-		            self::FIELD_USERNAME => 'email',
-		            self::FIELD_FIRST_NAME => 'first_name',
-		            self::FIELD_LAST_NAME => 'last_name',
-		            self::FIELD_EMAIL => 'email',
-	            ])
-        );
-    }
+	/**
+	 * Request constants
+	 */
+	const REQUEST_PROFILE = '/account/who_am_i';
 
-    protected function profileLoader()
-    {
-        return $this->service->requestJSON(self::REQUEST_PROFILE);
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct(
+			FieldsValues::construct([
+				self::FIELD_UNIQUE_ID,
+				self::FIELD_USERNAME,
+				self::FIELD_FIRST_NAME,
+				self::FIELD_LAST_NAME,
+				self::FIELD_FULL_NAME,
+				self::FIELD_IMAGE_URL,
+				self::FIELD_EMAIL,
+				self::FIELD_EXTRA
+			]),
+			self::getDefaultNormalizersMap()
+				->pathContext('user')
+				->paths([
+					self::FIELD_UNIQUE_ID  => 'id',
+					self::FIELD_USERNAME   => 'email',
+					self::FIELD_FIRST_NAME => 'first_name',
+					self::FIELD_LAST_NAME  => 'last_name',
+					self::FIELD_EMAIL      => 'email',
+				])
+		);
+	}
 
-    protected function fullNameNormalizer()
-    {
-        return trim($this->getFirstName() . ' ' . $this->getLastName());
-    }
+	protected function profileLoader()
+	{
+		return $this->service->requestJSON(self::REQUEST_PROFILE);
+	}
 
-    protected function imageUrlNormalizer($data)
-    {
-	    $avatarUrl = ArrayUtils::getNested($data, 'user.avatar_url');
-	    return !$avatarUrl ? : 'https://api.harvestapp.com/' . $avatarUrl;
-    }
+	protected function fullNameNormalizer()
+	{
+		return trim($this->getFirstName() . ' ' . $this->getLastName());
+	}
+
+	protected function imageUrlNormalizer($data)
+	{
+		$avatarUrl = ArrayUtils::getNested($data, 'user.avatar_url');
+
+		return !$avatarUrl ? : 'https://api.harvestapp.com/' . $avatarUrl;
+	}
 }

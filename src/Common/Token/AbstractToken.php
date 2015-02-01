@@ -5,124 +5,129 @@ namespace OAuth\Common\Token;
 /**
  * Base token implementation for any OAuth version.
  */
-abstract class AbstractToken implements TokenInterface
-{
-    /**
-     * @var string
-     */
-    protected $accessToken;
+abstract class AbstractToken implements TokenInterface {
 
-    /**
-     * @var string
-     */
-    protected $refreshToken;
+	/**
+	 * @var string
+	 */
+	protected $accessToken;
 
-    /**
-     * @var int
-     */
-    protected $endOfLife;
+	/**
+	 * @var string
+	 */
+	protected $refreshToken;
 
-    /**
-     * @var array
-     */
-    protected $extraParams = [];
+	/**
+	 * @var int
+	 */
+	protected $endOfLife;
 
-    /**
-     * @param string $accessToken
-     * @param string $refreshToken
-     * @param int    $lifetime
-     * @param array  $extraParams
-     */
-    public function __construct($accessToken = null, $refreshToken = null, $lifetime = null, $extraParams = [])
-    {
-        $this->accessToken = $accessToken;
-        $this->refreshToken = $refreshToken;
-        $this->setLifetime($lifetime);
-        $this->extraParams = $extraParams;
-    }
+	/**
+	 * @var array
+	 */
+	protected $extraParams = [];
 
-    /**
-     * @return string
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
-    }
+	/**
+	 * @param string $accessToken
+	 * @param string $refreshToken
+	 * @param int $lifetime
+	 * @param array $extraParams
+	 */
+	public function __construct($accessToken = NULL, $refreshToken = NULL, $lifetime = NULL, $extraParams = [])
+	{
+		$this->accessToken  = $accessToken;
+		$this->refreshToken = $refreshToken;
+		$this->setLifetime($lifetime);
+		$this->extraParams = $extraParams;
+	}
 
-    /**
-     * @return string
-     */
-    public function getRefreshToken()
-    {
-        return $this->refreshToken;
-    }
+	/**
+	 * @return string
+	 */
+	public function getAccessToken()
+	{
+		return $this->accessToken;
+	}
 
-    /**
-     * @return int
-     */
-    public function getEndOfLife()
-    {
-        return $this->endOfLife;
-    }
+	/**
+	 * @return string
+	 */
+	public function getRefreshToken()
+	{
+		return $this->refreshToken;
+	}
 
-    /**
-     * @param array $extraParams
-     */
-    public function setExtraParams(array $extraParams)
-    {
-        $this->extraParams = $extraParams;
-    }
+	/**
+	 * @return int
+	 */
+	public function getEndOfLife()
+	{
+		return $this->endOfLife;
+	}
 
-    /**
-     * @return array
-     */
-    public function getExtraParams()
-    {
-        return $this->extraParams;
-    }
+	/**
+	 * @param array $extraParams
+	 */
+	public function setExtraParams(array $extraParams)
+	{
+		$this->extraParams = $extraParams;
+	}
 
-    /**
-     * @param string $accessToken
-     */
-    public function setAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-    }
+	/**
+	 * @return array
+	 */
+	public function getExtraParams()
+	{
+		return $this->extraParams;
+	}
 
-    /**
-     * @param int $endOfLife
-     */
-    public function setEndOfLife($endOfLife)
-    {
-        $this->endOfLife = $endOfLife;
-    }
+	/**
+	 * @param string $accessToken
+	 */
+	public function setAccessToken($accessToken)
+	{
+		$this->accessToken = $accessToken;
+	}
 
-    /**
-     * @param int $lifetime
-     */
-    public function setLifetime($lifetime)
-    {
-        if (0 === $lifetime || static::EOL_NEVER_EXPIRES === $lifetime) {
-            $this->endOfLife = static::EOL_NEVER_EXPIRES;
-        } elseif (null !== $lifetime) {
-            $this->endOfLife = intval($lifetime) + time();
-        } else {
-            $this->endOfLife = static::EOL_UNKNOWN;
-        }
-    }
+	/**
+	 * @param int $endOfLife
+	 */
+	public function setEndOfLife($endOfLife)
+	{
+		$this->endOfLife = $endOfLife;
+	}
 
-    /**
-     * @param string $refreshToken
-     */
-    public function setRefreshToken($refreshToken)
-    {
-        $this->refreshToken = $refreshToken;
-    }
+	/**
+	 * @param int $lifetime
+	 */
+	public function setLifetime($lifetime)
+	{
+		if (0 === $lifetime || static::EOL_NEVER_EXPIRES === $lifetime)
+		{
+			$this->endOfLife = static::EOL_NEVER_EXPIRES;
+		}
+		elseif (NULL !== $lifetime)
+		{
+			$this->endOfLife = intval($lifetime) + time();
+		}
+		else
+		{
+			$this->endOfLife = static::EOL_UNKNOWN;
+		}
+	}
 
-    public function isExpired()
-    {
-        return ($this->getEndOfLife() !== TokenInterface::EOL_NEVER_EXPIRES
-        && $this->getEndOfLife() !== TokenInterface::EOL_UNKNOWN
-        && time() > $this->getEndOfLife());
-    }
+	/**
+	 * @param string $refreshToken
+	 */
+	public function setRefreshToken($refreshToken)
+	{
+		$this->refreshToken = $refreshToken;
+	}
+
+	public function isExpired()
+	{
+		return ($this->getEndOfLife() !== TokenInterface::EOL_NEVER_EXPIRES
+			&& $this->getEndOfLife() !== TokenInterface::EOL_UNKNOWN
+			&& time() > $this->getEndOfLife());
+	}
 }

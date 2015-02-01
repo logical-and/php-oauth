@@ -2,185 +2,200 @@
 
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
-use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use OAuth\Common\Storage\Exception\AuthorizationStateNotFoundException;
+use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 
 /**
  * Stores a token in a PHP session.
  */
-class Session implements TokenStorageInterface
-{
-    /**
-     * @var bool
-     */
-    protected $startSession;
+class Session implements TokenStorageInterface {
 
-    /**
-     * @var string
-     */
-    protected $sessionVariableName;
+	/**
+	 * @var bool
+	 */
+	protected $startSession;
 
-    /**
-     * @var string
-     */
-    protected $stateVariableName;
+	/**
+	 * @var string
+	 */
+	protected $sessionVariableName;
 
-    /**
-     * @param bool $startSession Whether or not to start the session upon construction.
-     * @param string $sessionVariableName the variable name to use within the _SESSION superglobal
-     * @param string $stateVariableName
-     */
-    public function __construct(
-        $startSession = true,
-        $sessionVariableName = 'lusitanian_oauth_token',
-        $stateVariableName = 'lusitanian_oauth_state'
-    ) {
-        if ($startSession && !isset($_SESSION)) {
-            session_start();
-        }
+	/**
+	 * @var string
+	 */
+	protected $stateVariableName;
 
-        $this->startSession = $startSession;
-        $this->sessionVariableName = $sessionVariableName;
-        $this->stateVariableName = $stateVariableName;
-        if (!isset($_SESSION[$sessionVariableName])) {
-            $_SESSION[$sessionVariableName] = [];
-        }
-        if (!isset($_SESSION[$stateVariableName])) {
-            $_SESSION[$stateVariableName] = [];
-        }
-    }
+	/**
+	 * @param bool $startSession Whether or not to start the session upon construction.
+	 * @param string $sessionVariableName the variable name to use within the _SESSION superglobal
+	 * @param string $stateVariableName
+	 */
+	public function __construct(
+		$startSession = TRUE,
+		$sessionVariableName = 'lusitanian_oauth_token',
+		$stateVariableName = 'lusitanian_oauth_state'
+	)
+	{
+		if ($startSession && !isset($_SESSION))
+		{
+			session_start();
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAccessToken($service)
-    {
-        if ($this->hasAccessToken($service)) {
-            return unserialize($_SESSION[$this->sessionVariableName][$service]);
-        }
+		$this->startSession        = $startSession;
+		$this->sessionVariableName = $sessionVariableName;
+		$this->stateVariableName   = $stateVariableName;
+		if (!isset($_SESSION[ $sessionVariableName ]))
+		{
+			$_SESSION[ $sessionVariableName ] = [];
+		}
+		if (!isset($_SESSION[ $stateVariableName ]))
+		{
+			$_SESSION[ $stateVariableName ] = [];
+		}
+	}
 
-        throw new TokenNotFoundException('Token not found in session, are you sure you stored it?');
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAccessToken($service)
+	{
+		if ($this->hasAccessToken($service))
+		{
+			return unserialize($_SESSION[ $this->sessionVariableName ][ $service ]);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAccessToken($service, TokenInterface $token)
-    {
-        $serializedToken = serialize($token);
+		throw new TokenNotFoundException('Token not found in session, are you sure you stored it?');
+	}
 
-        if (isset($_SESSION[$this->sessionVariableName])
-            && is_array($_SESSION[$this->sessionVariableName])
-        ) {
-            $_SESSION[$this->sessionVariableName][$service] = $serializedToken;
-        } else {
-            $_SESSION[$this->sessionVariableName] = array(
-                $service => $serializedToken,
-            );
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAccessToken($service, TokenInterface $token)
+	{
+		$serializedToken = serialize($token);
 
-        // allow chaining
-        return $this;
-    }
+		if (isset($_SESSION[ $this->sessionVariableName ])
+			&& is_array($_SESSION[ $this->sessionVariableName ])
+		)
+		{
+			$_SESSION[ $this->sessionVariableName ][ $service ] = $serializedToken;
+		}
+		else
+		{
+			$_SESSION[ $this->sessionVariableName ] = array(
+				$service => $serializedToken,
+			);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAccessToken($service)
-    {
-        return isset($_SESSION[$this->sessionVariableName], $_SESSION[$this->sessionVariableName][$service]);
-    }
+		// allow chaining
+		return $this;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearToken($service)
-    {
-        if (array_key_exists($service, $_SESSION[$this->sessionVariableName])) {
-            unset($_SESSION[$this->sessionVariableName][$service]);
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAccessToken($service)
+	{
+		return isset($_SESSION[ $this->sessionVariableName ], $_SESSION[ $this->sessionVariableName ][ $service ]);
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearToken($service)
+	{
+		if (array_key_exists($service, $_SESSION[ $this->sessionVariableName ]))
+		{
+			unset($_SESSION[ $this->sessionVariableName ][ $service ]);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllTokens()
-    {
-        unset($_SESSION[$this->sessionVariableName]);
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllTokens()
+	{
+		unset($_SESSION[ $this->sessionVariableName ]);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAuthorizationState($service, $state)
-    {
-        if (isset($_SESSION[$this->stateVariableName])
-            && is_array($_SESSION[$this->stateVariableName])
-        ) {
-            $_SESSION[$this->stateVariableName][$service] = $state;
-        } else {
-            $_SESSION[$this->stateVariableName] = [$service => $state];
-        }
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAuthorizationState($service, $state)
+	{
+		if (isset($_SESSION[ $this->stateVariableName ])
+			&& is_array($_SESSION[ $this->stateVariableName ])
+		)
+		{
+			$_SESSION[ $this->stateVariableName ][ $service ] = $state;
+		}
+		else
+		{
+			$_SESSION[ $this->stateVariableName ] = [$service => $state];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAuthorizationState($service)
-    {
-        return isset($_SESSION[$this->stateVariableName], $_SESSION[$this->stateVariableName][$service]);
-    }
+		// allow chaining
+		return $this;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAuthorizationState($service)
-    {
-        if ($this->hasAuthorizationState($service)) {
-            return $_SESSION[$this->stateVariableName][$service];
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAuthorizationState($service)
+	{
+		return isset($_SESSION[ $this->stateVariableName ], $_SESSION[ $this->stateVariableName ][ $service ]);
+	}
 
-        throw new AuthorizationStateNotFoundException('State not found in session, are you sure you stored it?');
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAuthorizationState($service)
+	{
+		if ($this->hasAuthorizationState($service))
+		{
+			return $_SESSION[ $this->stateVariableName ][ $service ];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAuthorizationState($service)
-    {
-        if (array_key_exists($service, $_SESSION[$this->stateVariableName])) {
-            unset($_SESSION[$this->stateVariableName][$service]);
-        }
+		throw new AuthorizationStateNotFoundException('State not found in session, are you sure you stored it?');
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAuthorizationState($service)
+	{
+		if (array_key_exists($service, $_SESSION[ $this->stateVariableName ]))
+		{
+			unset($_SESSION[ $this->stateVariableName ][ $service ]);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllAuthorizationStates()
-    {
-        unset($_SESSION[$this->stateVariableName]);
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllAuthorizationStates()
+	{
+		unset($_SESSION[ $this->stateVariableName ]);
 
-    public function __destruct()
-    {
-        if ($this->startSession) {
-            session_write_close();
-        }
-    }
+		// allow chaining
+		return $this;
+	}
+
+	public function __destruct()
+	{
+		if ($this->startSession)
+		{
+			session_write_close();
+		}
+	}
 }

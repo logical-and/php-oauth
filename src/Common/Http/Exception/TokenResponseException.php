@@ -7,6 +7,6 @@ use OAuth\Common\Exception\Exception;
 /**
  * Exception relating to token response from service.
  */
-class TokenResponseException extends Exception
-{
+class TokenResponseException extends Exception {
+
 }

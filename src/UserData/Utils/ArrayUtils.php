@@ -13,48 +13,47 @@ namespace OAuth\UserData\Utils;
 
 /**
  * Class ArrayUtils
+ *
  * @package OAuth\Utils
  */
-class ArrayUtils
-{
+class ArrayUtils {
 
-    /**
-     * Utility method to convert an object to an array
-     *
-     * @param  object $object
-     * @return array
-     */
-    public static function objectToArray($object)
-    {
-        if (!is_object($object) && !is_array($object)) {
-            return $object;
-        }
+	/**
+	 * Utility method to convert an object to an array
+	 *
+	 * @param  object $object
+	 * @return array
+	 */
+	public static function objectToArray($object)
+	{
+		if (!is_object($object) && !is_array($object))
+		{
+			return $object;
+		}
 
-        return array_map('self::objectToArray', (array) $object);
-    }
+		return array_map('self::objectToArray', (array) $object);
+	}
 
-    /**
-     * Utility method that allow to remove a list of keys from a given array.
-     * This method does not modify the passed array but builds a new one.
-     *
-     * @param  array    $array
-     * @param  string[] $keys
-     * @return array
-     */
-    public static function removeKeys($array, $keys)
-    {
-        return array_diff_key($array, array_flip($keys));
-    }
+	/**
+	 * Utility method that allow to remove a list of keys from a given array.
+	 * This method does not modify the passed array but builds a new one.
+	 *
+	 * @param  array $array
+	 * @param  string[] $keys
+	 * @return array
+	 */
+	public static function removeKeys($array, $keys)
+	{
+		return array_diff_key($array, array_flip($keys));
+	}
 
 	/**
 	 * Retrieves a nested element from an array or $default if it doesn't exist
-	 *
 	 * <code>
 	 * $friends = [
 	 *      'Alice' => ['age' => 33, 'hobbies' => ['biking', 'skiing']],
 	 *      'Bob' => ['age' => 29],
 	 * ];
-	 *
 	 * Arr::getNested($friends, 'Alice.hobbies.1'); //=> 'skiing'
 	 * Arr::getNested($friends, ['Alice', 'hobbies', 1]); //=> 'skiing'
 	 * Arr::getNested($friends, 'Bob.hobbies.0', 'none'); //=> 'none'
@@ -65,22 +64,31 @@ class ArrayUtils
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public static function getNested($array, $keys, $default = null)
+	public static function getNested($array, $keys, $default = NULL)
 	{
-		if (is_string($keys) AND $keys) {
+		if (is_string($keys) AND $keys)
+		{
 			$keys = explode('.', $keys);
-		} else if ($keys === null) {
+		}
+		else if ($keys === NULL)
+		{
 			return $array;
 		}
-		if ($keys) {
-			foreach ($keys as $key) {
-				if (is_array($array) && array_key_exists($key, $array)) {
-					$array = $array[$key];
-				} else {
+		if ($keys)
+		{
+			foreach ($keys as $key)
+			{
+				if (is_array($array) && array_key_exists($key, $array))
+				{
+					$array = $array[ $key ];
+				}
+				else
+				{
 					return $default;
 				}
 			}
 		}
+
 		return $array;
 	}
 }

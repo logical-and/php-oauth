@@ -15,58 +15,60 @@ use OAuth\Common\Service\ServiceInterface;
 
 /**
  * Class UnmatchedExtractorException
+ *
  * @package OAuth\UserData\Exception
  */
-class UndefinedExtractorException extends \Exception implements Exception
-{
-    /**
-     * @var \OAuth\Common\Service\ServiceInterface $service
-     */
-    protected $service;
+class UndefinedExtractorException extends \Exception implements Exception {
 
-    /**
-     * @var array $registeredExtractors
-     */
-    protected $registeredExtractors;
+	/**
+	 * @var \OAuth\Common\Service\ServiceInterface $service
+	 */
+	protected $service;
 
-    /**
-     * Constructor
-     *
-     * @param \OAuth\Common\Service\ServiceInterface $service
-     * @param array                                  $registeredExtractors
-     * @param string|null                            $message
-     */
-    public function __construct(ServiceInterface $service, $registeredExtractors = [], $message = null)
-    {
-        $this->service = $service;
-        $this->registeredExtractors = $registeredExtractors;
-        if (null === $message) {
-            $message = sprintf(
-                'Cannot find an extractor for the service "%s". Registered extractors: %s',
-                get_class($service),
-                json_encode($registeredExtractors)
-            );
-        }
-        parent::__construct($message);
-    }
+	/**
+	 * @var array $registeredExtractors
+	 */
+	protected $registeredExtractors;
 
-    /**
-     * Get the service
-     *
-     * @return ServiceInterface
-     */
-    public function getService()
-    {
-        return $this->service;
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param \OAuth\Common\Service\ServiceInterface $service
+	 * @param array $registeredExtractors
+	 * @param string|null $message
+	 */
+	public function __construct(ServiceInterface $service, $registeredExtractors = [], $message = NULL)
+	{
+		$this->service              = $service;
+		$this->registeredExtractors = $registeredExtractors;
+		if (NULL === $message)
+		{
+			$message = sprintf(
+				'Cannot find an extractor for the service "%s". Registered extractors: %s',
+				get_class($service),
+				json_encode($registeredExtractors)
+			);
+		}
+		parent::__construct($message);
+	}
 
-    /**
-     * Get registered extractors
-     *
-     * @return array
-     */
-    public function getRegisteredExtractors()
-    {
-        return $this->registeredExtractors;
-    }
+	/**
+	 * Get the service
+	 *
+	 * @return ServiceInterface
+	 */
+	public function getService()
+	{
+		return $this->service;
+	}
+
+	/**
+	 * Get registered extractors
+	 *
+	 * @return array
+	 */
+	public function getRegisteredExtractors()
+	{
+		return $this->registeredExtractors;
+	}
 }

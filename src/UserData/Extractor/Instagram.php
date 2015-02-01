@@ -15,81 +15,84 @@ use OAuth\UserData\Arguments\FieldsValues;
 
 /**
  * Class Instagram
+ *
  * @package OAuth\UserData\Extractor
  */
-class Instagram extends LazyExtractor
-{
+class Instagram extends LazyExtractor {
 
-    const REQUEST_PROFILE = '/users/self';
+	const REQUEST_PROFILE = '/users/self';
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-	        FieldsValues::construct([
-		        self::FIELD_UNIQUE_ID,
-		        self::FIELD_USERNAME,
-		        self::FIELD_FULL_NAME,
-		        self::FIELD_FIRST_NAME,
-		        self::FIELD_LAST_NAME,
-		        self::FIELD_DESCRIPTION,
-		        self::FIELD_WEBSITES,
-		        self::FIELD_IMAGE_URL,
-		        self::FIELD_PROFILE_URL,
-		        self::FIELD_EXTRA
-	        ]),
-	        self::getDefaultNormalizersMap()
-		        ->pathContext('data')
-		        ->paths([
-			        self::FIELD_UNIQUE_ID   => 'id',
-			        self::FIELD_USERNAME    => 'username',
-			        self::FIELD_FULL_NAME   => 'full_name',
-			        self::FIELD_DESCRIPTION => 'bio',
-			        self::FIELD_WEBSITES    => 'website',
-			        self::FIELD_IMAGE_URL   => 'profile_picture'
-		        ])
-        );
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct(
+			FieldsValues::construct([
+				self::FIELD_UNIQUE_ID,
+				self::FIELD_USERNAME,
+				self::FIELD_FULL_NAME,
+				self::FIELD_FIRST_NAME,
+				self::FIELD_LAST_NAME,
+				self::FIELD_DESCRIPTION,
+				self::FIELD_WEBSITES,
+				self::FIELD_IMAGE_URL,
+				self::FIELD_PROFILE_URL,
+				self::FIELD_EXTRA
+			]),
+			self::getDefaultNormalizersMap()
+				->pathContext('data')
+				->paths([
+					self::FIELD_UNIQUE_ID   => 'id',
+					self::FIELD_USERNAME    => 'username',
+					self::FIELD_FULL_NAME   => 'full_name',
+					self::FIELD_DESCRIPTION => 'bio',
+					self::FIELD_WEBSITES    => 'website',
+					self::FIELD_IMAGE_URL   => 'profile_picture'
+				])
+		);
+	}
 
-    protected function profileLoader()
-    {
-        return $this->service->requestJSON(self::REQUEST_PROFILE);
-    }
+	protected function profileLoader()
+	{
+		return $this->service->requestJSON(self::REQUEST_PROFILE);
+	}
 
-    protected function firstNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+	protected function firstNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-            return $names[0];
-        }
+			return $names[ 0 ];
+		}
 
-        return null;
-    }
+		return NULL;
+	}
 
-    protected function lastNameNormalizer()
-    {
-        $fullName = $this->getField(self::FIELD_FULL_NAME);
-        if ($fullName) {
-            $names = explode(' ', $fullName);
+	protected function lastNameNormalizer()
+	{
+		$fullName = $this->getField(self::FIELD_FULL_NAME);
+		if ($fullName)
+		{
+			$names = explode(' ', $fullName);
 
-            return $names[sizeof($names) - 1];
-        }
+			return $names[ sizeof($names) - 1 ];
+		}
 
-        return null;
-    }
+		return NULL;
+	}
 
-    protected function profileUrlNormalizer()
-    {
-        $username = $this->getField(self::FIELD_USERNAME);
+	protected function profileUrlNormalizer()
+	{
+		$username = $this->getField(self::FIELD_USERNAME);
 
-        if ($username) {
-            return sprintf('http://instagram.com/%s', $username);
-        }
+		if ($username)
+		{
+			return sprintf('http://instagram.com/%s', $username);
+		}
 
-        return null;
-    }
+		return NULL;
+	}
 }

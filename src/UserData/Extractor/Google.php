@@ -10,11 +10,12 @@
  */
 
 namespace OAuth\UserData\Extractor;
+
 use OAuth\UserData\Arguments\FieldsValues;
-use OAuth\UserData\Utils\ArrayUtils;
 
 /**
  * Class Google
+ *
  * @package OAuth\UserData\Extractor
  */
 class Google extends LazyExtractor {

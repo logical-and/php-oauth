@@ -15,9 +15,9 @@ class Flickr extends AbstractService {
 
 	public function getAuthorizationUri(array $additionalParameters = [])
 	{
-		if (!isset($additionalParameters['oauth_token']))
+		if (!isset($additionalParameters[ 'oauth_token' ]))
 		{
-			$additionalParameters['oauth_token'] = $this->requestRequestToken()->getAccessToken();
+			$additionalParameters[ 'oauth_token' ] = $this->requestRequestToken()->getAccessToken();
 		}
 
 		return parent::getAuthorizationUri($additionalParameters);

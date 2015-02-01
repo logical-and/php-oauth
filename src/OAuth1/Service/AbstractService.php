@@ -79,9 +79,9 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 	 */
 	public function getAuthorizationUri(array $additionalParameters = [])
 	{
-		if (!isset($additionalParameters['oauth_token']))
+		if (!isset($additionalParameters[ 'oauth_token' ]))
 		{
-			$additionalParameters['oauth_token'] = $this->requestRequestToken()->getRequestToken();
+			$additionalParameters[ 'oauth_token' ] = $this->requestRequestToken()->getRequestToken();
 		}
 
 		// Build the url
@@ -296,7 +296,7 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 	 */
 	public function isRequestArgumentsPassed(array $request)
 	{
-		return !empty($request['oauth_token']) AND !empty($request['oauth_verifier']);
+		return !empty($request[ 'oauth_token' ]) AND !empty($request[ 'oauth_verifier' ]);
 	}
 
 	/**
@@ -309,8 +309,8 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 			throw new Exception('oauth_token and/or oauth_verifier has not passed to request arguments!');
 		}
 
-		$oauthToken = $request['oauth_token'];
-		$oauthVerifier = $request['oauth_verifier'];
+		$oauthToken    = $request[ 'oauth_token' ];
+		$oauthVerifier = $request[ 'oauth_verifier' ];
 
 		$this->requestAccessToken($oauthToken, $oauthVerifier);
 

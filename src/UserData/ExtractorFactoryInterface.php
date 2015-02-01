@@ -15,18 +15,19 @@ use OAuth\Common\Service\ServiceInterface;
 
 /**
  * Interface ExtractorFactoryInterface
+ *
  * @package OAuth\UserData
  */
-interface ExtractorFactoryInterface
-{
-    /**
-     * Get the extractor for a given service
-     *
-     * @param  \OAuth\Common\Service\ServiceInterface $service
-     * @throws Exception\InvalidExtractorException    if the retrieved instance is not a valid
-     *                                                        Extractor (not implement ExtractorInterface)
-     * @throws Exception\UndefinedExtractorException  if can't find an extractor associated to the given service
-     * @return Extractor\ExtractorInterface
-     */
-    public function get(ServiceInterface $service);
+interface ExtractorFactoryInterface {
+
+	/**
+	 * Get the extractor for a given service
+	 *
+	 * @param  \OAuth\Common\Service\ServiceInterface $service
+	 * @throws Exception\InvalidExtractorException    if the retrieved instance is not a valid
+	 *                                                        Extractor (not implement ExtractorInterface)
+	 * @throws Exception\UndefinedExtractorException  if can't find an extractor associated to the given service
+	 * @return Extractor\ExtractorInterface
+	 */
+	public function get(ServiceInterface $service);
 }

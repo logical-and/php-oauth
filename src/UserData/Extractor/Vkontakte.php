@@ -10,17 +10,19 @@
  */
 
 namespace OAuth\UserData\Extractor;
+
 use OAuth\UserData\Arguments\FieldsValues;
 use OAuth\UserData\Utils\ArrayUtils;
 
 /**
  * Class Vkontakte
+ *
  * @package OAuth\UserData\Extractor
  */
 class Vkontakte extends LazyExtractor {
 
 	const REQUEST_PROFILE = 'users.get.json';
-	const REQUEST_CITY = 'database.getCitiesById';
+	const REQUEST_CITY    = 'database.getCitiesById';
 
 	/**
 	 * Constructor
@@ -44,13 +46,13 @@ class Vkontakte extends LazyExtractor {
 			]),
 			self::getDefaultNormalizersMap()
 				->pathContext('response.0')
-				->paths(					[
-						self::FIELD_UNIQUE_ID => 'uid',
-						self::FIELD_FIRST_NAME => 'first_name',
-						self::FIELD_LAST_NAME => 'last_name',
-						self::FIELD_EMAIL => 'email',
+				->paths([
+						self::FIELD_UNIQUE_ID   => 'uid',
+						self::FIELD_FIRST_NAME  => 'first_name',
+						self::FIELD_LAST_NAME   => 'last_name',
+						self::FIELD_EMAIL       => 'email',
 						self::FIELD_DESCRIPTION => 'personal',
-						self::FIELD_IMAGE_URL => 'photo_max_orig'
+						self::FIELD_IMAGE_URL   => 'photo_max_orig'
 					]
 				)
 		);

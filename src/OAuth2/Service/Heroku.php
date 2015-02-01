@@ -30,7 +30,9 @@ class Heroku extends AbstractService {
 	protected $accessTokenEndpoint = 'https://id.heroku.com/oauth/token';
 	protected $authorizationMethod = self::AUTHORIZATION_METHOD_HEADER_BEARER;
 	protected $extraOAuthHeaders = ['Accept' => 'application/vnd.heroku+json; version=3'];
-	protected $extraApiHeaders = ['Accept' => 'application/vnd.heroku+json; version=3', 'Content-Type' => 'application/json'];
+	protected $extraApiHeaders = ['Accept'       => 'application/vnd.heroku+json; version=3',
+	                              'Content-Type' => 'application/json'
+	];
 
 	/**
 	 * {@inheritdoc}

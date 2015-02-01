@@ -10,225 +10,228 @@
  */
 
 namespace OAuth\UserData\Extractor;
+
 use OAuth\UserData\Exception\Exception;
 
 /**
  * Interface ExtractorInterface
+ *
  * @package OAuth\UserData\Extractor
  */
-interface ExtractorInterface
-{
-    /**
-     * Field names constants
-     */
-    const FIELD_UNIQUE_ID = 'uniqueId';
-    const FIELD_USERNAME = 'username';
-    const FIELD_FIRST_NAME = 'firstName';
-    const FIELD_LAST_NAME = 'lastName';
-    const FIELD_FULL_NAME = 'fullName';
-    const FIELD_EMAIL = 'email';
-    const FIELD_LOCATION = 'location';
-    const FIELD_DESCRIPTION = 'description';
-    const FIELD_IMAGE_URL = 'imageUrl';
-    const FIELD_PROFILE_URL = 'profileUrl';
-    const FIELD_WEBSITES = 'websites';
-    const FIELD_VERIFIED_EMAIL = 'verifiedEmail';
-    const FIELD_EXTRA = 'extra';
+interface ExtractorInterface {
 
-    /**
-     * @param  \OAuth\Common\Service\ServiceInterface $service
-     * @return void
-     */
-    public function setService($service);
+	/**
+	 * Field names constants
+	 */
+	const FIELD_UNIQUE_ID      = 'uniqueId';
+	const FIELD_USERNAME       = 'username';
+	const FIELD_FIRST_NAME     = 'firstName';
+	const FIELD_LAST_NAME      = 'lastName';
+	const FIELD_FULL_NAME      = 'fullName';
+	const FIELD_EMAIL          = 'email';
+	const FIELD_LOCATION       = 'location';
+	const FIELD_DESCRIPTION    = 'description';
+	const FIELD_IMAGE_URL      = 'imageUrl';
+	const FIELD_PROFILE_URL    = 'profileUrl';
+	const FIELD_WEBSITES       = 'websites';
+	const FIELD_VERIFIED_EMAIL = 'verifiedEmail';
+	const FIELD_EXTRA          = 'extra';
 
-    /**
-     * Check if the current provider supports a unique id
-     *
-     * @return bool
-     */
-    public function supportsUniqueId();
+	/**
+	 * @param  \OAuth\Common\Service\ServiceInterface $service
+	 * @return void
+	 */
+	public function setService($service);
 
-    /**
-     * Get the unique id of the user
-     *
-     * @return string
-     */
-    public function getUniqueId();
+	/**
+	 * Check if the current provider supports a unique id
+	 *
+	 * @return bool
+	 */
+	public function supportsUniqueId();
 
-    /**
-     * Check if the current provider supports a username
-     *
-     * @return bool
-     */
-    public function supportsUsername();
+	/**
+	 * Get the unique id of the user
+	 *
+	 * @return string
+	 */
+	public function getUniqueId();
 
-    /**
-     * Get the username
-     *
-     * @return string
-     */
-    public function getUsername();
+	/**
+	 * Check if the current provider supports a username
+	 *
+	 * @return bool
+	 */
+	public function supportsUsername();
 
-    /**
-     * Check if the current provider supports a first name
-     *
-     * @return bool
-     */
-    public function supportsFirstName();
+	/**
+	 * Get the username
+	 *
+	 * @return string
+	 */
+	public function getUsername();
 
-    /**
-     * Get the first name
-     *
-     * @return string
-     */
-    public function getFirstName();
+	/**
+	 * Check if the current provider supports a first name
+	 *
+	 * @return bool
+	 */
+	public function supportsFirstName();
 
-    /**
-     * Check if the current provider supports a last name
-     * @return bool
-     */
-    public function supportsLastName();
+	/**
+	 * Get the first name
+	 *
+	 * @return string
+	 */
+	public function getFirstName();
 
-    /**
-     * Get the last name
-     *
-     * @return string
-     */
-    public function getLastName();
+	/**
+	 * Check if the current provider supports a last name
+	 *
+	 * @return bool
+	 */
+	public function supportsLastName();
 
-    /**
-     * Check if the current provider supports a full name
-     *
-     * @return bool
-     */
-    public function supportsFullName();
+	/**
+	 * Get the last name
+	 *
+	 * @return string
+	 */
+	public function getLastName();
 
-    /**
-     * Get the full name
-     *
-     * @return string
-     */
-    public function getFullName();
+	/**
+	 * Check if the current provider supports a full name
+	 *
+	 * @return bool
+	 */
+	public function supportsFullName();
 
-    /**
-     * Check ig the current provider supports an email
-     *
-     * @return bool
-     */
-    public function supportsEmail();
+	/**
+	 * Get the full name
+	 *
+	 * @return string
+	 */
+	public function getFullName();
 
-    /**
-     * Get the email
-     *
-     * @return string
-     */
-    public function getEmail();
+	/**
+	 * Check ig the current provider supports an email
+	 *
+	 * @return bool
+	 */
+	public function supportsEmail();
 
-    /**
-     * Check if the current provider supports a location
-     *
-     * @return bool
-     */
-    public function supportsLocation();
+	/**
+	 * Get the email
+	 *
+	 * @return string
+	 */
+	public function getEmail();
 
-    /**
-     * Get the location
-     *
-     * @return string
-     */
-    public function getLocation();
+	/**
+	 * Check if the current provider supports a location
+	 *
+	 * @return bool
+	 */
+	public function supportsLocation();
 
-    /**
-     * Check if the current provider supports a description
-     *
-     * @return bool
-     */
-    public function supportsDescription();
+	/**
+	 * Get the location
+	 *
+	 * @return string
+	 */
+	public function getLocation();
 
-    /**
-     * Get the description
-     *
-     * @return string
-     */
-    public function getDescription();
+	/**
+	 * Check if the current provider supports a description
+	 *
+	 * @return bool
+	 */
+	public function supportsDescription();
 
-    /**
-     * Check if the current provider supports an image url
-     *
-     * @return bool
-     */
-    public function supportsImageUrl();
+	/**
+	 * Get the description
+	 *
+	 * @return string
+	 */
+	public function getDescription();
 
-    /**
-     * Get the image url
-     *
-     * @return string
-     */
-    public function getImageUrl();
+	/**
+	 * Check if the current provider supports an image url
+	 *
+	 * @return bool
+	 */
+	public function supportsImageUrl();
 
-    /**
-     * Check if the current provider supports a profile url
-     *
-     * @return bool
-     */
-    public function supportsProfileUrl();
+	/**
+	 * Get the image url
+	 *
+	 * @return string
+	 */
+	public function getImageUrl();
 
-    /**
-     * Get the profile url
-     *
-     * @return string
-     */
-    public function getProfileUrl();
+	/**
+	 * Check if the current provider supports a profile url
+	 *
+	 * @return bool
+	 */
+	public function supportsProfileUrl();
 
-    /**
-     * Check if the current provider supports websites
-     *
-     * @return bool
-     */
-    public function supportsWebsites();
+	/**
+	 * Get the profile url
+	 *
+	 * @return string
+	 */
+	public function getProfileUrl();
 
-    /**
-     * Get websites
-     *
-     * @return array
-     */
-    public function getWebsites();
+	/**
+	 * Check if the current provider supports websites
+	 *
+	 * @return bool
+	 */
+	public function supportsWebsites();
 
-    /**
-     * Check if the current provider supports the "verified" field
-     *
-     * @return bool
-     */
-    public function supportsVerifiedEmail();
+	/**
+	 * Get websites
+	 *
+	 * @return array
+	 */
+	public function getWebsites();
 
-    /**
-     * Get the verified
-     *
-     * @return bool
-     */
-    public function isEmailVerified();
+	/**
+	 * Check if the current provider supports the "verified" field
+	 *
+	 * @return bool
+	 */
+	public function supportsVerifiedEmail();
 
-    /**
-     * Check if the current provider supports extra data
-     *
-     * @return bool
-     */
-    public function supportsExtra();
+	/**
+	 * Get the verified
+	 *
+	 * @return bool
+	 */
+	public function isEmailVerified();
 
-    /**
-     * Get an extra attribute
-     *
-     * @param  string $key
-     * @return array
-     */
-    public function getExtra($key);
+	/**
+	 * Check if the current provider supports extra data
+	 *
+	 * @return bool
+	 */
+	public function supportsExtra();
 
-    /**
-     * Get the extras array
-     *
-     * @return array
-     */
-    public function getExtras();
+	/**
+	 * Get an extra attribute
+	 *
+	 * @param  string $key
+	 * @return array
+	 */
+	public function getExtra($key);
+
+	/**
+	 * Get the extras array
+	 *
+	 * @return array
+	 */
+	public function getExtras();
 
 	/**
 	 * Save image file by given path. Path extension is mandatory and it's determine, which image type will be used

@@ -9,24 +9,24 @@ use OAuth\OAuth1\Token\StdOAuth1Token;
 
 class Etsy extends AbstractService {
 
-	const SCOPE_EMAIL = 'email_r';
-	const SCOPE_LISTINGS_READ = 'listings_r';
-	const SCOPE_LISTINGS_WRITE = 'listings_w';
+	const SCOPE_EMAIL           = 'email_r';
+	const SCOPE_LISTINGS_READ   = 'listings_r';
+	const SCOPE_LISTINGS_WRITE  = 'listings_w';
 	const SCOPE_LISTINGS_DELETE = 'listings_d';
-	const SCOPE_TRANSACT_READ = 'transactions_r';
-	const SCOPE_TRANSACT_WRITE = 'transactions_w';
-	const SCOPE_BILLING_READ = 'billing_r';
-	const SCOPE_PROFILE_READ = 'profile_r';
-	const SCOPE_PROFILE_WRITE = 'profile_w';
-	const SCOPE_ADDRESS_READ = 'address_r';
-	const SCOPE_ADDRESS_WRITE = 'address_w';
-	const SCOPE_FAVOURITES = 'favorites_rw';
-	const SCOPE_SHOPS = 'shops_rw';
-	const SCOPE_CART = 'cart_rw';
-	const SCOPE_RECOMMEND = 'recommend_rw';
-	const SCOPE_FEEDBACK = 'feedback_r';
-	const SCOPE_TREASURY_READ = 'treasury_r';
-	const SCOPE_TREASURY_WRITE = 'treasury_w';
+	const SCOPE_TRANSACT_READ   = 'transactions_r';
+	const SCOPE_TRANSACT_WRITE  = 'transactions_w';
+	const SCOPE_BILLING_READ    = 'billing_r';
+	const SCOPE_PROFILE_READ    = 'profile_r';
+	const SCOPE_PROFILE_WRITE   = 'profile_w';
+	const SCOPE_ADDRESS_READ    = 'address_r';
+	const SCOPE_ADDRESS_WRITE   = 'address_w';
+	const SCOPE_FAVOURITES      = 'favorites_rw';
+	const SCOPE_SHOPS           = 'shops_rw';
+	const SCOPE_CART            = 'cart_rw';
+	const SCOPE_RECOMMEND       = 'recommend_rw';
+	const SCOPE_FEEDBACK        = 'feedback_r';
+	const SCOPE_TREASURY_READ   = 'treasury_r';
+	const SCOPE_TREASURY_WRITE  = 'treasury_w';
 
 	protected $scopes = [];
 
@@ -40,6 +40,7 @@ class Etsy extends AbstractService {
 	{
 		$uri = new Url($this->baseApiUri . 'oauth/request_token');
 		if (count($this->getScopes())) $uri->getQuery()->modify('scope=' . implode('%20', $this->getScopes()));
+
 		return $uri;
 	}
 
@@ -48,15 +49,15 @@ class Etsy extends AbstractService {
 	 */
 	public function getAuthorizationUri(array $additionalParameters = [])
 	{
-		$token = $this->requestRequestToken();
+		$token      = $this->requestRequestToken();
 		$extraParam = $token->getExtraParams();
 
-		if (!isset($extraParam['login_url']))
+		if (!isset($extraParam[ 'login_url' ]))
 		{
 			throw new Exception('Unable to retrieve login_url!');
 		}
 
-		return new Url($extraParam['login_url']);
+		return new Url($extraParam[ 'login_url' ]);
 	}
 
 	/**

@@ -140,6 +140,7 @@ class LoadersMap extends AbstractArgument {
 
 	/**
 	 * Add field to context loader and remove field from any other loaders
+	 *
 	 * @param $field
 	 * @return $this
 	 */

@@ -2,199 +2,206 @@
 
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
-use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use OAuth\Common\Storage\Exception\AuthorizationStateNotFoundException;
+use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class SymfonySession implements TokenStorageInterface
-{
-    private $session;
-    private $sessionVariableName;
-    private $stateVariableName;
+class SymfonySession implements TokenStorageInterface {
 
-    /**
-     * @param SessionInterface $session
-     * @param bool $startSession
-     * @param string $sessionVariableName
-     * @param string $stateVariableName
-     */
-    public function __construct(
-        SessionInterface $session,
-        $startSession = true,
-        $sessionVariableName = 'lusitanian_oauth_token',
-        $stateVariableName = 'lusitanian_oauth_state'
-    ) {
-        $this->session = $session;
-        $this->sessionVariableName = $sessionVariableName;
-        $this->stateVariableName = $stateVariableName;
-    }
+	private $session;
+	private $sessionVariableName;
+	private $stateVariableName;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAccessToken($service)
-    {
-        if ($this->hasAccessToken($service)) {
-            // get from session
-            $tokens = $this->session->get($this->sessionVariableName);
+	/**
+	 * @param SessionInterface $session
+	 * @param bool $startSession
+	 * @param string $sessionVariableName
+	 * @param string $stateVariableName
+	 */
+	public function __construct(
+		SessionInterface $session,
+		$startSession = TRUE,
+		$sessionVariableName = 'lusitanian_oauth_token',
+		$stateVariableName = 'lusitanian_oauth_state'
+	)
+	{
+		$this->session             = $session;
+		$this->sessionVariableName = $sessionVariableName;
+		$this->stateVariableName   = $stateVariableName;
+	}
 
-            // one item
-            return $tokens[$service];
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAccessToken($service)
+	{
+		if ($this->hasAccessToken($service))
+		{
+			// get from session
+			$tokens = $this->session->get($this->sessionVariableName);
 
-        throw new TokenNotFoundException('Token not found in session, are you sure you stored it?');
-    }
+			// one item
+			return $tokens[ $service ];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAccessToken($service, TokenInterface $token)
-    {
-        // get previously saved tokens
-        $tokens = $this->session->get($this->sessionVariableName);
+		throw new TokenNotFoundException('Token not found in session, are you sure you stored it?');
+	}
 
-        if (!is_array($tokens)) {
-            $tokens = [];
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAccessToken($service, TokenInterface $token)
+	{
+		// get previously saved tokens
+		$tokens = $this->session->get($this->sessionVariableName);
 
-        $tokens[$service] = $token;
+		if (!is_array($tokens))
+		{
+			$tokens = [];
+		}
 
-        // save
-        $this->session->set($this->sessionVariableName, $tokens);
+		$tokens[ $service ] = $token;
 
-        // allow chaining
-        return $this;
-    }
+		// save
+		$this->session->set($this->sessionVariableName, $tokens);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAccessToken($service)
-    {
-        // get from session
-        $tokens = $this->session->get($this->sessionVariableName);
+		// allow chaining
+		return $this;
+	}
 
-        return is_array($tokens)
-            && isset($tokens[$service])
-            && $tokens[$service] instanceof TokenInterface;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAccessToken($service)
+	{
+		// get from session
+		$tokens = $this->session->get($this->sessionVariableName);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearToken($service)
-    {
-        // get previously saved tokens
-        $tokens = $this->session->get($this->sessionVariableName);
+		return is_array($tokens)
+		&& isset($tokens[ $service ])
+		&& $tokens[ $service ] instanceof TokenInterface;
+	}
 
-        if (is_array($tokens) && array_key_exists($service, $tokens)) {
-            unset($tokens[$service]);
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearToken($service)
+	{
+		// get previously saved tokens
+		$tokens = $this->session->get($this->sessionVariableName);
 
-            // Replace the stored tokens array
-            $this->session->set($this->sessionVariableName, $tokens);
-        }
+		if (is_array($tokens) && array_key_exists($service, $tokens))
+		{
+			unset($tokens[ $service ]);
 
-        // allow chaining
-        return $this;
-    }
+			// Replace the stored tokens array
+			$this->session->set($this->sessionVariableName, $tokens);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllTokens()
-    {
-        $this->session->remove($this->sessionVariableName);
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllTokens()
+	{
+		$this->session->remove($this->sessionVariableName);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAuthorizationState($service)
-    {
-        if ($this->hasAuthorizationState($service)) {
-            // get from session
-            $states = $this->session->get($this->stateVariableName);
+		// allow chaining
+		return $this;
+	}
 
-            // one item
-            return $states[$service];
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAuthorizationState($service)
+	{
+		if ($this->hasAuthorizationState($service))
+		{
+			// get from session
+			$states = $this->session->get($this->stateVariableName);
 
-        throw new AuthorizationStateNotFoundException('State not found in session, are you sure you stored it?');
-    }
+			// one item
+			return $states[ $service ];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAuthorizationState($service, $state)
-    {
-        // get previously saved tokens
-        $states = $this->session->get($this->stateVariableName);
+		throw new AuthorizationStateNotFoundException('State not found in session, are you sure you stored it?');
+	}
 
-        if (!is_array($states)) {
-            $states = [];
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAuthorizationState($service, $state)
+	{
+		// get previously saved tokens
+		$states = $this->session->get($this->stateVariableName);
 
-        $states[$service] = $state;
+		if (!is_array($states))
+		{
+			$states = [];
+		}
 
-        // save
-        $this->session->set($this->stateVariableName, $states);
+		$states[ $service ] = $state;
 
-        // allow chaining
-        return $this;
-    }
+		// save
+		$this->session->set($this->stateVariableName, $states);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAuthorizationState($service)
-    {
-        // get from session
-        $states = $this->session->get($this->stateVariableName);
+		// allow chaining
+		return $this;
+	}
 
-        return is_array($states)
-        && isset($states[$service])
-        && null !== $states[$service];
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAuthorizationState($service)
+	{
+		// get from session
+		$states = $this->session->get($this->stateVariableName);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAuthorizationState($service)
-    {
-        // get previously saved tokens
-        $states = $this->session->get($this->stateVariableName);
+		return is_array($states)
+		&& isset($states[ $service ])
+		&& NULL !== $states[ $service ];
+	}
 
-        if (is_array($states) && array_key_exists($service, $states)) {
-            unset($states[$service]);
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAuthorizationState($service)
+	{
+		// get previously saved tokens
+		$states = $this->session->get($this->stateVariableName);
 
-            // Replace the stored tokens array
-            $this->session->set($this->stateVariableName, $states);
-        }
+		if (is_array($states) && array_key_exists($service, $states))
+		{
+			unset($states[ $service ]);
 
-        // allow chaining
-        return $this;
-    }
+			// Replace the stored tokens array
+			$this->session->set($this->stateVariableName, $states);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllAuthorizationStates()
-    {
-        $this->session->remove($this->stateVariableName);
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllAuthorizationStates()
+	{
+		$this->session->remove($this->stateVariableName);
 
-    /**
-     * @return Session
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
+		// allow chaining
+		return $this;
+	}
+
+	/**
+	 * @return Session
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
 }

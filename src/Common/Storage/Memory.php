@@ -2,138 +2,142 @@
 
 namespace OAuth\Common\Storage;
 
-use OAuth\Common\Token\TokenInterface;
-use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use OAuth\Common\Storage\Exception\AuthorizationStateNotFoundException;
+use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Token\TokenInterface;
 
 /*
  * Stores a token in-memory only (destroyed at end of script execution).
  */
-class Memory implements TokenStorageInterface
-{
-    /**
-     * @var object|TokenInterface
-     */
-    protected $tokens;
+class Memory implements TokenStorageInterface {
 
-    /**
-     * @var array
-     */
-    protected $states;
+	/**
+	 * @var object|TokenInterface
+	 */
+	protected $tokens;
 
-    public function __construct()
-    {
-        $this->tokens = [];
-        $this->states = [];
-    }
+	/**
+	 * @var array
+	 */
+	protected $states;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAccessToken($service)
-    {
-        if ($this->hasAccessToken($service)) {
-            return $this->tokens[$service];
-        }
+	public function __construct()
+	{
+		$this->tokens = [];
+		$this->states = [];
+	}
 
-        throw new TokenNotFoundException('Token not stored');
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAccessToken($service)
+	{
+		if ($this->hasAccessToken($service))
+		{
+			return $this->tokens[ $service ];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAccessToken($service, TokenInterface $token)
-    {
-        $this->tokens[$service] = $token;
+		throw new TokenNotFoundException('Token not stored');
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAccessToken($service, TokenInterface $token)
+	{
+		$this->tokens[ $service ] = $token;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAccessToken($service)
-    {
-        return isset($this->tokens[$service]) && $this->tokens[$service] instanceof TokenInterface;
-    }
+		// allow chaining
+		return $this;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearToken($service)
-    {
-        if (array_key_exists($service, $this->tokens)) {
-            unset($this->tokens[$service]);
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAccessToken($service)
+	{
+		return isset($this->tokens[ $service ]) && $this->tokens[ $service ] instanceof TokenInterface;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearToken($service)
+	{
+		if (array_key_exists($service, $this->tokens))
+		{
+			unset($this->tokens[ $service ]);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllTokens()
-    {
-        $this->tokens = [];
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllTokens()
+	{
+		$this->tokens = [];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function retrieveAuthorizationState($service)
-    {
-        if ($this->hasAuthorizationState($service)) {
-            return $this->states[$service];
-        }
+		// allow chaining
+		return $this;
+	}
 
-        throw new AuthorizationStateNotFoundException('State not stored');
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function retrieveAuthorizationState($service)
+	{
+		if ($this->hasAuthorizationState($service))
+		{
+			return $this->states[ $service ];
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function storeAuthorizationState($service, $state)
-    {
-        $this->states[$service] = $state;
+		throw new AuthorizationStateNotFoundException('State not stored');
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function storeAuthorizationState($service, $state)
+	{
+		$this->states[ $service ] = $state;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function hasAuthorizationState($service)
-    {
-        return isset($this->states[$service]) && null !== $this->states[$service];
-    }
+		// allow chaining
+		return $this;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAuthorizationState($service)
-    {
-        if (array_key_exists($service, $this->states)) {
-            unset($this->states[$service]);
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function hasAuthorizationState($service)
+	{
+		return isset($this->states[ $service ]) && NULL !== $this->states[ $service ];
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAuthorizationState($service)
+	{
+		if (array_key_exists($service, $this->states))
+		{
+			unset($this->states[ $service ]);
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    public function clearAllAuthorizationStates()
-    {
-        $this->states = [];
+		// allow chaining
+		return $this;
+	}
 
-        // allow chaining
-        return $this;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public function clearAllAuthorizationStates()
+	{
+		$this->states = [];
+
+		// allow chaining
+		return $this;
+	}
 }
