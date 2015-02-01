@@ -37,7 +37,7 @@ Features
     - You can use any storage mechanism for tokens. By default, session, in-memory and Redis.io (requires PHPRedis) storage mechanisms are included. Implement additional mechanisms by implementing `OAuth\Common\Token\TokenStorageInterface`.
 - Library are based on [lusitanian/oauth](https://github.com/Lusitanian/PHPoAuthLib) and [oryzone/oauth-user-data](https://github.com/Oryzone/PHPoAuthUserData) libraries. Here is key differences:
     - php-oauth uses third-party library for anything that aren't oauth logic, like URL object, HTTP clients, etc
-    - php-oauth goal is simplicity, just look in examples
+    - php-oauth goal is simplicity, just look in [examples](examples)
     - php-oauth makes remote providers is the same by giving your the same api and steps
 
 Service support
