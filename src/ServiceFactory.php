@@ -45,7 +45,7 @@ class ServiceFactory
         'OAuth1' => 'buildV1Service',
     );
 
-	public function construct()
+	public static function construct()
 	{
 		return new static();
 	}
