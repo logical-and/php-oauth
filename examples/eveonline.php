@@ -30,20 +30,25 @@ $credentials = new Credentials(
 
 // Instantiate the Eve Online service using the credentials, http client, storage mechanism for the token and profile scope
 /** @var EveOnline $eveService */
-$eveService = $serviceFactory->createService('eveonline', $credentials, $storage, array(''));
+$eveService = $serviceFactory->createService('eveonline', $credentials, $storage, []);
 
 if ($eveService->isGlobalRequestArgumentsPassed()) {
 	// Retrieve a token and send a request
 	$result = $eveService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/oauth/verify');
 
 	// Show some of the resultant data
-	print 'CharacterName: ' . $result['CharacterName'] . PHP_EOL
-		. 'CharacterID: ' . $result['CharacterID'] . PHP_EOL
-		. 'ExpiresOn: ' . $result['ExpiresOn'] . PHP_EOL
-		. 'Scopes: ' . $result['Scopes'] . PHP_EOL
-		. 'TokenType: ' . $result['TokenType'] . PHP_EOL
-		. 'CharacterOwnerHash: ' . $result['CharacterOwnerHash'] . PHP_EOL;
-
+	print '<pre>';
+	if (!empty($result['CharacterName']))
+	{
+		print 'CharacterName: ' . $result['CharacterName'] . PHP_EOL
+			. 'CharacterID: ' . $result['CharacterID'] . PHP_EOL
+			. 'ExpiresOn: ' . $result['ExpiresOn'] . PHP_EOL
+			. 'Scopes: ' . $result['Scopes'] . PHP_EOL
+			. 'TokenType: ' . $result['TokenType'] . PHP_EOL
+			. 'CharacterOwnerHash: ' . $result['CharacterOwnerHash'] . PHP_EOL;
+	}
+	else print print_r($result, TRUE);
+	print '</pre>';
 } elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
 	$eveService->redirectToAuthorizationUri();
 } else {
