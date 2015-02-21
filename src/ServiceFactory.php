@@ -32,18 +32,18 @@ class ServiceFactory
     /**
      * @var array
      */
-    protected $serviceClassMap = array(
+    protected $serviceClassMap = [
         'OAuth1' => [],
         'OAuth2' => []
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $serviceBuilders = array(
+    protected $serviceBuilders = [
         'OAuth2' => 'buildV2Service',
         'OAuth1' => 'buildV1Service',
-    );
+    ];
 
 	public static function construct()
 	{
@@ -65,6 +65,26 @@ class ServiceFactory
 
         return $this;
     }
+
+	/**
+	 * @return Browser|null
+	 */
+	public function getHttpTransporter()
+	{
+		// If not create httpTransporter, then we create it now
+		// Common parameters are pass requirements in common situations
+		if (!$this->httpTransporter)
+		{
+			$this->setHttpTransporter('FileGetContents', [
+				'ignoreErrors' => TRUE,
+				'maxRedirects' => 5,
+				'timeout' => 5,
+				'verifyPeer' => FALSE
+			]);
+		}
+
+		return $this->httpTransporter;
+	}
 
     /**
      * Register a custom service to classname mapping.
@@ -114,12 +134,6 @@ class ServiceFactory
         Url $baseApiUri = null,
         $apiVersion = ""
     ) {
-        if (!$this->httpTransporter) $this->setHttpTransporter('FileGetContents', [
-	        'ignoreErrors' => TRUE,
-	        'maxRedirects' => 5,
-	        'timeout' => 5,
-	        'verifyPeer' => FALSE
-        ]);
 
         foreach ($this->serviceBuilders as $version => $buildMethod) {
             $fullyQualifiedServiceName = $this->getFullyQualifiedServiceName($serviceName, $version);
@@ -173,7 +187,7 @@ class ServiceFactory
     ) {
         return new $serviceName(
             $credentials,
-            $this->httpTransporter,
+            $this->getHttpTransporter(),
             $storage,
             $this->resolveScopes($serviceName, $scopes),
             $baseApiUri,
@@ -234,6 +248,6 @@ class ServiceFactory
             );
         }
 
-        return new $serviceName($credentials, $this->httpTransporter, $storage, new Signature($credentials), $baseApiUri);
+        return new $serviceName($credentials, $this->getHttpTransporter(), $storage, new Signature($credentials), $baseApiUri);
     }
 }
