@@ -3,9 +3,9 @@ php-oauth
 This library provides oAuth support in PHP 5.4+ and is very easy to integrate with any project which requires an oAuth client.
 It doesn't require any framework, so you are free on that
 
+[![Build Status](https://travis-ci.org/logical-and/php-oauth.svg?branch=phpunit)](https://travis-ci.org/logical-and/php-oauth)
 [![Latest Stable Version](https://poser.pugx.org/and/oauth/v/stable.png)](https://packagist.org/packages/and/oauth)
 [![Total Downloads](https://poser.pugx.org/and/oauth/downloads.png)](https://packagist.org/packages/and/oauth)
-[![Build Status](https://travis-ci.org/logical-and/php-oauth.svg?branch=phpunit)](https://travis-ci.org/logical-and/php-oauth)
 
 Installation
 ------------
