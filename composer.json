@@ -26,6 +26,7 @@
 			"role": "Developer of UserData package"
 		}
     ],
+	"minimum-stability": "beta",
     "require": {
         "php": ">=5.4.0",
 		"ext-reflection": "*",
@@ -37,7 +38,7 @@
     "require-dev": {
         "symfony/http-foundation": "~2.1",
         "predis/predis": "0.8.*@dev",
-        "phpunit/phpunit": "4.4.*"
+        "phpunit/phpunit": "~4.4"
     },
     "suggest": {
         "symfony/http-foundation": "Allows using the Symfony Session storage backend.",
