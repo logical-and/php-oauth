@@ -17,8 +17,8 @@ use OAuth\OAuth2\Token\StdOAuth2Token;
 class EveOnline extends AbstractService
 {
 	protected $baseApiUri = 'https://login.eveonline.com';
-	protected $authorizationEndpoint = 'https://login.eveonline/oauth/authorize';
-	protected $accessTokenEndpoint = 'https://login.eveonline/oauth/token';
+	protected $authorizationEndpoint = 'https://login.eveonline.com/oauth/authorize';
+	protected $accessTokenEndpoint = 'https://login.eveonline.com/oauth/token';
 	protected $authorizationMethod = self::AUTHORIZATION_METHOD_HEADER_BEARER;
 
 	/**
