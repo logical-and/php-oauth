@@ -44,6 +44,24 @@ interface ExtractorInterface {
 	public function setService($service);
 
 	/**
+	 * Get oauth service
+	 *
+	 * @param bool $throw Will throw an exception if no service was set
+	 * @throws Exception If not service was set
+	 *
+	 * @return \OAuth\OAuth1\Service\AbstractService|\OAuth\OAuth2\Service\AbstractService
+	 */
+	public function getService($throw = TRUE);
+
+	/**
+	 * Get service id
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	public function getServiceId();
+
+	/**
 	 * Check if the current provider supports a unique id
 	 *
 	 * @return bool

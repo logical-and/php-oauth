@@ -13,6 +13,7 @@ namespace OAuth\UserData\Extractor;
 
 use Gregwar\Image\Image;
 use OAuth\Common\Exception\Exception;
+use OAuth\Common\Service\AbstractService;
 use OAuth\UserData\Arguments\FieldsValues;
 
 /**
@@ -52,6 +53,16 @@ class Extractor implements ExtractorInterface {
 
 		$this->supports = $fieldsValues->getSupportedFields();
 		$this->fields   = $fieldsValues->getFieldsValues();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setService($service)
+	{
+		$this->service = $service;
+
+		return $this;
 	}
 
 	// --- Accessors
@@ -334,11 +345,26 @@ class Extractor implements ExtractorInterface {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setService($service)
+	public function getService($throw = TRUE)
 	{
-		$this->service = $service;
+		if (!$this->service)
+		{
+			if ($throw) throw new Exception('Service was not persisted in Extractor!');
+			else return FALSE;
+		}
 
-		return $this;
+		return $this->service;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getServiceId()
+	{
+		/** @var AbstractService $service */
+		$service = $this->getService(TRUE);
+
+		return $service->service();
 	}
 
 	// --- Internal methods
