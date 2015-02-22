@@ -298,14 +298,12 @@ class Extractor implements ExtractorInterface {
 
 		try
 		{
-			Image::fromData($this->getImageRawData($width, $height))->save($savePath, $ext);
+			return Image::fromData($this->getImageRawData($width, $height))->save($savePath, $ext);
 		} // Catch any exception
 		catch (\Exception $e)
 		{
 			throw new Exception('Exception occurred  during saving image: ' . $e->getMessage(), $e->getCode(), $e);
 		}
-
-		return $this;
 	}
 
 	/**

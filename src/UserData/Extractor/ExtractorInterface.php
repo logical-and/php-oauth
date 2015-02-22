@@ -257,7 +257,7 @@ interface ExtractorInterface {
 	 * @param $savePath
 	 * @param bool $width Optional value, max width
 	 * @param bool $height Optional value, max height
-	 * @return $this
+	 * @return bool|string File path if success, false if failure
 	 * @throws Exception
 	 */
 	public function saveImage($savePath, $width = FALSE, $height = FALSE);
