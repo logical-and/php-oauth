@@ -56,7 +56,7 @@ interface ExtractorInterface {
 	/**
 	 * Get service id
 	 *
-	 * @return string
+	 * @return string String, like "google" or "facebook"
 	 * @throws Exception
 	 */
 	public function getServiceId();
