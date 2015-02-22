@@ -41,7 +41,7 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 		Browser $httpTransporter,
 		TokenStorageInterface $storage,
 		SignatureInterface $signature,
-		Url $baseApiUri = NULL
+		$baseApiUri = NULL
 	)
 	{
 		parent::__construct($credentials, $httpTransporter, $storage, $baseApiUri);
