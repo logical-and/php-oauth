@@ -6,6 +6,14 @@ use OAuth\Common\Storage\Session;
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        if ('\\' == DIRECTORY_SEPARATOR)
+        {
+            throw new \PHPUnit_Framework_SkippedTestError('Skip this test on Win OS');
+        }
+    }
+
     /**
      * @covers OAuth\Common\Storage\Session::__construct
      *
