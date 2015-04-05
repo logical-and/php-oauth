@@ -32,7 +32,7 @@
 		"ext-reflection": "*",
 		"ext-spl": "*",
 		"kriswallsmith/buzz": "~0.13",
-		"league/url": "~3.2.1",
+		"league/url": "~3.2",
 		"gregwar/image": "~2.0.18"
     },
     "require-dev": {

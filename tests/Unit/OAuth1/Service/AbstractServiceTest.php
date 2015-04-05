@@ -80,7 +80,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
 		);
 
-		$this->assertSame('http://pieterhordijk.com/auth', (string) $service->getAuthorizationUri([
+		$this->assertSame('http://pieterhordijk.com/auth?oauth_token=', (string) $service->getAuthorizationUri([
 			'oauth_token' => '' // just for skip receiving
 		]));
 	}
@@ -98,7 +98,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
 		);
 
-		$this->assertSame('http://pieterhordijk.com/auth?foo=bar&baz=beer', (string) $service->getAuthorizationUri([
+		$this->assertSame('http://pieterhordijk.com/auth?foo=bar&baz=beer&oauth_token=', (string) $service->getAuthorizationUri([
 			'foo' => 'bar',
 			'baz' => 'beer',
 			'oauth_token' => ''

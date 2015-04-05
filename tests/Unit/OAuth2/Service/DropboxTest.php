@@ -68,7 +68,7 @@ class DropboxTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertSame(
-			'https://www.dropbox.com/1/oauth2/authorize?client_id=foo&redirect_uri=bar&response_type=code',
+			'https://www.dropbox.com/1/oauth2/authorize?client_id=foo&redirect_uri=bar&response_type=code&scope=',
 			(string) $service->getAuthorizationUri()
 		);
 	}
@@ -90,7 +90,7 @@ class DropboxTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertSame(
-			'https://www.dropbox.com/1/oauth2/authorize?client_id=foo&redirect_uri=bar&response_type=code',
+			'https://www.dropbox.com/1/oauth2/authorize?client_id=foo&redirect_uri=bar&response_type=code&scope=',
 			(string) $service->getAuthorizationUri()
 		);
 	}

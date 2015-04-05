@@ -97,7 +97,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertSame(
-			'http://pieterhordijk.com/auth?type=web_server&client_id=foo&redirect_uri=bar&response_type=code',
+			'http://pieterhordijk.com/auth?type=web_server&client_id=foo&redirect_uri=bar&response_type=code&scope=',
 			(string) $service->getAuthorizationUri()
 		);
 	}
@@ -120,7 +120,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertSame(
-			'http://pieterhordijk.com/auth?type=web_server&client_id=foo&redirect_uri=bar&response_type=code&foo=bar&baz=beer',
+			'http://pieterhordijk.com/auth?type=web_server&client_id=foo&redirect_uri=bar&response_type=code&foo=bar&baz=beer&scope=',
 			(string) $service->getAuthorizationUri(['foo' => 'bar', 'baz' => 'beer'])
 		);
 	}
@@ -192,7 +192,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertSame(
-			'http://pieterhordijk.com/auth/1.1?type=web_server&client_id=foo&redirect_uri=bar&response_type=code',
+			'http://pieterhordijk.com/auth/1.1?type=web_server&client_id=foo&redirect_uri=bar&response_type=code&scope=',
 			(string) $service->getAuthorizationUri()
 		);
 	}
