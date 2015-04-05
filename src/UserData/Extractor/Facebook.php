@@ -13,6 +13,7 @@ namespace OAuth\UserData\Extractor;
 
 use OAuth\UserData\Arguments\FieldsValues;
 use OAuth\UserData\Utils\ArrayUtils;
+use OAuth\UserData\Utils\StringUtils;
 
 /**
  * Class Facebook
@@ -60,7 +61,6 @@ class Facebook extends LazyExtractor {
 					self::FIELD_DESCRIPTION => 'bio',
 					self::FIELD_LOCATION    => 'location.name',
 					self::FIELD_PROFILE_URL => 'link',
-					self::FIELD_WEBSITES    => 'website',
 				])
 				// Facebook users who have access to Open Graph and OAuth always have a verified email
 				->prefilled(self::FIELD_VERIFIED_EMAIL, TRUE),
@@ -76,5 +76,10 @@ class Facebook extends LazyExtractor {
 	protected function imageLoader()
 	{
 		return ArrayUtils::getNested($this->service->requestJSON(self::REQUEST_IMAGE), 'data.url');
+	}
+
+	protected function websitesNormalizer($data)
+	{
+		return isset($data['website']) ? StringUtils::extractUrls($data['website']) : [];
 	}
 }

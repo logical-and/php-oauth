@@ -72,6 +72,7 @@ class HTTPTransporterFactory {
 			elseif($client instanceof Curl)
 			{
 				$client->setOption($key, $value);
+				unset($configuration[$key]);
 			}
 		}
 

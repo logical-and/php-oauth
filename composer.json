@@ -29,11 +29,11 @@
     "minimum-stability": "beta",
     "require": {
         "php": ">=5.4.0",
-        "ext-reflection": "*",
-        "ext-spl": "*",
-        "kriswallsmith/buzz": "~0.13",
-        "league/url": "~3.2.1",
-        "gregwar/image": "~2.0.18"
+		"ext-reflection": "*",
+		"ext-spl": "*",
+		"kriswallsmith/buzz": "~0.13",
+		"league/url": "~3.2",
+		"gregwar/image": "~2.0.18"
     },
     "require-dev": {
         "symfony/http-foundation": "~2.1",
@@ -53,7 +53,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5-dev"
+            "dev-master": "0.5-dev",
+            "dev-phpunit": "0.6-dev"
         }
     }
 }

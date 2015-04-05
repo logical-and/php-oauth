@@ -49,7 +49,7 @@ class Extractor implements ExtractorInterface {
 	 */
 	public function __construct(FieldsValues $fieldsValues = NULL)
 	{
-		if (!$fieldsValues) $fieldsValues = self::getAllFields();
+		if (!$fieldsValues) $fieldsValues = new FieldsValues();
 
 		$this->supports = $fieldsValues->getSupportedFields();
 		$this->fields   = $fieldsValues->getFieldsValues();
