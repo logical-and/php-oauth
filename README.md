@@ -205,3 +205,7 @@ Each extractor has next helpers:
 - `getImageRawData(/* int|false */ $width, /* int|false */ $height)`, works only if image url available, returns raw image data
 
 **NOTE**: Some helpers only works if fields required for it's work are available
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/logical-and/php-oauth/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
