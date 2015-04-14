@@ -113,6 +113,8 @@ class Google extends AbstractService {
 			throw new InvalidAccessTypeException('Invalid accessType, expected either online or offline');
 		}
 		$this->accessType = $accessType;
+
+		return $this;
 	}
 
 	/**
