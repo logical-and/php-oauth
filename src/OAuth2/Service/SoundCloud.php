@@ -7,6 +7,8 @@ use OAuth\OAuth2\Token\StdOAuth2Token;
 
 class SoundCloud extends AbstractService {
 
+	const SCOPE_NON_EXPIRING_TOKEN = 'non-expiring';
+
 	protected $baseApiUri = 'https://api.soundcloud.com/';
 	protected $authorizationEndpoint = 'https://soundcloud.com/connect';
 	protected $accessTokenEndpoint = 'https://api.soundcloud.com/oauth2/token';
