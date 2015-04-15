@@ -6,6 +6,7 @@ It doesn't require any framework, so you are free on that
 [![Build Status](https://travis-ci.org/logical-and/php-oauth.svg?branch=phpunit)](https://travis-ci.org/logical-and/php-oauth)
 [![Dependency Status](https://www.versioneye.com/user/projects/54e917cad1ec577c97000be6/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e917cad1ec577c97000be6)
 [![Latest Stable Version](https://poser.pugx.org/and/oauth/v/stable.png)](https://packagist.org/packages/and/oauth)
+[![Latest Unstable Version](https://poser.pugx.org/and/oauth/v/unstable.svg)](https://packagist.org/packages/and/oauth)
 [![Total Downloads](https://poser.pugx.org/and/oauth/downloads.png)](https://packagist.org/packages/and/oauth)
 
 Installation
