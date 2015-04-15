@@ -12,6 +12,7 @@
 namespace OAuth\UserData\Extractor;
 
 use OAuth\UserData\Arguments\FieldsValues;
+use OAuth\UserData\Utils\ArrayUtils;
 
 /**
  * Class Google
@@ -41,14 +42,13 @@ class Google extends LazyExtractor {
 				self::FIELD_EXTRA,
 			]),
 			self::getDefaultNormalizersMap()
-				->paths([
+				->add([
 					self::FIELD_UNIQUE_ID      => 'id',
 					self::FIELD_USERNAME       => 'name',
 					self::FIELD_FIRST_NAME     => 'given_name',
 					self::FIELD_LAST_NAME      => 'family_name',
 					self::FIELD_FULL_NAME      => 'name',
 					self::FIELD_EMAIL          => 'email',
-					self::FIELD_PROFILE_URL    => 'link',
 					self::FIELD_IMAGE_URL      => 'picture',
 					self::FIELD_VERIFIED_EMAIL => ['verified_email', FALSE]
 				])
@@ -58,6 +58,11 @@ class Google extends LazyExtractor {
 	protected function profileLoader()
 	{
 		return $this->service->requestJSON(self::REQUEST_PROFILE);
+	}
+
+	protected function profileUrlNormalizer($data)
+	{
+		return empty($data['id']) ? NULL : "https://plus.google.com/{$data['id']}";
 	}
 }
  

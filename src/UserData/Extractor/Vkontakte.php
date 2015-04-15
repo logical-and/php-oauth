@@ -51,7 +51,7 @@ class Vkontakte extends LazyExtractor {
 						self::FIELD_FIRST_NAME  => 'first_name',
 						self::FIELD_LAST_NAME   => 'last_name',
 						self::FIELD_EMAIL       => 'email',
-						self::FIELD_DESCRIPTION => 'personal',
+						self::FIELD_DESCRIPTION => 'about',
 						self::FIELD_IMAGE_URL   => 'photo_max_orig'
 					]
 				)
@@ -62,6 +62,8 @@ class Vkontakte extends LazyExtractor {
 	{
 		return $this->service->requestJSON(self::REQUEST_PROFILE, [
 			'fields' =>
+				// https://vk.com/dev/users.get
+
 				'sex, bdate, city, country, photo_50, photo_100, photo_200_orig, ' .
 				'photo_200, photo_400_orig, photo_max, photo_max_orig, photo_id, ' .
 				'online, online_mobile, domain, has_mobile, contacts, connections, site, ' .

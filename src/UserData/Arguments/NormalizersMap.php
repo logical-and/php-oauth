@@ -242,7 +242,7 @@ class NormalizersMap extends AbstractArgument {
 	/**
 	 * Set path context. All next fields will be added with prepended path
 	 *
-	 * @see NormalizersMap::setPathContext
+	 * @see NormalizersMap::prependByPathContext
 	 * @param $pathContext
 	 * @return $this
 	 * @throws \OAuth\UserData\Exception\GenericException
@@ -262,7 +262,7 @@ class NormalizersMap extends AbstractArgument {
 	 * @param $pathContext
 	 * @return $this
 	 */
-	public function setPathContext($pathContext)
+	public function prependByPathContext($pathContext)
 	{
 		$this->pathContext($pathContext);
 
