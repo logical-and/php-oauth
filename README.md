@@ -4,11 +4,9 @@ This library provides oAuth support in PHP 5.4+ and is very easy to integrate wi
 It doesn't require any framework, so you are free on that
 
 [![Build Status](https://travis-ci.org/logical-and/php-oauth.svg?branch=phpunit)](https://travis-ci.org/logical-and/php-oauth)
-[![Coverage Status](https://coveralls.io/repos/logical-and/php-oauth/badge.svg)](https://coveralls.io/r/logical-and/php-oauth)
 [![Dependency Status](https://www.versioneye.com/user/projects/54e917cad1ec577c97000be6/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e917cad1ec577c97000be6)
 [![Latest Stable Version](https://poser.pugx.org/and/oauth/v/stable.png)](https://packagist.org/packages/and/oauth)
 [![Total Downloads](https://poser.pugx.org/and/oauth/downloads.png)](https://packagist.org/packages/and/oauth)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/logical-and/php-oauth2/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Installation
 ------------
