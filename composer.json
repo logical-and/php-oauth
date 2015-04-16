@@ -29,11 +29,11 @@
     "minimum-stability": "beta",
     "require": {
         "php": ">=5.4.0",
-		"ext-reflection": "*",
-		"ext-spl": "*",
-		"kriswallsmith/buzz": "~0.13",
-		"league/url": "~3.2",
-		"gregwar/image": "~2.0.18"
+	"ext-reflection": "*",
+	"ext-spl": "*",
+	"kriswallsmith/buzz": "~0.13",
+	"league/url": "~3.2",
+	"gregwar/image": "~2.0.18"
     },
     "require-dev": {
         "symfony/http-foundation": "~2.1",
@@ -47,8 +47,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OAuth\\": "src/",
-            "OAuthTest\\": "tests/"
+            "OAuth\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OAuthTest\\": "tests"
         }
     },
     "extra": {
