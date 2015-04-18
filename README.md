@@ -64,6 +64,7 @@ Included service implementations
     - BitLy
     - Box
     - Dailymotion
+    - DevianArt
     - Dropbox
     - Eve Online
     - Facebook

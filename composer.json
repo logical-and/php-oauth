@@ -1,7 +1,7 @@
 {
     "name": "and/oauth",
     "description": "Simple and amazing OAuth library with many providers. Just try it out!",
-    "keywords": ["oauth", "oauth1", "oauth2", "authentication", "authorization", "security", "amazon", "bitbucket", "bitly", "box", "buffer", "dailymotion", "dropbox", "etsy", "eve", "eveonline", "facebook", "fitbit", "flickr", "foursquare", "github", "google", "harvest", "instagram", "jawbone", "linkedin", "mailchimp", "microsoft", "paypal", "pocket", "reddit", "runkeeper", "scoopit", "soundcloud", "spotify", "tumblr", "twitter", "ustream", "vkontakte", "yahoo"],
+    "keywords": ["oauth", "oauth1", "oauth2", "authentication", "authorization", "security", "amazon", "bitbucket", "bitly", "box", "buffer", "dailymotion", "devianart", "dropbox", "etsy", "eve", "eveonline", "facebook", "fitbit", "flickr", "foursquare", "github", "google", "harvest", "instagram", "jawbone", "linkedin", "mailchimp", "microsoft", "paypal", "pocket", "reddit", "runkeeper", "scoopit", "soundcloud", "spotify", "tumblr", "twitter", "ustream", "vkontakte", "yahoo"],
     "license": "MIT",
     "authors": [
         {
