@@ -55,7 +55,7 @@ class Mailchimp extends AbstractService {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function request($path, array $body = [], $method = 'GET', array $extraHeaders = [])
+	public function request($path, $body = [], $method = 'GET', array $extraHeaders = [])
 	{
 		if (is_null($this->baseApiUri))
 		{
