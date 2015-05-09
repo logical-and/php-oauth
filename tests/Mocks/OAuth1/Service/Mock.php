@@ -12,7 +12,7 @@ class Mock extends AbstractService
 	protected $authorizationEndpoint = 'http://pieterhordijk.com/auth';
 	protected $accessTokenEndpoint = 'http://pieterhordijk.com/access';
 
-	public function httpRequest($uri, array $body = [], array $headers = [], $method = 'POST')
+	public function httpRequest($uri, $body = [], array $headers = [], $method = 'POST')
 	{
 		return [
 			'uri' => $uri,

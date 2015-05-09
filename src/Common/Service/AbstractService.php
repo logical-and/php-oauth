@@ -162,7 +162,7 @@ abstract class AbstractService implements ServiceInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function requestJSON($uri, array $body = [], $method = 'GET', array $extraHeaders = [])
+	public function requestJSON($uri, $body = [], $method = 'GET', array $extraHeaders = [])
 	{
 		return json_decode($this->request($uri, $body, $method, $extraHeaders), TRUE);
 	}
@@ -170,11 +170,18 @@ abstract class AbstractService implements ServiceInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function httpRequest($uri, array $body = [], array $headers = [], $method = 'POST')
+	public function httpRequest($uri, $body = [], array $headers = [], $method = 'POST')
 	{
 		try
 		{
-			$response = $this->httpTransporter->submit($uri, $body, $method, $headers);
+			if (is_array($body))
+			{
+				$response = $this->httpTransporter->submit($uri, $body, $method, $headers);
+			} else
+			{
+				$response = $this->httpTransporter->call($uri, $method, $headers, $body);
+			}
+
 		} catch (RequestException $e)
 		{
 			throw new TokenResponseException($e->getMessage() ? $e->getMessage() : 'Failed to request resource.');

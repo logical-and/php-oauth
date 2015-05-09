@@ -25,7 +25,7 @@ class Mock extends AbstractService
         $this->authorizationMethod = $method;
     }
 
-	public function httpRequest($uri, array $body = [], array $headers = [], $method = 'POST')
+	public function httpRequest($uri, $body = [], array $headers = [], $method = 'POST')
 	{
 		return [
 			'uri' => $uri,
