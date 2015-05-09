@@ -12,23 +12,10 @@ It doesn't require any framework, so you are free on that
 Installation
 ------------
 This library can be found on [Packagist](https://github.com/logical-and/php-oauth).
-The recommended way to install this is through [composer](http://getcomposer.org).
-
-Edit your `composer.json` and add:
-
-```json
-{
-    "require": {
-        "and/oauth": "*"
-    }
-}
-```
-
-And install dependencies:
+The recommended way to install this is through [composer](http://getcomposer.org):
 
 ```bash
-$ curl -sS https://getcomposer.org/installer | php
-$ php composer.phar install
+composer require and/oauth
 ```
 
 Features
