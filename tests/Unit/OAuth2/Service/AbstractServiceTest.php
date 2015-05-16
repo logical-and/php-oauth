@@ -250,12 +250,13 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 	 * @covers OAuth\OAuth2\Service\AbstractService::__construct
 	 * @covers OAuth\OAuth2\Service\AbstractService::request
 	 * @covers OAuth\OAuth2\Service\AbstractService::determineRequestUriFromPath
+	 * @group active
 	 */
 	public function testRequestThrowsExceptionWhenTokenIsExpired()
 	{
 		$tokenExpiration = new \DateTime('26-03-1984 00:00:00');
 
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife']);
 		$token->expects($this->any())->method('getEndOfLife')->will($this->returnValue($tokenExpiration->format('U')));
 
 		$storage = $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface');
@@ -283,7 +284,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testRequestOauthAuthorizationMethod()
 	{
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife', 'getAccessToken']);
 		$token->expects($this->once())->method('getEndOfLife')->will($this->returnValue(TokenInterface::EOL_NEVER_EXPIRES));
 		$token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
 
@@ -316,7 +317,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testRequestQueryStringMethod()
 	{
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife', 'getAccessToken']);
 		$token->expects($this->once())->method('getEndOfLife')->will($this->returnValue(TokenInterface::EOL_NEVER_EXPIRES));
 		$token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
 
@@ -348,7 +349,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testRequestQueryStringTwoMethod()
 	{
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife', 'getAccessToken']);
 		$token->expects($this->once())->method('getEndOfLife')->will($this->returnValue(TokenInterface::EOL_NEVER_EXPIRES));
 		$token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
 
@@ -381,7 +382,7 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testRequestBearerMethod()
 	{
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife', 'getAccessToken']);
 		$token->expects($this->once())->method('getEndOfLife')->will($this->returnValue(TokenInterface::EOL_NEVER_EXPIRES));
 		$token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
 

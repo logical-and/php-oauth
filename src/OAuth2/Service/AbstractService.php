@@ -9,6 +9,7 @@ use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Http\Url;
 use OAuth\Common\Service\AbstractService as BaseAbstractService;
 use OAuth\Common\Storage\TokenStorageInterface;
+use OAuth\Common\Token\AbstractToken;
 use OAuth\Common\Token\Exception\ExpiredTokenException;
 use OAuth\Common\Token\TokenInterface;
 use OAuth\OAuth2\Service\Exception\InvalidAuthorizationStateException;
@@ -102,12 +103,12 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 	public function getAuthorizationUri(array $additionalParameters = [])
 	{
 		$parameters = array_merge(
-			array(
+			[
 				'type'          => 'web_server',
 				'client_id'     => $this->credentials->getConsumerId(),
 				'redirect_uri'  => $this->credentials->getCallbackUrl(),
 				'response_type' => 'code',
-			),
+			],
 			$additionalParameters
 		);
 
@@ -137,12 +138,10 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 	public function request($path, array $body = [], $method = 'GET', array $extraHeaders = [])
 	{
 		$uri   = $this->determineRequestUriFromPath($path);
+		/** @var AbstractToken $token */
 		$token = $this->storage->retrieveAccessToken($this->service());
 
-		if ($token->getEndOfLife() !== TokenInterface::EOL_NEVER_EXPIRES
-			&& $token->getEndOfLife() !== TokenInterface::EOL_UNKNOWN
-			&& time() > $token->getEndOfLife()
-		)
+		if ($token->isExpired())
 		{
 			throw new ExpiredTokenException(
 				sprintf(
@@ -156,23 +155,23 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 		// add the token where it may be needed
 		if (static::AUTHORIZATION_METHOD_HEADER_OAUTH === $this->getAuthorizationMethod())
 		{
-			$extraHeaders = array_merge(array('Authorization' => 'OAuth ' . $token->getAccessToken()), $extraHeaders);
+			$extraHeaders = array_merge(['Authorization' => 'OAuth ' . $token->getAccessToken()], $extraHeaders);
 		}
 		elseif (static::AUTHORIZATION_METHOD_QUERY_STRING === $this->getAuthorizationMethod())
 		{
-			$uri->getQuery()->modify(array('access_token' => $token->getAccessToken()));
+			$uri->getQuery()->modify(['access_token' => $token->getAccessToken()]);
 		}
 		elseif (static::AUTHORIZATION_METHOD_QUERY_STRING_V2 === $this->getAuthorizationMethod())
 		{
-			$uri->getQuery()->modify(array('oauth2_access_token' => $token->getAccessToken()));
+			$uri->getQuery()->modify(['oauth2_access_token' => $token->getAccessToken()]);
 		}
 		elseif (static::AUTHORIZATION_METHOD_QUERY_STRING_V3 === $this->getAuthorizationMethod())
 		{
-			$uri->getQuery()->modify(array('apikey' => $token->getAccessToken()));
+			$uri->getQuery()->modify(['apikey' => $token->getAccessToken()]);
 		}
 		elseif (static::AUTHORIZATION_METHOD_HEADER_BEARER === $this->getAuthorizationMethod())
 		{
-			$extraHeaders = array_merge(array('Authorization' => 'Bearer ' . $token->getAccessToken()), $extraHeaders);
+			$extraHeaders = array_merge(['Authorization' => 'Bearer ' . $token->getAccessToken()], $extraHeaders);
 		}
 
 		$extraHeaders = array_merge($this->getExtraApiHeaders(), $extraHeaders);
@@ -200,13 +199,13 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 			$this->validateAuthorizationState($state);
 		}
 
-		$bodyParams = array(
+		$bodyParams = [
 			'code'          => $code,
 			'client_id'     => $this->credentials->getConsumerId(),
 			'client_secret' => $this->credentials->getConsumerSecret(),
 			'redirect_uri'  => $this->credentials->getCallbackUrl(),
 			'grant_type'    => 'authorization_code',
-		);
+		];
 
 		$responseBody = $this->httpRequest(
 			$this->getAccessTokenEndpoint(),
@@ -236,13 +235,13 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 			throw new MissingRefreshTokenException();
 		}
 
-		$parameters = array(
+		$parameters = [
 			'grant_type'    => 'refresh_token',
 			'type'          => 'web_server',
 			'client_id'     => $this->credentials->getConsumerId(),
 			'client_secret' => $this->credentials->getConsumerSecret(),
 			'refresh_token' => $refreshToken,
-		);
+		];
 
 		$responseBody = $this->httpRequest(
 			$this->getAccessTokenEndpoint(),

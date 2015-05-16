@@ -93,7 +93,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetAuthorizationMethod()
 	{
-		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\TokenInterface');
+		$token = $this->getMock('\\OAuth\\OAuth2\\Token\\StdOAuth2Token', ['getEndOfLife', 'getAccessToken']);
 		$token->expects($this->once())->method('getEndOfLife')->will($this->returnValue(TokenInterface::EOL_NEVER_EXPIRES));
 		$token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
 
