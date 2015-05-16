@@ -12,57 +12,60 @@
 namespace OAuth\UserData\Extractor;
 
 use OAuth\UserData\Arguments\FieldsValues;
-use OAuth\UserData\Utils\ArrayUtils;
 
 /**
  * Class Google
  *
  * @package OAuth\UserData\Extractor
  */
-class Google extends LazyExtractor {
+class Google extends LazyExtractor
+{
 
-	const REQUEST_PROFILE = 'https://www.googleapis.com/oauth2/v1/userinfo';
+    const REQUEST_PROFILE = 'https://www.googleapis.com/oauth2/v1/userinfo';
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct(
-			FieldsValues::construct([
-				self::FIELD_UNIQUE_ID,
-				self::FIELD_USERNAME,
-				self::FIELD_FIRST_NAME,
-				self::FIELD_LAST_NAME,
-				self::FIELD_FULL_NAME,
-				self::FIELD_EMAIL,
-				self::FIELD_PROFILE_URL,
-				self::FIELD_IMAGE_URL,
-				self::FIELD_VERIFIED_EMAIL,
-				self::FIELD_EXTRA,
-			]),
-			self::getDefaultNormalizersMap()
-				->add([
-					self::FIELD_UNIQUE_ID      => 'id',
-					self::FIELD_USERNAME       => 'name',
-					self::FIELD_FIRST_NAME     => 'given_name',
-					self::FIELD_LAST_NAME      => 'family_name',
-					self::FIELD_FULL_NAME      => 'name',
-					self::FIELD_EMAIL          => 'email',
-					self::FIELD_IMAGE_URL      => 'picture',
-					self::FIELD_VERIFIED_EMAIL => ['verified_email', FALSE]
-				])
-		);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct(
+            FieldsValues::construct(
+                [
+                    self::FIELD_UNIQUE_ID,
+                    self::FIELD_USERNAME,
+                    self::FIELD_FIRST_NAME,
+                    self::FIELD_LAST_NAME,
+                    self::FIELD_FULL_NAME,
+                    self::FIELD_EMAIL,
+                    self::FIELD_PROFILE_URL,
+                    self::FIELD_IMAGE_URL,
+                    self::FIELD_VERIFIED_EMAIL,
+                    self::FIELD_EXTRA,
+                ]
+            ),
+            self::getDefaultNormalizersMap()
+                ->add(
+                    [
+                        self::FIELD_UNIQUE_ID      => 'id',
+                        self::FIELD_USERNAME       => 'name',
+                        self::FIELD_FIRST_NAME     => 'given_name',
+                        self::FIELD_LAST_NAME      => 'family_name',
+                        self::FIELD_FULL_NAME      => 'name',
+                        self::FIELD_EMAIL          => 'email',
+                        self::FIELD_IMAGE_URL      => 'picture',
+                        self::FIELD_VERIFIED_EMAIL => ['verified_email', false]
+                    ]
+                )
+        );
+    }
 
-	protected function profileLoader()
-	{
-		return $this->service->requestJSON(self::REQUEST_PROFILE);
-	}
+    protected function profileLoader()
+    {
+        return $this->service->requestJSON(self::REQUEST_PROFILE);
+    }
 
-	protected function profileUrlNormalizer($data)
-	{
-		return empty($data['id']) ? NULL : "https://plus.google.com/{$data['id']}";
-	}
+    protected function profileUrlNormalizer($data)
+    {
+        return empty($data[ 'id' ]) ? null : "https://plus.google.com/{$data['id']}";
+    }
 }
- 

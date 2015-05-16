@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Foursquare;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Foursquare;
 
 /**
  * Bootstrap the example
@@ -26,8 +26,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['foursquare']['key'],
-    $servicesCredentials['foursquare']['secret'],
+    $servicesCredentials[ 'foursquare' ][ 'key' ],
+    $servicesCredentials[ 'foursquare' ][ 'secret' ],
     $currentUri
 );
 
@@ -36,14 +36,17 @@ $credentials = new Credentials(
 $foursquareService = $serviceFactory->createService('foursquare', $credentials, $storage);
 
 if ($foursquareService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $foursquareService->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/self');
+    // Retrieve a token and send a request
+    $result = $foursquareService->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/self');
 
-	// Show some of the resultant data
-	echo 'Your unique foursquare user id is: ' . $result['response']['user']['id'] . ' and your name is ' . $result['response']['user']['firstName'] . $result['response']['user']['lastName'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$foursquareService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique foursquare user id is: ' .
+        $result[ 'response' ][ 'user' ][ 'id' ] .
+        ' and your name is ' .
+        $result[ 'response' ][ 'user' ][ 'firstName' ] .
+        $result[ 'response' ][ 'user' ][ 'lastName' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $foursquareService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Foursquare!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Foursquare!</a>";
 }

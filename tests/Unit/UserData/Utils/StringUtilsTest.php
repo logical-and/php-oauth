@@ -14,11 +14,11 @@ class StringUtilsTest extends \PHPUnit_Framework_TestCase
     {
         $string = "Lorem ipsum http://example.com dolor sit http://example2.com amet http://example3.com";
 
-        $expected = array(
+        $expected = [
             'http://example.com',
             'http://example2.com',
             'http://example3.com'
-        );
+        ];
 
         $actual = StringUtils::extractUrls($string);
 

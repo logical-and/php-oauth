@@ -17,60 +17,60 @@ use OAuth\ServiceFactory;
 class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
 
-	/**
-	 * @covers OAuth\ServiceFactory::construct()
-	 */
-	public function testConstruct()
-	{
-		$this->assertInstanceOf(
-			'\\OAuth\\ServiceFactory',
-			ServiceFactory::construct()
-		);
-	}
+    /**
+     * @covers OAuth\ServiceFactory::construct()
+     */
+    public function testConstruct()
+    {
+        $this->assertInstanceOf(
+            '\\OAuth\\ServiceFactory',
+            ServiceFactory::construct()
+        );
+    }
 
-	/**
-	 * @covers OAuth\ServiceFactory::setHttpTransporter()
-	 * @covers OAuth\ServiceFactory::getHttpTransporter()
-	 */
-	public function testGetDefaultHttpTransporter()
-	{
-		$serviceFactory = ServiceFactory::construct();
+    /**
+     * @covers OAuth\ServiceFactory::setHttpTransporter()
+     * @covers OAuth\ServiceFactory::getHttpTransporter()
+     */
+    public function testGetDefaultHttpTransporter()
+    {
+        $serviceFactory = ServiceFactory::construct();
 
-		$this->assertInstanceOf(
-			'\\Buzz\\Browser',
-			$serviceFactory->getHttpTransporter(),
-			'Should return default Browser'
-		);
-		$this->assertInstanceOf(
-			'\\Buzz\\Client\\FileGetContents',
-			$serviceFactory->getHttpTransporter()->getClient(),
-			'Should return default Client'
-		);
-	}
+        $this->assertInstanceOf(
+            '\\Buzz\\Browser',
+            $serviceFactory->getHttpTransporter(),
+            'Should return default Browser'
+        );
+        $this->assertInstanceOf(
+            '\\Buzz\\Client\\FileGetContents',
+            $serviceFactory->getHttpTransporter()->getClient(),
+            'Should return default Client'
+        );
+    }
 
-	/**
-	 * @covers OAuth\ServiceFactory::setHttpTransporter()
-	 * @covers OAuth\ServiceFactory::getHttpTransporter()
-	 */
-	public function testSetHttpTransporter()
-	{
-		$serviceFactory = ServiceFactory::construct();
+    /**
+     * @covers OAuth\ServiceFactory::setHttpTransporter()
+     * @covers OAuth\ServiceFactory::getHttpTransporter()
+     */
+    public function testSetHttpTransporter()
+    {
+        $serviceFactory = ServiceFactory::construct();
 
-		$newClient = new FileGetContents();
-		$newBrowser = new Browser($newClient);
-		$serviceFactory->setHttpTransporter($newBrowser);
+        $newClient = new FileGetContents();
+        $newBrowser = new Browser($newClient);
+        $serviceFactory->setHttpTransporter($newBrowser);
 
-		$this->assertSame(
-			$newBrowser,
-			$serviceFactory->getHttpTransporter(),
-			'Should return new Browser'
-		);
-		$this->assertSame(
-			$newClient,
-			$serviceFactory->getHttpTransporter()->getClient(),
-			'Should return new Client'
-		);
-	}
+        $this->assertSame(
+            $newBrowser,
+            $serviceFactory->getHttpTransporter(),
+            'Should return new Browser'
+        );
+        $this->assertSame(
+            $newClient,
+            $serviceFactory->getHttpTransporter()->getClient(),
+            'Should return new Client'
+        );
+    }
 
     /**
      * @covers OAuth\ServiceFactory::registerService
@@ -79,7 +79,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\\OAuth\Common\Exception\Exception');
 
-	    ServiceFactory::construct()->registerService('foo', 'bar');
+        ServiceFactory::construct()->registerService('foo', 'bar');
     }
 
     /**
@@ -89,7 +89,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\\OAuth\Common\Exception\Exception');
 
-	    ServiceFactory::construct()->registerService('foo', 'OAuth\\ServiceFactory');
+        ServiceFactory::construct()->registerService('foo', 'OAuth\\ServiceFactory');
     }
 
     /**
@@ -99,7 +99,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             '\\OAuth\\ServiceFactory',
-	        ServiceFactory::construct()->registerService('foo', '\\OAuthTest\\Mocks\\OAuth1\\Service\\Fake')
+            ServiceFactory::construct()->registerService('foo', '\\OAuthTest\\Mocks\\OAuth1\\Service\\Fake')
         );
     }
 
@@ -110,7 +110,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             '\\OAuth\\ServiceFactory',
-	        ServiceFactory::construct()->registerService('foo', '\\OAuthTest\\Mocks\\OAuth2\\Service\\Fake')
+            ServiceFactory::construct()->registerService('foo', '\\OAuthTest\\Mocks\\OAuth2\\Service\\Fake')
         );
     }
 
@@ -121,7 +121,7 @@ class ServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateServiceOAuth1NonRegistered()
     {
-	    $service = ServiceFactory::construct()->createService(
+        $service = ServiceFactory::construct()->createService(
             'twitter',
             $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
             $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface')

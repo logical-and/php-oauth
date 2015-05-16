@@ -9,6 +9,7 @@ use OAuth\UserData\Exception\InvalidExtractorException;
  */
 class InvalidExtractorExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var InvalidExtractorException
      */

@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth1\Service\Twitter;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth1\Service\Twitter;
 
 /**
  * Bootstrap the example
@@ -27,8 +27,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['twitter']['key'],
-    $servicesCredentials['twitter']['secret'],
+    $servicesCredentials[ 'twitter' ][ 'key' ],
+    $servicesCredentials[ 'twitter' ][ 'secret' ],
     $currentUri
 );
 
@@ -40,14 +40,12 @@ if ($twitterService->isGlobalRequestArgumentsPassed()) {
     // Send a request now that we have access token
     $result = $twitterService->retrieveAccessTokenByGlobReqArgs()->requestJSON('account/verify_credentials.json');
 
-	echo 'Your extracted username: ' . $twitterService->constructExtractor()->getUsername();
+    echo 'Your extracted username: ' . $twitterService->constructExtractor()->getUsername();
 
-	echo '<br>';
+    echo '<br>';
     echo 'Data dump: <pre>' . print_r($result, true) . '</pre>';
-
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$twitterService->redirectToAuthorizationUri();
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $twitterService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Twitter!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Twitter!</a>";
 }

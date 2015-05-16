@@ -6,6 +6,7 @@ use OAuth\OAuth1\Service\Tumblr;
 
 class TumblrTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers OAuth\OAuth1\Service\Tumblr::__construct
      */
@@ -117,14 +118,18 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnNulledResponse()
     {
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue(null));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(null));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -139,14 +144,18 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseNotAnArray()
     {
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue('notanarray'));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue('notanarray'));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -161,14 +170,18 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseCallbackNotSet()
     {
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue('foo=bar'));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue('foo=bar'));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -183,16 +196,22 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseCallbackNotTrue()
     {
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_callback_confirmed=false'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_callback_confirmed=false'
+            )
+        );
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -208,16 +227,22 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseValid()
     {
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_callback_confirmed=true&oauth_token=foo&oauth_token_secret=bar'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_callback_confirmed=true&oauth_token=foo&oauth_token_secret=bar'
+            )
+        );
 
         $this->assertInstanceOf('\\OAuth\\OAuth1\\Token\\StdOAuth1Token', $service->requestRequestToken());
     }
@@ -235,12 +260,16 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
         $storage->expects($this->any())->method('retrieveAccessToken')->will($this->returnValue($token));
 
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $storage,
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $storage,
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
         $service->expects($this->once())->method('httpRequest')->will($this->returnValue('error=bar'));
 
@@ -262,17 +291,26 @@ class TumblrTest extends \PHPUnit_Framework_TestCase
         $storage->expects($this->any())->method('retrieveAccessToken')->will($this->returnValue($token));
 
         /** @var Tumblr|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Tumblr', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $storage,
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Tumblr',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $storage,
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_token=foo&oauth_token_secret=bar'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_token=foo&oauth_token_secret=bar'
+            )
+        );
 
-        $this->assertInstanceOf('\\OAuth\\OAuth1\\Token\\StdOAuth1Token', $service->requestAccessToken('foo', 'bar', $token));
+        $this->assertInstanceOf(
+            '\\OAuth\\OAuth1\\Token\\StdOAuth1Token',
+            $service->requestAccessToken('foo', 'bar', $token)
+        );
     }
 }

@@ -16,39 +16,39 @@ namespace OAuth\UserData\Exception;
  *
  * @package OAuth\UserData\Exception
  */
-class InvalidExtractorException extends \Exception implements Exception {
+class InvalidExtractorException extends \Exception implements Exception
+{
 
-	/**
-	 * @var string $serviceName
-	 */
-	protected $extractorClass;
+    /**
+     * @var string $serviceName
+     */
+    protected $extractorClass;
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $extractorClass
-	 * @param string|null $message
-	 */
-	public function __construct($extractorClass, $message = NULL)
-	{
-		$this->extractorClass = $extractorClass;
-		if (NULL === $message)
-		{
-			$message = sprintf(
-				'The class "%s" does not implement the interface OAuth\UserData\Extractor\ExtractorInterface',
-				$extractorClass
-			);
-		}
-		parent::__construct($message);
-	}
+    /**
+     * Constructor
+     *
+     * @param string $extractorClass
+     * @param string|null $message
+     */
+    public function __construct($extractorClass, $message = null)
+    {
+        $this->extractorClass = $extractorClass;
+        if (null === $message) {
+            $message = sprintf(
+                'The class "%s" does not implement the interface OAuth\UserData\Extractor\ExtractorInterface',
+                $extractorClass
+            );
+        }
+        parent::__construct($message);
+    }
 
-	/**
-	 * Get the service name
-	 *
-	 * @return string
-	 */
-	public function getExtractorClass()
-	{
-		return $this->extractorClass;
-	}
+    /**
+     * Get the service name
+     *
+     * @return string
+     */
+    public function getExtractorClass()
+    {
+        return $this->extractorClass;
+    }
 }

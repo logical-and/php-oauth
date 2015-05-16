@@ -16,6 +16,6 @@ namespace OAuth\UserData\Exception;
  *
  * @package OAuth\UserData\Exception
  */
-interface Exception {
-
+interface Exception
+{
 }

@@ -10,17 +10,16 @@ use OAuth\Common\Storage\TokenStorageInterface;
 class Mock extends AbstractService
 {
 
-	public function __construct(
-		CredentialsInterface $credentials,
-		Browser $httpTransporter,
-		TokenStorageInterface $storage,
-		$baseApiUrl
-	)
-	{
-		parent::__construct($credentials, $httpTransporter, $storage, $baseApiUrl);
-	}
+    public function __construct(
+        CredentialsInterface $credentials,
+        Browser $httpTransporter,
+        TokenStorageInterface $storage,
+        $baseApiUrl
+    ) {
+        parent::__construct($credentials, $httpTransporter, $storage, $baseApiUrl);
+    }
 
-	/**
+    /**
      * {@inheritdoc}
      */
     public function request($path, array $body = [], $method = 'GET', array $extraHeaders = [])

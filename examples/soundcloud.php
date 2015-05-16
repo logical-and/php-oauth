@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\SoundCloud;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\SoundCloud;
 
 /**
  * Bootstrap the example
@@ -26,8 +26,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['soundcloud']['key'],
-    $servicesCredentials['soundcloud']['secret'],
+    $servicesCredentials[ 'soundcloud' ][ 'key' ],
+    $servicesCredentials[ 'soundcloud' ][ 'secret' ],
     $currentUri
 );
 
@@ -36,14 +36,13 @@ $credentials = new Credentials(
 $soundcloudService = $serviceFactory->createService('soundCloud', $credentials, $storage);
 
 if ($soundcloudService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $soundcloudService->retrieveAccessTokenByGlobReqArgs()->requestJSON('me.json');
+    // Retrieve a token and send a request
+    $result = $soundcloudService->retrieveAccessTokenByGlobReqArgs()->requestJSON('me.json');
 
-	// Show some of the resultant data
-	echo 'Your unique user id is: ' . $result['id'] . ' and your name is ' . $result['username'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$soundcloudService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique user id is: ' . $result[ 'id' ] . ' and your name is ' . $result[ 'username' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $soundcloudService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with SoundCloud!</a>";
+    echo "<a href='$currentUri?go=go'>Login with SoundCloud!</a>";
 }

@@ -8,6 +8,7 @@ use OAuth\UserData\Extractor\Vkontakte;
  */
 class VkontakteTest extends \PHPUnit_Framework_TestCase
 {
+
     const PROFILE_RESPONSE = <<<END
 {
    "response":[
@@ -117,15 +118,17 @@ END;
 
         $service->expects($this->any())
             ->method('requestJSON')
-            ->willReturnCallback(function ($arg) {
-                if ($arg == Vkontakte::REQUEST_PROFILE) {
-                    return json_decode(self::PROFILE_RESPONSE, TRUE);
-                } elseif ($arg == Vkontakte::REQUEST_CITY) {
-                    return json_decode(self::CITY_RESPONSE, TRUE);
-                }
+            ->willReturnCallback(
+                function ($arg) {
+                    if ($arg == Vkontakte::REQUEST_PROFILE) {
+                        return json_decode(self::PROFILE_RESPONSE, true);
+                    } elseif ($arg == Vkontakte::REQUEST_CITY) {
+                        return json_decode(self::CITY_RESPONSE, true);
+                    }
 
-                return null;
-            });
+                    return null;
+                }
+            );
 
         /**
          * @var \OAuth\Common\Service\ServiceInterface $service

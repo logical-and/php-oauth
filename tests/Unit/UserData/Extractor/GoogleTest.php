@@ -8,6 +8,7 @@ use OAuth\UserData\Extractor\Google;
  */
 class GoogleTest extends \PHPUnit_Framework_TestCase
 {
+
     const PROFILE_RESPONSE = <<<END
 {
  "id": "123",
@@ -40,7 +41,7 @@ END;
         $service->expects($this->any())
             ->method('requestJSON')
             ->with(Google::REQUEST_PROFILE)
-            ->willReturn(json_decode(self::PROFILE_RESPONSE, TRUE));
+            ->willReturn(json_decode(self::PROFILE_RESPONSE, true));
         /**
          * @var \OAuth\Common\Service\ServiceInterface $service
          */

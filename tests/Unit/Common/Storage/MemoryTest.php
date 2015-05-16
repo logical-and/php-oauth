@@ -6,6 +6,7 @@ use OAuth\Common\Storage\Memory;
 
 class MemoryTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers OAuth\Common\Storage\Memory::__construct
      */

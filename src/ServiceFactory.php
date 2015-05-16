@@ -16,16 +16,17 @@ namespace OAuth;
 
 use Buzz\Browser;
 use Buzz\Client\ClientInterface;
-use OAuth\Common\Http\Url;
 use OAuth\Common\Consumer\CredentialsInterface;
-use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Exception\Exception;
+use OAuth\Common\Http\Url;
+use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\OAuth1\Signature\Signature;
 
 class ServiceFactory
 {
+
     /**
-     *@var Browser
+     * @var Browser
      */
     protected $httpTransporter;
 
@@ -45,52 +46,55 @@ class ServiceFactory
         'OAuth1' => 'buildV1Service',
     ];
 
-	public static function construct()
-	{
-		return new static();
-	}
+    public static function construct()
+    {
+        return new static();
+    }
 
-	/**
-	 * @param ClientInterface|Browser|string $httpTransporter
-	 * @param array $configuration Client configuration
-	 * @param array $constructorArguments Client constructor arguments
-	 *
-	 * @return ServiceFactory
-	 */
+    /**
+     * @param ClientInterface|Browser|string $httpTransporter
+     * @param array $configuration Client configuration
+     * @param array $constructorArguments Client constructor arguments
+     *
+     * @return ServiceFactory
+     */
     public function setHttpTransporter($httpTransporter, array$configuration = [], array $constructorArguments = [])
     {
-	    $this->httpTransporter = $httpTransporter instanceof Browser?
-		    $httpTransporter :
-		    HTTPTransporterFactory::buildTransporter($httpTransporter, $configuration, $constructorArguments);
+        $this->httpTransporter = $httpTransporter instanceof Browser ?
+            $httpTransporter :
+            HTTPTransporterFactory::buildTransporter($httpTransporter, $configuration, $constructorArguments);
 
         return $this;
     }
 
-	/**
-	 * @return Browser|null
-	 */
-	public function getHttpTransporter()
-	{
-		// If not create httpTransporter, then we create it now
-		// Common parameters are pass requirements in common situations
-		if (!$this->httpTransporter)
-		{
-			$this->setHttpTransporter('FileGetContents', [
-				'ignoreErrors' => TRUE,
-				'maxRedirects' => 5,
-				'timeout' => 5,
-				'verifyPeer' => FALSE
-			]);
-		}
+    /**
+     * @return Browser|null
+     */
+    public function getHttpTransporter()
+    {
+        // If not create httpTransporter, then we create it now
+        // Common parameters are pass requirements in common situations
+        if (!$this->httpTransporter) {
+            $this->setHttpTransporter(
+                'FileGetContents',
+                [
+                    'ignoreErrors' => true,
+                    'maxRedirects' => 5,
+                    'timeout'      => 5,
+                    'verifyPeer'   => false
+                ]
+            );
+        }
 
-		return $this->httpTransporter;
-	}
+        return $this->httpTransporter;
+    }
 
     /**
      * Register a custom service to classname mapping.
      *
      * @param string $serviceName Name of the service
-     * @param string $className   Class to instantiate     *
+     * @param string $className Class to instantiate     *
+     *
      * @return ServiceFactory
      *
      * @throws Exception If the class is nonexistent or does not implement a valid ServiceInterface
@@ -105,7 +109,7 @@ class ServiceFactory
 
         foreach (['OAuth2', 'OAuth1'] as $version) {
             if ($reflClass->implementsInterface('OAuth\\' . $version . '\\Service\\ServiceInterface')) {
-                $this->serviceClassMap[$version][ucfirst($serviceName)] = $className;
+                $this->serviceClassMap[ $version ][ ucfirst($serviceName) ] = $className;
 
                 return $this;
             }
@@ -114,18 +118,19 @@ class ServiceFactory
         throw new Exception(sprintf('Service class %s must implement ServiceInterface.', $className));
     }
 
-	/**
-	 * Builds and returns oauth services
-	 * It will first try to build an OAuth2 service and if none found it will try to build an OAuth1 service
-	 *
-	 * @param string $serviceName Name of service to create
-	 * @param CredentialsInterface $credentials
-	 * @param TokenStorageInterface $storage
-	 * @param array|null $scopes If creating an oauth2 service, array of scopes
-	 * @param null|\OAuth\Common\Http\Url $baseApiUri
-	 * @param string $apiVersion version of the api call
-	 * @return \OAuth\OAuth1\Service\ServiceInterface|\OAuth\OAuth2\Service\ServiceInterface
-	 */
+    /**
+     * Builds and returns oauth services
+     * It will first try to build an OAuth2 service and if none found it will try to build an OAuth1 service
+     *
+     * @param string $serviceName Name of service to create
+     * @param CredentialsInterface $credentials
+     * @param TokenStorageInterface $storage
+     * @param array|null $scopes If creating an oauth2 service, array of scopes
+     * @param null|\OAuth\Common\Http\Url $baseApiUri
+     * @param string $apiVersion version of the api call
+     *
+     * @return \OAuth\OAuth1\Service\ServiceInterface|\OAuth\OAuth2\Service\ServiceInterface
+     */
     public function createService(
         $serviceName,
         CredentialsInterface $credentials,
@@ -134,12 +139,18 @@ class ServiceFactory
         Url $baseApiUri = null,
         $apiVersion = ""
     ) {
-
         foreach ($this->serviceBuilders as $version => $buildMethod) {
             $fullyQualifiedServiceName = $this->getFullyQualifiedServiceName($serviceName, $version);
 
             if (class_exists($fullyQualifiedServiceName)) {
-                return $this->$buildMethod($fullyQualifiedServiceName, $credentials, $storage, $scopes, $baseApiUri, $apiVersion);
+                return $this->$buildMethod(
+                    $fullyQualifiedServiceName,
+                    $credentials,
+                    $storage,
+                    $scopes,
+                    $baseApiUri,
+                    $apiVersion
+                );
             }
         }
 
@@ -150,7 +161,7 @@ class ServiceFactory
      * Gets the fully qualified name of the service
      *
      * @param string $serviceName The name of the service of which to get the fully qualified name
-     * @param string $type        The type of the service to get (either OAuth1 or OAuth2)
+     * @param string $type The type of the service to get (either OAuth1 or OAuth2)
      *
      * @return string The fully qualified name of the service
      */
@@ -158,31 +169,31 @@ class ServiceFactory
     {
         $serviceName = ucfirst($serviceName);
 
-        if (isset($this->serviceClassMap[$type][$serviceName])) {
-            return $this->serviceClassMap[$type][$serviceName];
+        if (isset($this->serviceClassMap[ $type ][ $serviceName ])) {
+            return $this->serviceClassMap[ $type ][ $serviceName ];
         }
 
         return '\\' . __NAMESPACE__ . '\\' . $type . '\\Service\\' . $serviceName;
     }
 
-	/**
-	 * Builds v2 services
-	 *
-	 * @param string $serviceName The fully qualified service name
-	 * @param CredentialsInterface $credentials
-	 * @param TokenStorageInterface $storage
-	 * @param array|null $scopes Array of scopes for the service
-	 * @param Url|null $baseApiUri
-	 * @param string $apiVersion
-	 *
-	 * @return \OAuth\OAuth2\Service\ServiceInterface
-	 */
+    /**
+     * Builds v2 services
+     *
+     * @param string $serviceName The fully qualified service name
+     * @param CredentialsInterface $credentials
+     * @param TokenStorageInterface $storage
+     * @param array|null $scopes Array of scopes for the service
+     * @param Url|null $baseApiUri
+     * @param string $apiVersion
+     *
+     * @return \OAuth\OAuth2\Service\ServiceInterface
+     */
     private function buildV2Service(
         $serviceName,
         CredentialsInterface $credentials,
         TokenStorageInterface $storage,
         array $scopes,
-	    Url $baseApiUri = null,
+        Url $baseApiUri = null,
         $apiVersion = ""
     ) {
         return new $serviceName(
@@ -198,8 +209,8 @@ class ServiceFactory
     /**
      * Resolves scopes for v2 services
      *
-     * @param string  $serviceName The fully qualified service name
-     * @param array   $scopes      List of scopes for the service
+     * @param string $serviceName The fully qualified service name
+     * @param array $scopes List of scopes for the service
      *
      * @return array List of resolved scopes
      */
@@ -213,9 +224,9 @@ class ServiceFactory
             $key = strtoupper('SCOPE_' . $scope);
 
             if (array_key_exists($key, $constants)) {
-                $resolvedScopes[] = $constants[$key];
+                $resolvedScopes[ ] = $constants[ $key ];
             } else {
-                $resolvedScopes[] = $scope;
+                $resolvedScopes[ ] = $scope;
             }
         }
 
@@ -225,11 +236,11 @@ class ServiceFactory
     /**
      * Builds v1 services
      *
-     * @param string                $serviceName The fully qualified service name
-     * @param CredentialsInterface  $credentials
+     * @param string $serviceName The fully qualified service name
+     * @param CredentialsInterface $credentials
      * @param TokenStorageInterface $storage
-     * @param array                 $scopes
-     * @param Url          $baseApiUri
+     * @param array $scopes
+     * @param Url $baseApiUri
      *
      * @return \OAuth\OAuth1\Service\ServiceInterface
      *
@@ -240,7 +251,7 @@ class ServiceFactory
         CredentialsInterface $credentials,
         TokenStorageInterface $storage,
         $scopes,
-	    Url $baseApiUri = null
+        Url $baseApiUri = null
     ) {
         if (!empty($scopes)) {
             throw new Exception(
@@ -248,6 +259,12 @@ class ServiceFactory
             );
         }
 
-        return new $serviceName($credentials, $this->getHttpTransporter(), $storage, new Signature($credentials), $baseApiUri);
+        return new $serviceName(
+            $credentials,
+            $this->getHttpTransporter(),
+            $storage,
+            new Signature($credentials),
+            $baseApiUri
+        );
     }
 }

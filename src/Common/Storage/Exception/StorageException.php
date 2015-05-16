@@ -7,6 +7,6 @@ use OAuth\Common\Exception\Exception;
 /**
  * Generic storage exception.
  */
-class StorageException extends Exception {
-
+class StorageException extends Exception
+{
 }

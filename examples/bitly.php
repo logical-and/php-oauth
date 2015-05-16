@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Bitly;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Bitly;
 
 /**
  * Bootstrap the example
@@ -26,8 +26,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['bitly']['key'],
-    $servicesCredentials['bitly']['secret'],
+    $servicesCredentials[ 'bitly' ][ 'key' ],
+    $servicesCredentials[ 'bitly' ][ 'secret' ],
     $currentUri
 );
 
@@ -36,13 +36,15 @@ $credentials = new Credentials(
 $bitlyService = $serviceFactory->createService('bitly', $credentials, $storage);
 
 if ($bitlyService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
+    // Retrieve a token and send a request
     $result = $bitlyService->retrieveAccessTokenByGlobReqArgs()->requestJSON('user/info');
 
     // Show some of the resultant data
-    echo 'Your unique user id is: ' . $result['data']['login'] . ' and your name is ' . $result['data']['display_name'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
+    echo 'Your unique user id is: ' .
+        $result[ 'data' ][ 'login' ] .
+        ' and your name is ' .
+        $result[ 'data' ][ 'display_name' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
     $bitlyService->redirectToAuthorizationUri();
 } else {
     echo "<a href='$currentUri?go=go'>Login with Bitly!</a>";

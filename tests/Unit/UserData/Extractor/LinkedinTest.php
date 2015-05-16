@@ -9,8 +9,9 @@ use OAuth\UserData\Extractor\Linkedin;
  */
 class LinkedinTest extends \PHPUnit_Framework_TestCase
 {
+
     const PROFILE_RESPONSE =
-'{
+        '{
   "emailAddress": "johnnydonny@gmail.com",
   "firstName": "John",
   "headline": "Frontend Web Developer",
@@ -59,7 +60,7 @@ class LinkedinTest extends \PHPUnit_Framework_TestCase
         $service->expects($this->any())
             ->method('requestJSON')
             ->with(Linkedin::createProfileRequestUrl())
-            ->willReturn(json_decode(LinkedinTest::PROFILE_RESPONSE, TRUE));
+            ->willReturn(json_decode(LinkedinTest::PROFILE_RESPONSE, true));
         /**
          * @var \OAuth\Common\Service\ServiceInterface $service
          */
@@ -114,10 +115,13 @@ class LinkedinTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLocation()
     {
-        $this->assertEquals([
-            "country" => ["code" => "it"],
-            "name"    => "Rome Area, Italy"
-        ], $this->extractor->getLocation());
+        $this->assertEquals(
+            [
+                "country" => ["code" => "it"],
+                "name"    => "Rome Area, Italy"
+            ],
+            $this->extractor->getLocation()
+        );
     }
 
     public function testGetWebsites()

@@ -10,9 +10,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Ustream;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Ustream;
 
 /**
  * Bootstrap the example
@@ -24,8 +24,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['ustream']['key'],
-    $servicesCredentials['ustream']['secret'],
+    $servicesCredentials[ 'ustream' ][ 'key' ],
+    $servicesCredentials[ 'ustream' ][ 'secret' ],
     $currentUri
 );
 
@@ -34,14 +34,13 @@ $credentials = new Credentials(
 $ustream = $serviceFactory->createService('Ustream', $credentials, $storage, ['identity']);
 
 if ($ustream->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $ustream->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/self.json');
+    // Retrieve a token and send a request
+    $result = $ustream->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/self.json');
 
-	// Show some of the resultant data
-	echo 'Your unique Ustream user id is: ' . $result['id'] . ' and your username is ' . $result['username'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$ustream->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique Ustream user id is: ' . $result[ 'id' ] . ' and your username is ' . $result[ 'username' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $ustream->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Ustream!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Ustream!</a>";
 }

@@ -15,7 +15,6 @@
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Url;
 use OAuth\Common\Storage\Session;
-use OAuth\Common\Token\Exception\ExpiredTokenException;
 use OAuth\OAuth2\Service\Harvest;
 
 /**
@@ -24,7 +23,7 @@ use OAuth\OAuth2\Service\Harvest;
 require_once __DIR__ . '/bootstrap.php';
 
 $serviceName = 'Harvest';
-$scopes = array();
+$scopes = [];
 
 // Session storage
 $storage = new Session();
@@ -33,8 +32,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['harvest']['key'],
-    $servicesCredentials['harvest']['secret'],
+    $servicesCredentials[ 'harvest' ][ 'key' ],
+    $servicesCredentials[ 'harvest' ][ 'secret' ],
     $currentUri
 );
 
@@ -42,38 +41,35 @@ $credentials = new Credentials(
 /** @var $harvest Harvest */
 $harvest = $serviceFactory->createService($serviceName, $credentials, $storage, $scopes);
 
-if (!empty($_GET['clearToken'])) {
+if (!empty($_GET[ 'clearToken' ])) {
     // Clear the current AccessToken and go back to the Beginning.
     $storage->clearToken($serviceName);
-	$currentUri->setQuery('');
+    $currentUri->setQuery('');
     header('Location: ' . $currentUri);
-
 } elseif ($storage->hasAccessToken($serviceName)) {
     // fetch the accessToken for the service
     $accessToken = $storage->retrieveAccessToken($serviceName);
 
     // is the accessToken expired? then let's refresh it!
-    if ($accessToken->isExpired() === TRUE) {
+    if ($accessToken->isExpired() === true) {
         $harvest->refreshAccessToken($accessToken);
     }
 
     // use the service with the valid access token to fetch my email
     $result = $harvest->requestJSON('account/who_am_i');
-    echo 'The email on your harvest account is ' . $result['user']['email'];
+    echo 'The email on your harvest account is ' . $result[ 'user' ][ 'email' ];
 
-	echo '<br />';
-	echo 'Your extracted username is a: ' . $harvest->constructExtractor()->getUsername();
+    echo '<br />';
+    echo 'Your extracted username is a: ' . $harvest->constructExtractor()->getUsername();
 
-	echo '<br />';
+    echo '<br />';
     $url = $currentUri . '?clearToken=1';
     echo " <a href='$currentUri'>Click here to clear the current access token</a>";
-
 } elseif ($harvest->isGlobalRequestArgumentsPassed()) {
     // This was a callback request from harvest, get the token
     $harvest->retrieveAccessTokenByGlobReqArgs();
     header('Location: ' . $currentUri);
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
     $harvest->redirectToAuthorizationUri();
 } else {
     echo "<a href='$url?go=go'>Login with Harvest!</a>";

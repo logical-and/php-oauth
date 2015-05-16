@@ -9,9 +9,8 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth1\Service\Yahoo;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
 
 /**
  * Bootstrap the example
@@ -23,21 +22,20 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-	$servicesCredentials['yahoo']['key'],
-	$servicesCredentials['yahoo']['secret'],
-	$currentUri
+    $servicesCredentials[ 'yahoo' ][ 'key' ],
+    $servicesCredentials[ 'yahoo' ][ 'secret' ],
+    $currentUri
 );
 
 // Instantiate the Yahoo service using the credentials, http client and storage mechanism for the token
 $yahooService = $serviceFactory->createService('Yahoo', $credentials, $storage);
 
 if ($yahooService->isGlobalRequestArgumentsPassed()) {
-	$result = $yahooService->retrieveAccessTokenByGlobReqArgs()->requestJSON('profile');
+    $result = $yahooService->retrieveAccessTokenByGlobReqArgs()->requestJSON('profile');
 
-	echo 'result: <pre>' . print_r($result, true) . '</pre>';
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$yahooService->redirectToAuthorizationUri();
+    echo 'result: <pre>' . print_r($result, true) . '</pre>';
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $yahooService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Yahoo!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Yahoo!</a>";
 }

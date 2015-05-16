@@ -11,9 +11,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Reddit;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Reddit;
 
 /**
  * Bootstrap the example
@@ -25,24 +25,23 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['reddit']['key'],
-    $servicesCredentials['reddit']['secret'],
+    $servicesCredentials[ 'reddit' ][ 'key' ],
+    $servicesCredentials[ 'reddit' ][ 'secret' ],
     $currentUri
 );
 
 // Instantiate the Reddit service using the credentials, http client and storage mechanism for the token
 /** @var $reddit Reddit */
-$reddit = $serviceFactory->createService('Reddit', $credentials, $storage, array(Reddit::SCOPE_IDENTITY));
+$reddit = $serviceFactory->createService('Reddit', $credentials, $storage, [Reddit::SCOPE_IDENTITY]);
 
 if ($reddit->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $reddit->retrieveAccessTokenByGlobReqArgs()->requestJSON('/api/v1/me.json');
+    // Retrieve a token and send a request
+    $result = $reddit->retrieveAccessTokenByGlobReqArgs()->requestJSON('/api/v1/me.json');
 
-	// Show some of the resultant data
-	echo 'Your unique reddit user id is: ' . $result['id'] . ' and your username is ' . $result['name'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$reddit->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique reddit user id is: ' . $result[ 'id' ] . ' and your username is ' . $result[ 'name' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $reddit->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Reddit!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Reddit!</a>";
 }

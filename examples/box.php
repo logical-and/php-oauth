@@ -13,9 +13,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Box;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Box;
 
 /**
  * Bootstrap the example
@@ -27,8 +27,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['box']['key'],
-    $servicesCredentials['box']['secret'],
+    $servicesCredentials[ 'box' ][ 'key' ],
+    $servicesCredentials[ 'box' ][ 'secret' ],
     $currentUri
 );
 
@@ -37,14 +37,13 @@ $credentials = new Credentials(
 $boxService = $serviceFactory->createService('box', $credentials, $storage);
 
 if ($boxService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $boxService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/users/me');
+    // Retrieve a token and send a request
+    $result = $boxService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/users/me');
 
-	// Show some of the resultant data
-	echo 'Your Box name is ' . $result['name'] . ' and your email is ' . $result['login'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$boxService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your Box name is ' . $result[ 'name' ] . ' and your email is ' . $result[ 'login' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $boxService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Box!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Box!</a>";
 }

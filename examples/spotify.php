@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Spotify;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Spotify;
 
 /**
  * Bootstrap the example
@@ -26,8 +26,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['spotify']['key'],
-    $servicesCredentials['spotify']['secret'],
+    $servicesCredentials[ 'spotify' ][ 'key' ],
+    $servicesCredentials[ 'spotify' ][ 'secret' ],
     $currentUri
 );
 
@@ -36,14 +36,13 @@ $credentials = new Credentials(
 $spotifyService = $serviceFactory->createService('spotify', $credentials, $storage);
 
 if ($spotifyService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $spotifyService->retrieveAccessTokenByGlobReqArgs()->requestJSON('me');
+    // Retrieve a token and send a request
+    $result = $spotifyService->retrieveAccessTokenByGlobReqArgs()->requestJSON('me');
 
-	// Show some of the resultant data
-	echo 'Your unique user id is: ' . $result['id'] . ' and your name is ' . $result['display_name'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$spotifyService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique user id is: ' . $result[ 'id' ] . ' and your name is ' . $result[ 'display_name' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $spotifyService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Spotify!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Spotify!</a>";
 }

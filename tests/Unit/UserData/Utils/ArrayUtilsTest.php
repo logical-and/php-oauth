@@ -22,13 +22,13 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
             }'
         );
 
-        $expected = array(
-            'foo' => 'bar',
-            'nested' => array(
+        $expected = [
+            'foo'    => 'bar',
+            'nested' => [
                 'foo' => 'bar'
-            ),
-            'arr' => array(1, 2, 3)
-        );
+            ],
+            'arr'    => [1, 2, 3]
+        ];
 
         $actual = ArrayUtils::objectToArray($object);
 
@@ -40,19 +40,19 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveKeys()
     {
-        $array = array(
+        $array = [
             'foo' => 1,
             'bar' => 2,
             'baz' => 3,
             'doo' => 4
-        );
+        ];
 
-        $keys = array('foo', 'doo');
+        $keys = ['foo', 'doo'];
 
-        $expected = array(
+        $expected = [
             'bar' => 2,
             'baz' => 3
-        );
+        ];
 
         $actual = ArrayUtils::removeKeys($array, $keys);
 

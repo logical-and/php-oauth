@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Microsoft;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Microsoft;
 
 /**
  * Bootstrap the example
@@ -26,21 +26,20 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['microsoft']['key'],
-    $servicesCredentials['microsoft']['secret'],
+    $servicesCredentials[ 'microsoft' ][ 'key' ],
+    $servicesCredentials[ 'microsoft' ][ 'secret' ],
     $currentUri
 );
 
 // Instantiate the Microsoft service using the credentials, http client and storage mechanism for the token
 /** @var $microsoft Microsoft */
-$microsoft = $serviceFactory->createService('microsoft', $credentials, $storage, array(Microsoft::SCOPE_BASIC));
+$microsoft = $serviceFactory->createService('microsoft', $credentials, $storage, [Microsoft::SCOPE_BASIC]);
 
 if ($microsoft->isGlobalRequestArgumentsPassed()) {
-	// This was a callback request from Microsoft, get the token
-	var_dump($microsoft->retrieveAccessTokenByGlobReqArgs()->getAccessToken());
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$microsoft->redirectToAuthorizationUri();
+    // This was a callback request from Microsoft, get the token
+    var_dump($microsoft->retrieveAccessTokenByGlobReqArgs()->getAccessToken());
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $microsoft->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Microsoft!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Microsoft!</a>";
 }

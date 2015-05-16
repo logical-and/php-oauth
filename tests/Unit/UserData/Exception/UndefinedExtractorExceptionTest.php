@@ -9,6 +9,7 @@ use OAuth\UserData\Exception\UndefinedExtractorException;
  */
 class UndefinedExtractorExceptionTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var UndefinedExtractorException
      */
@@ -29,7 +30,7 @@ class UndefinedExtractorExceptionTest extends \PHPUnit_Framework_TestCase
          * @var \OAuth\Common\Service\ServiceInterface $service
          */
         $service = $this->service;
-        $this->exception = new UndefinedExtractorException($service, array('foo', 'bar'));
+        $this->exception = new UndefinedExtractorException($service, ['foo', 'bar']);
     }
 
     /**
@@ -47,12 +48,12 @@ class UndefinedExtractorExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRegisteredExtractors()
     {
-        $this->assertEquals(array('foo', 'bar'), $this->exception->getRegisteredExtractors());
+        $this->assertEquals(['foo', 'bar'], $this->exception->getRegisteredExtractors());
     }
 
     public function testGetMessageWithCustomMessage()
     {
-        $exception = new UndefinedExtractorException($this->service, array(), 'some message');
+        $exception = new UndefinedExtractorException($this->service, [], 'some message');
         $this->assertEquals('some message', $exception->getMessage());
     }
 }

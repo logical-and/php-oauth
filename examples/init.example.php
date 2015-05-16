@@ -14,135 +14,135 @@
 /**
  * @var array A list of all the credentials to be used by the different services in the examples
  */
-$servicesCredentials = array(
-    'amazon' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'bitbucket' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'bitly' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'box' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'buffer' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'dailymotion' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'dropbox' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'etsy' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'eveonline' => array(
-	    'key' => '',
-	    'secret' => '',
-    ),
-    'facebook' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'fitbit' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'flickr' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'foursquare' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'github' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'google' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'instagram' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'linkedin' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'mailchimp' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'microsoft' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'paypal' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'pocket' => array(
-        'key'       => '',
-    ),
-    'reddit' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'runkeeper' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'scoopit' => array(
-        'key'       => '',
-        'secret'    => ''
-    ),
-    'soundcloud' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'spotify' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'tumblr' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'twitter' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'ustream' => array(
-        'key'       => '',
-        'secret'    => '',
-    ),
-    'yahoo' => array(
-        'key'       => '',
-        'secret'    => ''
-    ),
-    'yammer' => array(
-        'key'       => '',
-        'secret'    => ''
-    ),
-    'vkontakte' => array(
-	    'key'       => '',
-	    'secret'    => ''
-    ),
-);
+$servicesCredentials = [
+    'amazon'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'bitbucket'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'bitly'       => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'box'         => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'buffer'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'dailymotion' => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'dropbox'     => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'etsy'        => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'eveonline'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'facebook'    => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'fitbit'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'flickr'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'foursquare'  => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'github'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'google'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'instagram'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'linkedin'    => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'mailchimp'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'microsoft'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'paypal'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'pocket'      => [
+        'key' => '',
+    ],
+    'reddit'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'runkeeper'   => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'scoopit'     => [
+        'key'    => '',
+        'secret' => ''
+    ],
+    'soundcloud'  => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'spotify'     => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'tumblr'      => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'twitter'     => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'ustream'     => [
+        'key'    => '',
+        'secret' => '',
+    ],
+    'yahoo'       => [
+        'key'    => '',
+        'secret' => ''
+    ],
+    'yammer'      => [
+        'key'    => '',
+        'secret' => ''
+    ],
+    'vkontakte'   => [
+        'key'    => '',
+        'secret' => ''
+    ],
+];
 
 /** @var $serviceFactory \OAuth\ServiceFactory An OAuth service factory. */
 $serviceFactory = new \OAuth\ServiceFactory();

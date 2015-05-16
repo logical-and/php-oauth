@@ -7,6 +7,7 @@ use OAuth\OAuth1\Signature\Signature;
 
 class SignatureTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers OAuth\OAuth1\Signature\Signature::__construct
      */
@@ -61,7 +62,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $signature->setHashingAlgorithm('HMAC-SHA1');
         $signature->setTokenSecret('foo');
 
-	    $uri = new Url('http://nohost/foo');
+        $uri = new Url('http://nohost/foo');
         $this->assertSame('WNfrAIWZNwvVOsdIRSUpbW+gFNU=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -87,7 +88,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $signature->setHashingAlgorithm('HMAC-SHA1');
         $signature->setTokenSecret('foo');
 
-	    $uri = new Url('http://nohost/foo?param1=value1');
+        $uri = new Url('http://nohost/foo?param1=value1');
         $this->assertSame('FEneLE5E+geXq22HGt8MAsiKcyw=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -113,7 +114,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $signature->setHashingAlgorithm('HMAC-SHA1');
         $signature->setTokenSecret('foo');
 
-	    $uri = new Url('http://peehaa:pass@nohost/foo?param1=value1');
+        $uri = new Url('http://peehaa:pass@nohost/foo?param1=value1');
         $this->assertSame('hu/okdJo2nuzD/oblruh1QV0qWA=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -138,7 +139,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $signature->setHashingAlgorithm('HMAC-SHA1');
         $signature->setTokenSecret('foo');
 
-	    $uri = new Url('http://peehaa:pass@nohost?param1=value1');
+        $uri = new Url('http://peehaa:pass@nohost?param1=value1');
         $this->assertSame('evVuRC7y4Ozstd7S4ysBzJ2iymk=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -164,7 +165,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $signature->setHashingAlgorithm('HMAC-SHA1');
         $signature->setTokenSecret('foo');
 
-	    $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
+        $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
         $this->assertSame('evVuRC7y4Ozstd7S4ysBzJ2iymk=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -189,7 +190,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
         $signature->setHashingAlgorithm('HMAC-SHA1');
 
-	    $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
+        $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
         $this->assertSame('0jaDjHF4StZz0+vkygICC6mToHs=', $signature->getSignature($uri, ['pee' => 'haa']));
     }
 
@@ -216,7 +217,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
         $signature->setHashingAlgorithm('UnsupportedAlgo');
 
-	    $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
+        $uri = new Url('http://peehaa:pass@nohost/?param1=value1');
         $signature->getSignature($uri, ['pee' => 'haa']);
     }
 }

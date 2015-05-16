@@ -24,10 +24,10 @@ $currentUri->setQuery('');
 
 function inline_image($rawData)
 {
-	return '<img src="' .
-		'data:image/'. Gregwar\Image\Image::fromData($rawData)->guessType() .';' .
-		'base64,' . base64_encode($rawData) .
-	'">';
+    return '<img src="' .
+    'data:image/' . Gregwar\Image\Image::fromData($rawData)->guessType() . ';' .
+    'base64,' . base64_encode($rawData) .
+    '">';
 }
 
 /**

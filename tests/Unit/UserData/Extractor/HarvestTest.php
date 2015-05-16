@@ -9,8 +9,9 @@ use OAuth\UserData\Extractor\Harvest;
  */
 class HarvestTest extends \PHPUnit_Framework_TestCase
 {
+
     const RESPONSE_PROFILE =
-'{
+        '{
   "user": {
     "id": "012345678",
     "email": "johndoe@hotmail.com",
@@ -40,7 +41,7 @@ class HarvestTest extends \PHPUnit_Framework_TestCase
 
         $service->expects($this->any())
             ->method('requestJSON')
-            ->willReturn(json_decode(HarvestTest::RESPONSE_PROFILE, TRUE));
+            ->willReturn(json_decode(HarvestTest::RESPONSE_PROFILE, true));
 
         /**
          * @var \OAuth\Common\Service\ServiceInterface $service

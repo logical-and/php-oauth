@@ -13,10 +13,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Facebook;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
-use OAuth\UserData\ExtractorFactory;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Facebook;
 
 /**
  * Bootstrap the example
@@ -28,27 +27,26 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['facebook']['key'],
-    $servicesCredentials['facebook']['secret'],
+    $servicesCredentials[ 'facebook' ][ 'key' ],
+    $servicesCredentials[ 'facebook' ][ 'secret' ],
     $currentUri
 );
 
 // Instantiate the Facebook service using the credentials, http client and storage mechanism for the token
 /** @var $facebookService Facebook */
-$facebookService = $serviceFactory->createService('facebook', $credentials, $storage, array(Facebook::SCOPE_EMAIL));
+$facebookService = $serviceFactory->createService('facebook', $credentials, $storage, [Facebook::SCOPE_EMAIL]);
 
 if ($facebookService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $facebookService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/me');
+    // Retrieve a token and send a request
+    $result = $facebookService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/me');
 
-	// Show some of the resultant data
-	echo 'Your unique facebook user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
+    // Show some of the resultant data
+    echo 'Your unique facebook user id is: ' . $result[ 'id' ] . ' and your name is ' . $result[ 'name' ];
 
-	echo '<br />';
-	echo 'Your extracted email is a: ' . $facebookService->constructExtractor()->getEmail();
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$facebookService->redirectToAuthorizationUri();
+    echo '<br />';
+    echo 'Your extracted email is a: ' . $facebookService->constructExtractor()->getEmail();
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $facebookService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Facebook!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Facebook!</a>";
 }

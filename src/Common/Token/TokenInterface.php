@@ -5,60 +5,61 @@ namespace OAuth\Common\Token;
 /**
  * Base token interface for any OAuth version.
  */
-interface TokenInterface {
+interface TokenInterface
+{
 
-	/**
-	 * Denotes an unknown end of life time.
-	 */
-	const EOL_UNKNOWN = -9001;
+    /**
+     * Denotes an unknown end of life time.
+     */
+    const EOL_UNKNOWN = -9001;
 
-	/**
-	 * Denotes a token which never expires, should only happen in OAuth1.
-	 */
-	const EOL_NEVER_EXPIRES = -9002;
+    /**
+     * Denotes a token which never expires, should only happen in OAuth1.
+     */
+    const EOL_NEVER_EXPIRES = -9002;
 
-	/**
-	 * @return string
-	 */
-	public function getAccessToken();
+    /**
+     * @return string
+     */
+    public function getAccessToken();
 
-	/**
-	 * @return int
-	 */
-	public function getEndOfLife();
+    /**
+     * @return int
+     */
+    public function getEndOfLife();
 
-	/**
-	 * @return array
-	 */
-	public function getExtraParams();
+    /**
+     * @return array
+     */
+    public function getExtraParams();
 
-	/**
-	 * @param string $accessToken
-	 */
-	public function setAccessToken($accessToken);
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken($accessToken);
 
-	/**
-	 * @param int $endOfLife
-	 */
-	public function setEndOfLife($endOfLife);
+    /**
+     * @param int $endOfLife
+     */
+    public function setEndOfLife($endOfLife);
 
-	/**
-	 * @param int $lifetime
-	 */
-	public function setLifetime($lifetime);
+    /**
+     * @param int $lifetime
+     */
+    public function setLifetime($lifetime);
 
-	/**
-	 * @param array $extraParams
-	 */
-	public function setExtraParams(array $extraParams);
+    /**
+     * @param array $extraParams
+     */
+    public function setExtraParams(array $extraParams);
 
-	/**
-	 * @return string
-	 */
-	public function getRefreshToken();
+    /**
+     * @return string
+     */
+    public function getRefreshToken();
 
-	/**
-	 * @param string $refreshToken
-	 */
-	public function setRefreshToken($refreshToken);
+    /**
+     * @param string $refreshToken
+     */
+    public function setRefreshToken($refreshToken);
 }

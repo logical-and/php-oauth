@@ -11,9 +11,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\DeviantArt;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\DeviantArt;
 
 /**
  * Bootstrap the example
@@ -25,8 +25,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['devianart']['key'],
-    $servicesCredentials['devianart']['secret'],
+    $servicesCredentials[ 'devianart' ][ 'key' ],
+    $servicesCredentials[ 'devianart' ][ 'secret' ],
     $currentUri
 );
 
@@ -35,14 +35,13 @@ $credentials = new Credentials(
 $devianArtService = $serviceFactory->createService('DevianArt', $credentials, $storage, []);
 
 if ($devianArtService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $devianArtService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/user/whoami');
+    // Retrieve a token and send a request
+    $result = $devianArtService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/user/whoami');
 
-	// Show some of the resultant data
-	echo 'Your DeviantArt username is: ' . $result['username'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$devianArtService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your DeviantArt username is: ' . $result[ 'username' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $devianArtService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with DeviantArt!</a>";
+    echo "<a href='$currentUri?go=go'>Login with DeviantArt!</a>";
 }

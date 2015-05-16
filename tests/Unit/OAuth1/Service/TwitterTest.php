@@ -6,6 +6,7 @@ use OAuth\OAuth1\Service\Twitter;
 
 class TwitterTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers OAuth\OAuth1\Service\Twitter::__construct
      */
@@ -87,16 +88,22 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             in_array(
                 strtolower((string) $service->getAuthorizationEndpoint()),
-                array(\OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHENTICATE, \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE)
+                [
+                    \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHENTICATE,
+                    \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE
+                ]
             )
         );
 
-        $service->setAuthorizationEndpoint( \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE );
+        $service->setAuthorizationEndpoint(\OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE);
 
         $this->assertTrue(
             in_array(
                 strtolower((string) $service->getAuthorizationEndpoint()),
-                array(\OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHENTICATE, \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE)
+                [
+                    \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHENTICATE,
+                    \OAuth\OAuth1\Service\Twitter::ENDPOINT_AUTHORIZE
+                ]
             )
         );
     }
@@ -146,14 +153,18 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnNulledResponse()
     {
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue(null));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(null));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -168,14 +179,18 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseNotAnArray()
     {
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue('notanarray'));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue('notanarray'));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -190,14 +205,18 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseCallbackNotSet()
     {
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-			$this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-			$this->getMock('\\Buzz\\Browser'),
-			$this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-			$this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-		]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-		$service->expects($this->once())->method('httpRequest')->will($this->returnValue('foo=bar'));
+        $service->expects($this->once())->method('httpRequest')->will($this->returnValue('foo=bar'));
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -212,16 +231,22 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseThrowsExceptionOnResponseCallbackNotTrue()
     {
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_callback_confirmed=false'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_callback_confirmed=false'
+            )
+        );
 
         $this->setExpectedException('\\OAuth\\Common\\Http\\Exception\\TokenResponseException');
 
@@ -237,16 +262,22 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     public function testParseRequestTokenResponseValid()
     {
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_callback_confirmed=true&oauth_token=foo&oauth_token_secret=bar'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_callback_confirmed=true&oauth_token=foo&oauth_token_secret=bar'
+            )
+        );
 
         $this->assertInstanceOf('\\OAuth\\OAuth1\\Token\\StdOAuth1Token', $service->requestRequestToken());
     }
@@ -264,12 +295,16 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
         $storage->expects($this->any())->method('retrieveAccessToken')->will($this->returnValue($token));
 
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $storage,
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $storage,
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
         $service->expects($this->once())->method('httpRequest')->will($this->returnValue('error=bar'));
 
@@ -291,17 +326,26 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
         $storage->expects($this->any())->method('retrieveAccessToken')->will($this->returnValue($token));
 
         /** @var Twitter|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('\\OAuth\\OAuth1\\Service\\Twitter', ['httpRequest'], [
-            $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
-            $this->getMock('\\Buzz\\Browser'),
-            $storage,
-            $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
-        ]);
+        $service = $this->getMock(
+            '\\OAuth\\OAuth1\\Service\\Twitter',
+            ['httpRequest'],
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $storage,
+                $this->getMock('\\OAuth\\OAuth1\\Signature\\SignatureInterface')
+            ]
+        );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnValue(
-            'oauth_token=foo&oauth_token_secret=bar'
-        ));
+        $service->expects($this->once())->method('httpRequest')->will(
+            $this->returnValue(
+                'oauth_token=foo&oauth_token_secret=bar'
+            )
+        );
 
-        $this->assertInstanceOf('\\OAuth\\OAuth1\\Token\\StdOAuth1Token', $service->requestAccessToken('foo', 'bar', $token));
+        $this->assertInstanceOf(
+            '\\OAuth\\OAuth1\\Token\\StdOAuth1Token',
+            $service->requestAccessToken('foo', 'bar', $token)
+        );
     }
 }

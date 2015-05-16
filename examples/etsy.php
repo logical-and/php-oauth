@@ -11,9 +11,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth1\Service\Etsy;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth1\Service\Etsy;
 
 /**
  * Bootstrap the example
@@ -25,8 +25,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['etsy']['key'],
-    $servicesCredentials['etsy']['secret'],
+    $servicesCredentials[ 'etsy' ][ 'key' ],
+    $servicesCredentials[ 'etsy' ][ 'secret' ],
     $currentUri
 );
 
@@ -35,19 +35,18 @@ $credentials = new Credentials(
 $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
 
 if ($etsyService->isGlobalRequestArgumentsPassed()) {
-	$result = $etsyService->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/__SELF__');
+    $result = $etsyService->retrieveAccessTokenByGlobReqArgs()->requestJSON('users/__SELF__');
 
-	$extractor = $etsyService->constructExtractor();
-	echo 'Extracted name: ' . $extractor->getFullName() .
-		', email: ' . $extractor->getEmail() .
-		', location: ' . $extractor->getLocation() .
-		', profile url: ' . $extractor->getProfileUrl();
+    $extractor = $etsyService->constructExtractor();
+    echo 'Extracted name: ' . $extractor->getFullName() .
+        ', email: ' . $extractor->getEmail() .
+        ', location: ' . $extractor->getLocation() .
+        ', profile url: ' . $extractor->getProfileUrl();
 
-	echo '<br>';
-	echo 'result: <pre>' . print_r($result, true) . '</pre>';
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$etsyService->redirectToAuthorizationUri();
+    echo '<br>';
+    echo 'result: <pre>' . print_r($result, true) . '</pre>';
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $etsyService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Etsy!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Etsy!</a>";
 }

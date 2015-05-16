@@ -11,9 +11,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth2\Service\Dailymotion;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth2\Service\Dailymotion;
 
 /**
  * Bootstrap the example
@@ -25,24 +25,23 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['dailymotion']['key'],
-    $servicesCredentials['dailymotion']['secret'],
+    $servicesCredentials[ 'dailymotion' ][ 'key' ],
+    $servicesCredentials[ 'dailymotion' ][ 'secret' ],
     $currentUri->getAbsoluteUri()
 );
 
 // Instantiate the Dailymotion service using the credentials, http client, storage mechanism for the token and email scope
 /** @var $dailymotionService Dailymotion */
-$dailymotionService = $serviceFactory->createService('dailymotion', $credentials, $storage, array(Dailymotion::SCOPE_EMAIL));
+$dailymotionService = $serviceFactory->createService('dailymotion', $credentials, $storage, [Dailymotion::SCOPE_EMAIL]);
 
 if ($dailymotionService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $dailymotionService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/me?fields=email,id');
+    // Retrieve a token and send a request
+    $result = $dailymotionService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/me?fields=email,id');
 
-	// Show some of the resultant data
-	echo 'Your unique Dailymotion user id is: ' . $result['id'] . ' and your email is ' . $result['email'];
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$dailymotionService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    echo 'Your unique Dailymotion user id is: ' . $result[ 'id' ] . ' and your email is ' . $result[ 'email' ];
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $dailymotionService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Dailymotion!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Dailymotion!</a>";
 }

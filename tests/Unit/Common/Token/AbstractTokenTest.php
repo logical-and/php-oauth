@@ -2,10 +2,11 @@
 
 namespace OAuthTest\Unit\Common\Token;
 
-use \OAuth\Common\Token\AbstractToken;
+use OAuth\Common\Token\AbstractToken;
 
 class AbstractTokenTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @covers OAuth\Common\Token\AbstractToken::__construct
      */
@@ -33,7 +34,7 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAccessTokenSet()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo'));
+        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', ['foo']);
 
         $this->assertSame('foo', $token->getAccessToken());
     }
@@ -69,7 +70,7 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRefreshTokenSet()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo', 'bar'));
+        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', ['foo', 'bar']);
 
         $this->assertSame('bar', $token->getRefreshToken());
     }
@@ -96,7 +97,7 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
     {
         $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken');
 
-        $this->assertSame(array(), $token->getExtraParams());
+        $this->assertSame([], $token->getExtraParams());
     }
 
     /**
@@ -105,9 +106,12 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExtraParamsSet()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo', 'bar', null, array('foo', 'bar')));
+        $token = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Token\\AbstractToken',
+            ['foo', 'bar', null, ['foo', 'bar']]
+        );
 
-        $this->assertEquals(array('foo', 'bar'), $token->getExtraParams());
+        $this->assertEquals(['foo', 'bar'], $token->getExtraParams());
     }
 
     /**
@@ -119,9 +123,9 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
     {
         $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken');
 
-        $token->setExtraParams(array('foo', 'bar'));
+        $token->setExtraParams(['foo', 'bar']);
 
-        $this->assertSame(array('foo', 'bar'), $token->getExtraParams());
+        $this->assertSame(['foo', 'bar'], $token->getExtraParams());
     }
 
     /**
@@ -143,7 +147,7 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEndOfLifeZero()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo', 'bar', 0));
+        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', ['foo', 'bar', 0]);
 
         $this->assertSame(AbstractToken::EOL_NEVER_EXPIRES, $token->getEndOfLife());
     }
@@ -155,7 +159,10 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEndOfLifeNeverExpires()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo', 'bar', AbstractToken::EOL_NEVER_EXPIRES));
+        $token = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Token\\AbstractToken',
+            ['foo', 'bar', AbstractToken::EOL_NEVER_EXPIRES]
+        );
 
         $this->assertSame(AbstractToken::EOL_NEVER_EXPIRES, $token->getEndOfLife());
     }
@@ -167,9 +174,9 @@ class AbstractTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEndOfLifeNeverExpiresFiveMinutes()
     {
-        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', array('foo', 'bar', 5 * 60));
+        $token = $this->getMockForAbstractClass('\\OAuth\\Common\\Token\\AbstractToken', ['foo', 'bar', 5 * 60]);
 
-        $this->assertSame(time() + (5*60), $token->getEndOfLife());
+        $this->assertSame(time() + (5 * 60), $token->getEndOfLife());
     }
 
     /**

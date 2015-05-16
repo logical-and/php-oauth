@@ -3,6 +3,7 @@
 /**
  * Example of retrieving an authentication token of the Eve Online service
  * PHP version 5.4
+ *
  * @author     Micahel Cummings <mgcummings@yahoo.com>
  * @author     And <and.webdev@gmail.com>
  * @copyright  Copyright (c) 2014 The authors
@@ -23,9 +24,9 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-	$servicesCredentials['eveonline']['key'],
-	$servicesCredentials['eveonline']['secret'],
-	$currentUri
+    $servicesCredentials[ 'eveonline' ][ 'key' ],
+    $servicesCredentials[ 'eveonline' ][ 'secret' ],
+    $currentUri
 );
 
 // Instantiate the Eve Online service using the credentials, http client, storage mechanism for the token and profile scope
@@ -33,24 +34,24 @@ $credentials = new Credentials(
 $eveService = $serviceFactory->createService('eveonline', $credentials, $storage, []);
 
 if ($eveService->isGlobalRequestArgumentsPassed()) {
-	// Retrieve a token and send a request
-	$result = $eveService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/oauth/verify');
+    // Retrieve a token and send a request
+    $result = $eveService->retrieveAccessTokenByGlobReqArgs()->requestJSON('/oauth/verify');
 
-	// Show some of the resultant data
-	print '<pre>';
-	if (!empty($result['CharacterName']))
-	{
-		print 'CharacterName: ' . $result['CharacterName'] . PHP_EOL
-			. 'CharacterID: ' . $result['CharacterID'] . PHP_EOL
-			. 'ExpiresOn: ' . $result['ExpiresOn'] . PHP_EOL
-			. 'Scopes: ' . $result['Scopes'] . PHP_EOL
-			. 'TokenType: ' . $result['TokenType'] . PHP_EOL
-			. 'CharacterOwnerHash: ' . $result['CharacterOwnerHash'] . PHP_EOL;
-	}
-	else print print_r($result, TRUE);
-	print '</pre>';
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$eveService->redirectToAuthorizationUri();
+    // Show some of the resultant data
+    print '<pre>';
+    if (!empty($result[ 'CharacterName' ])) {
+        print 'CharacterName: ' . $result[ 'CharacterName' ] . PHP_EOL
+            . 'CharacterID: ' . $result[ 'CharacterID' ] . PHP_EOL
+            . 'ExpiresOn: ' . $result[ 'ExpiresOn' ] . PHP_EOL
+            . 'Scopes: ' . $result[ 'Scopes' ] . PHP_EOL
+            . 'TokenType: ' . $result[ 'TokenType' ] . PHP_EOL
+            . 'CharacterOwnerHash: ' . $result[ 'CharacterOwnerHash' ] . PHP_EOL;
+    } else {
+        print print_r($result, true);
+    }
+    print '</pre>';
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $eveService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with Eve Online!</a>";
+    echo "<a href='$currentUri?go=go'>Login with Eve Online!</a>";
 }

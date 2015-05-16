@@ -6,6 +6,7 @@ use OAuth\OAuth1\Token\StdOAuth1Token;
 
 class StdOAuth1TokenTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      *
      */

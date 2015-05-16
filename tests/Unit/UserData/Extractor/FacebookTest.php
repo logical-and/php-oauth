@@ -9,8 +9,9 @@ use OAuth\UserData\Extractor\Facebook;
  */
 class FacebookTest extends \PHPUnit_Framework_TestCase
 {
+
     const RESPONSE_PROFILE =
-'{
+        '{
   "id": "012345678",
   "name": "John Doe",
   "first_name": "John",
@@ -38,7 +39,7 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
 }';
 
     const RESPONSE_IMAGE =
-'{
+        '{
   "data": {
     "url": "https://fbcdn-profile-a.akamaihd.net/something_n.jpg",
     "is_silhouette": false
@@ -63,15 +64,17 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
 
         $service->expects($this->any())
             ->method('requestJSON')
-            ->willReturnCallback(function ($arg) {
-	            if ($arg == Facebook::REQUEST_PROFILE) {
-		            return json_decode(FacebookTest::RESPONSE_PROFILE, TRUE);
-	            } elseif ($arg == Facebook::REQUEST_IMAGE) {
-		            return json_decode(FacebookTest::RESPONSE_IMAGE, TRUE);
-	            }
+            ->willReturnCallback(
+                function ($arg) {
+                    if ($arg == Facebook::REQUEST_PROFILE) {
+                        return json_decode(FacebookTest::RESPONSE_PROFILE, true);
+                    } elseif ($arg == Facebook::REQUEST_IMAGE) {
+                        return json_decode(FacebookTest::RESPONSE_IMAGE, true);
+                    }
 
-	            return null;
-            });
+                    return null;
+                }
+            );
 
         /**
          * @var \OAuth\Common\Service\ServiceInterface $service
@@ -79,79 +82,79 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
         $this->extractor->setService($service);
     }
 
-	public function testGetUniqueId()
-	{
-		$this->assertEquals('012345678', $this->extractor->getUniqueId());
-	}
+    public function testGetUniqueId()
+    {
+        $this->assertEquals('012345678', $this->extractor->getUniqueId());
+    }
 
-	public function testGetUsername()
-	{
-		$this->assertEquals('johnnydonny', $this->extractor->getUsername());
-	}
+    public function testGetUsername()
+    {
+        $this->assertEquals('johnnydonny', $this->extractor->getUsername());
+    }
 
-	public function testGetFirstName()
-	{
-		$this->assertEquals('John', $this->extractor->getFirstName());
-	}
+    public function testGetFirstName()
+    {
+        $this->assertEquals('John', $this->extractor->getFirstName());
+    }
 
-	public function testGetLastName()
-	{
-		$this->assertEquals('Doe', $this->extractor->getLastName());
-	}
+    public function testGetLastName()
+    {
+        $this->assertEquals('Doe', $this->extractor->getLastName());
+    }
 
-	public function testGetFullName()
-	{
-		$this->assertEquals('John Doe', $this->extractor->getFullName());
-	}
+    public function testGetFullName()
+    {
+        $this->assertEquals('John Doe', $this->extractor->getFullName());
+    }
 
-	public function testGetEmail()
-	{
-		$this->assertEquals('johndoe@hotmail.com', $this->extractor->getEmail());
-	}
+    public function testGetEmail()
+    {
+        $this->assertEquals('johndoe@hotmail.com', $this->extractor->getEmail());
+    }
 
-	public function testGetDescription()
-	{
-		$this->assertEquals('A life on the edge', $this->extractor->getDescription());
-	}
+    public function testGetDescription()
+    {
+        $this->assertEquals('A life on the edge', $this->extractor->getDescription());
+    }
 
-	public function testGetProfileUrl()
-	{
-		$this->assertEquals('https://www.facebook.com/johnnydonny', $this->extractor->getProfileUrl());
-	}
+    public function testGetProfileUrl()
+    {
+        $this->assertEquals('https://www.facebook.com/johnnydonny', $this->extractor->getProfileUrl());
+    }
 
-	public function testGetLocation()
-	{
-		$this->assertEquals('Rome, Italy', $this->extractor->getLocation());
-	}
+    public function testGetLocation()
+    {
+        $this->assertEquals('Rome, Italy', $this->extractor->getLocation());
+    }
 
-	public function testGetWebsites()
-	{
-		$expected = [
-			'http://blog.foo.com',
-			'http://foo.com'
-		];
-		$this->assertEquals($expected, $this->extractor->getWebsites());
-	}
+    public function testGetWebsites()
+    {
+        $expected = [
+            'http://blog.foo.com',
+            'http://foo.com'
+        ];
+        $this->assertEquals($expected, $this->extractor->getWebsites());
+    }
 
-	public function testGetImageUrl()
-	{
-		$this->assertEquals('https://fbcdn-profile-a.akamaihd.net/something_n.jpg', $this->extractor->getImageUrl());
-	}
+    public function testGetImageUrl()
+    {
+        $this->assertEquals('https://fbcdn-profile-a.akamaihd.net/something_n.jpg', $this->extractor->getImageUrl());
+    }
 
-	public function testIsEmailVerified()
-	{
-		$this->assertTrue($this->extractor->isEmailVerified());
-	}
+    public function testIsEmailVerified()
+    {
+        $this->assertTrue($this->extractor->isEmailVerified());
+    }
 
-	public function testGetExtra()
-	{
-		$extras = $this->extractor->getExtras();
-		$this->assertArrayHasKey('birthday', $extras);
-		$this->assertArrayHasKey('hometown', $extras);
-		$this->assertArrayHasKey('quotes', $extras);
+    public function testGetExtra()
+    {
+        $extras = $this->extractor->getExtras();
+        $this->assertArrayHasKey('birthday', $extras);
+        $this->assertArrayHasKey('hometown', $extras);
+        $this->assertArrayHasKey('quotes', $extras);
 
-		$this->assertArrayNotHasKey('id', $extras);
-		$this->assertArrayNotHasKey('name', $extras);
-		$this->assertArrayNotHasKey('first_name', $extras);
-	}
+        $this->assertArrayNotHasKey('id', $extras);
+        $this->assertArrayNotHasKey('name', $extras);
+        $this->assertArrayNotHasKey('first_name', $extras);
+    }
 }

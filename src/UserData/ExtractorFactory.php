@@ -21,95 +21,92 @@ use OAuth\UserData\Extractor\ExtractorInterface;
  *
  * @package OAuth\UserData
  */
-class ExtractorFactory implements ExtractorFactoryInterface {
+class ExtractorFactory implements ExtractorFactoryInterface
+{
 
-	/**
-	 * @var array $extractorsMap
-	 */
-	protected $extractorsMap;
+    /**
+     * @var array $extractorsMap
+     */
+    protected $extractorsMap;
 
-	/**
-	 * Constructor
-	 *
-	 * @param array $extractorsMap
-	 */
-	public function __construct($extractorsMap = [])
-	{
-		$this->extractorsMap = $extractorsMap;
-	}
+    /**
+     * Constructor
+     *
+     * @param array $extractorsMap
+     */
+    public function __construct($extractorsMap = [])
+    {
+        $this->extractorsMap = $extractorsMap;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function get(ServiceInterface $service)
-	{
-		// Check in extractors map
-		$serviceFullyQualifiedClass = get_class($service);
-		if (isset($this->extractorsMap[ $serviceFullyQualifiedClass ]))
-		{
-			$extractorsClass = $this->extractorsMap[ $serviceFullyQualifiedClass ];
-		}
-		else
-		{
-			$extractorsClass = $this->searchExtractorClassInLib($serviceFullyQualifiedClass);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function get(ServiceInterface $service)
+    {
+        // Check in extractors map
+        $serviceFullyQualifiedClass = get_class($service);
+        if (isset($this->extractorsMap[ $serviceFullyQualifiedClass ])) {
+            $extractorsClass = $this->extractorsMap[ $serviceFullyQualifiedClass ];
+        } else {
+            $extractorsClass = $this->searchExtractorClassInLib($serviceFullyQualifiedClass);
+        }
 
-		if (NULL === $extractorsClass)
-		{
-			throw new UndefinedExtractorException($service, array_keys($this->extractorsMap));
-		}
+        if (null === $extractorsClass) {
+            throw new UndefinedExtractorException($service, array_keys($this->extractorsMap));
+        }
 
-		return $this->buildExtractor($service, $extractorsClass);
-	}
+        return $this->buildExtractor($service, $extractorsClass);
+    }
 
-	/**
-	 * Adds a new extractor to the extractorsMap
-	 *
-	 * @param string $serviceFullyQualifiedClass
-	 * @param string $extractorClass
-	 */
-	public function addExtractorMapping($serviceFullyQualifiedClass, $extractorClass)
-	{
-		$this->extractorsMap[ $serviceFullyQualifiedClass ] = $extractorClass;
-	}
+    /**
+     * Adds a new extractor to the extractorsMap
+     *
+     * @param string $serviceFullyQualifiedClass
+     * @param string $extractorClass
+     */
+    public function addExtractorMapping($serviceFullyQualifiedClass, $extractorClass)
+    {
+        $this->extractorsMap[ $serviceFullyQualifiedClass ] = $extractorClass;
+    }
 
-	/**
-	 * Search a mapping on the fly by inspecting the library code
-	 *
-	 * @param  string $serviceFullyQualifiedClass
-	 * @return null|string
-	 */
-	protected function searchExtractorClassInLib($serviceFullyQualifiedClass)
-	{
-		$parts     = explode('\\', $serviceFullyQualifiedClass);
-		$className = $parts[ sizeof($parts) - 1 ];
+    /**
+     * Search a mapping on the fly by inspecting the library code
+     *
+     * @param  string $serviceFullyQualifiedClass
+     *
+     * @return null|string
+     */
+    protected function searchExtractorClassInLib($serviceFullyQualifiedClass)
+    {
+        $parts = explode('\\', $serviceFullyQualifiedClass);
+        $className = $parts[ sizeof($parts) - 1 ];
 
-		$extractorClass = sprintf('\OAuth\UserData\Extractor\%s', $className);
-		if (class_exists($extractorClass))
-		{
-			return $extractorClass;
-		}
+        $extractorClass = sprintf('\OAuth\UserData\Extractor\%s', $className);
+        if (class_exists($extractorClass)) {
+            return $extractorClass;
+        }
 
-		return NULL;
-	}
+        return null;
+    }
 
-	/**
-	 * @param  ServiceInterface $service
-	 * @param  string $extractorClass
-	 * @return ExtractorInterface
-	 * @throws Exception\InvalidExtractorException
-	 */
-	protected function buildExtractor(ServiceInterface $service, $extractorClass)
-	{
-		$extractor = new $extractorClass;
+    /**
+     * @param  ServiceInterface $service
+     * @param  string $extractorClass
+     *
+     * @return ExtractorInterface
+     * @throws Exception\InvalidExtractorException
+     */
+    protected function buildExtractor(ServiceInterface $service, $extractorClass)
+    {
+        $extractor = new $extractorClass;
 
-		if (!$extractor instanceof ExtractorInterface)
-		{
-			throw new InvalidExtractorException($extractorClass);
-		}
+        if (!$extractor instanceof ExtractorInterface) {
+            throw new InvalidExtractorException($extractorClass);
+        }
 
-		$extractor->setService($service);
+        $extractor->setService($service);
 
-		return $extractor;
-	}
+        return $extractor;
+    }
 }

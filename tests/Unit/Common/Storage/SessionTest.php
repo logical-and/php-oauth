@@ -6,10 +6,10 @@ use OAuth\Common\Storage\Session;
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
+
     public static function setUpBeforeClass()
     {
-        if ('\\' == DIRECTORY_SEPARATOR)
-        {
+        if ('\\' == DIRECTORY_SEPARATOR) {
             throw new \PHPUnit_Framework_SkippedTestError('Skip this test on Win OS');
         }
     }
@@ -63,7 +63,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         session_start();
 
-        $_SESSION['lusitanian_oauth_token'] = array();
+        $_SESSION[ 'lusitanian_oauth_token' ] = [];
 
         $storage = new Session();
 
@@ -96,7 +96,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $storage = new Session();
 
-        $_SESSION['lusitanian_oauth_token'] = 'foo';
+        $_SESSION[ 'lusitanian_oauth_token' ] = 'foo';
 
         $this->assertInstanceOf(
             '\\OAuth\\Common\\Storage\\Session',
@@ -239,10 +239,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializeUnserialize()
     {
-        $mock = $this->getMock('\\OAuth\\Common\\Token\\AbstractToken', array('__sleep'));
+        $mock = $this->getMock('\\OAuth\\Common\\Token\\AbstractToken', ['__sleep']);
         $mock->expects($this->once())
             ->method('__sleep')
-            ->will($this->returnValue(array('accessToken')));
+            ->will($this->returnValue(['accessToken']));
 
         $storage = new Session();
         $storage->storeAccessToken('foo', $mock);

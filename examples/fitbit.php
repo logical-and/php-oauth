@@ -12,9 +12,9 @@
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
  */
 
-use OAuth\OAuth1\Service\FitBit;
-use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Storage\Session;
+use OAuth\OAuth1\Service\FitBit;
 
 /**
  * Bootstrap the example
@@ -26,8 +26,8 @@ $storage = new Session();
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-    $servicesCredentials['fitbit']['key'],
-    $servicesCredentials['fitbit']['secret'],
+    $servicesCredentials[ 'fitbit' ][ 'key' ],
+    $servicesCredentials[ 'fitbit' ][ 'secret' ],
     $currentUri
 );
 
@@ -36,12 +36,11 @@ $credentials = new Credentials(
 $fitbitService = $serviceFactory->createService('FitBit', $credentials, $storage);
 
 if ($fitbitService->isGlobalRequestArgumentsPassed()) {
-	$result = $fitbitService->retrieveAccessTokenByGlobReqArgs()->requestJSON('user/-/profile.json');
+    $result = $fitbitService->retrieveAccessTokenByGlobReqArgs()->requestJSON('user/-/profile.json');
 
-	echo 'result: <pre>' . print_r($result, true) . '</pre>';
-
-} elseif (!empty($_GET['go']) && $_GET['go'] === 'go') {
-	$fitbitService->redirectToAuthorizationUri();
+    echo 'result: <pre>' . print_r($result, true) . '</pre>';
+} elseif (!empty($_GET[ 'go' ]) && $_GET[ 'go' ] === 'go') {
+    $fitbitService->redirectToAuthorizationUri();
 } else {
-	echo "<a href='$currentUri?go=go'>Login with FitBit!</a>";
+    echo "<a href='$currentUri?go=go'>Login with FitBit!</a>";
 }

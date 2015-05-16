@@ -11,8 +11,8 @@
 namespace OAuth\Unit\Common\Storage;
 
 use OAuth\Common\Storage\Redis;
-use Predis\Client as Predis;
 use OAuth\OAuth2\Token\StdOAuth2Token;
+use Predis\Client as Predis;
 
 /**
  * Class RedisTest
@@ -22,42 +22,44 @@ use OAuth\OAuth2\Token\StdOAuth2Token;
  */
 class RedisTest extends \PHPUnit_Framework_TestCase
 {
+
     protected $storage;
-	protected static $redisAvailable = TRUE;
+    protected static $redisAvailable = true;
 
     public function setUp()
     {
         // connect to a redis daemon
-        $predis = new Predis([
-            'host' => $_ENV['redis_host'],
-            'port' => $_ENV['redis_port'],
-        ]);
+        $predis = new Predis(
+            [
+                'host' => $_ENV[ 'redis_host' ],
+                'port' => $_ENV[ 'redis_port' ],
+            ]
+        );
 
         // set it
         $this->storage = new Redis($predis, 'test_user_token', 'test_user_state');
 
-	    if (!self::$redisAvailable) $this->markTestSkipped('No redis instance available');
-	    else
-	    {
-		    try {
-			    $predis->connect();
-		    } catch (\Predis\Connection\ConnectionException $e) {
-			    self::$redisAvailable = FALSE;
-			    $this->markTestSkipped('No redis instance available: ' . $e->getMessage());
-		    }
-	    }
+        if (!self::$redisAvailable) {
+            $this->markTestSkipped('No redis instance available');
+        } else {
+            try {
+                $predis->connect();
+            } catch (\Predis\Connection\ConnectionException $e) {
+                self::$redisAvailable = false;
+                $this->markTestSkipped('No redis instance available: ' . $e->getMessage());
+            }
+        }
     }
 
     public function tearDown()
     {
-	    if (self::$redisAvailable)
-	    {
-	        // delete
-	        $this->storage->clearAllTokens();
+        if (self::$redisAvailable) {
+            // delete
+            $this->storage->clearAllTokens();
 
-	        // close connection
-	        $this->storage->getRedis()->quit();
-	    }
+            // close connection
+            $this->storage->getRedis()->quit();
+        }
     }
 
     /**
@@ -78,7 +80,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
 
         // assert
         $extraParams = $this->storage->retrieveAccessToken($service_1)->getExtraParams();
-        $this->assertEquals('param', $extraParams['extra']);
+        $this->assertEquals('param', $extraParams[ 'extra' ]);
         $this->assertEquals($token_1, $this->storage->retrieveAccessToken($service_1));
         $this->assertEquals($token_2, $this->storage->retrieveAccessToken($service_2));
     }
