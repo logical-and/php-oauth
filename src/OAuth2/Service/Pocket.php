@@ -17,7 +17,7 @@ class Pocket extends AbstractService
 
     public function getRequestTokenEndpoint()
     {
-        return $this->injectApiVersionToUri(new Url($this->requestTokenEndpoint));
+        return $this->injectPlaceholdersToUri(new Url($this->requestTokenEndpoint));
     }
 
     public function getAuthorizationUri(array $additionalParameters = [])

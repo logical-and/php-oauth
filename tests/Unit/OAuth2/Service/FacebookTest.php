@@ -55,6 +55,7 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers OAuth\OAuth2\Service\Facebook::__construct
      * @covers OAuth\OAuth2\Service\Facebook::getAuthorizationEndpoint
+     * @group active
      */
     public function testGetAuthorizationEndpoint()
     {

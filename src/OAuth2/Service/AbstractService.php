@@ -65,29 +65,16 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 
         $this->scopes = $scopes;
 
+        // Replaces "/{apiVersion}" to configured proper api version, or remove version from URI if it's have not configured
         if ($apiVersion) {
             $this->apiVersion = $apiVersion;
         }
-
-        if ($this->baseApiUri) {
-            $this->injectApiVersionToUri($this->baseApiUri);
+        if ($this->apiVersion) {
+            $this->urlPlaceholders[ 'apiVersion' ] = $this->apiVersion;
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthorizationEndpoint()
-    {
-        return $this->injectApiVersionToUri(parent::getAuthorizationEndpoint());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAccessTokenEndpoint()
-    {
-        return $this->injectApiVersionToUri(parent::getAccessTokenEndpoint());
+        // How replace empty value
+        $this->urlPlaceholdersEmptyReplaces[ 'apiVersion' ] = '/{}';
     }
 
     /**
@@ -343,30 +330,6 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
     protected function getAuthorizationMethod()
     {
         return $this->authorizationMethod;
-    }
-
-    /**
-     * Returns api version string if is set else retrun empty string
-     *
-     * @return string
-     */
-    protected function getApiVersionString()
-    {
-        return !(empty($this->apiVersion)) ? "/" . $this->apiVersion : "";
-    }
-
-    /**
-     * Replaces "/{apiVersion}" to configured proper api version, or remove version from URI if it's have not configured
-     *
-     * @param Url $uri
-     *
-     * @return Url
-     */
-    protected function injectApiVersionToUri(Url $uri)
-    {
-        $uri->setPath(str_replace('/{apiVersion}', $this->getApiVersionString(), '/' . urldecode($uri->getPath())));
-
-        return $uri;
     }
 
     /**

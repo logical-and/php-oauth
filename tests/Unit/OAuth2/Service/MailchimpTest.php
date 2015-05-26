@@ -92,6 +92,7 @@ class MailchimpTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers OAuth\OAuth2\Service\Mailchimp::__construct
      * @covers OAuth\OAuth2\Service\Mailchimp::getAuthorizationMethod
+     * @group active
      */
     public function testGetAuthorizationMethod()
     {
@@ -99,10 +100,10 @@ class MailchimpTest extends \PHPUnit_Framework_TestCase
         $token->expects($this->once())->method('getEndOfLife')->will(
             $this->returnValue(TokenInterface::EOL_NEVER_EXPIRES)
         );
-        $token->expects($this->once())->method('getAccessToken')->will($this->returnValue('foo'));
+        $token->expects($this->exactly(2))->method('getAccessToken')->will($this->returnValue('foo'));
 
         $storage = $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface');
-        $storage->expects($this->once())->method('retrieveAccessToken')->will($this->returnValue($token));
+        $storage->expects($this->exactly(2))->method('retrieveAccessToken')->will($this->returnValue($token));
 
         /** @var Mailchimp|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->getMock(
@@ -117,7 +118,7 @@ class MailchimpTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $service->expects($this->once())->method('httpRequest')->will($this->returnArgument(0));
+        $service->expects($this->exactly(2))->method('httpRequest')->will($this->returnArgument(0));
 
         $uri = $service->request('https://pieterhordijk.com/my/awesome/path');
         $absoluteUri = parse_url((string) $uri);

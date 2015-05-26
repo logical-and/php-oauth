@@ -174,7 +174,6 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
      * @covers OAuth\OAuth2\Service\AbstractService::__construct
      * @covers OAuth\OAuth2\Service\AbstractService::getAuthorizationUri
      * @covers OAuth\OAuth2\Service\AbstractService::getAuthorizationEndpoint
-     * @covers OAuth\OAuth2\Service\AbstractService::injectApiVersionToUri
      */
     public function testGetAuthorizationUriWithInjectedVersion()
     {
@@ -223,7 +222,6 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers OAuth\OAuth2\Service\AbstractService::__construct
      * @covers OAuth\OAuth2\Service\AbstractService::getAccessTokenEndpoint
-     * @covers OAuth\OAuth2\Service\AbstractService::injectApiVersionToUri
      */
     public function testGetAccessTokenUriWithInjectedVersion()
     {

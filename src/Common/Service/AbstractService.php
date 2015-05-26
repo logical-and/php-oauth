@@ -38,6 +38,12 @@ abstract class AbstractService implements ServiceInterface
     /** @var string */
     protected $accessTokenEndpoint = '';
 
+    /** @var array */
+    protected $urlPlaceholders = [];
+
+    /** @var array */
+    protected $urlPlaceholdersEmptyReplaces = [];
+
     /** @var ExtractorFactory */
     protected static $extractorFactory;
 
@@ -58,9 +64,7 @@ abstract class AbstractService implements ServiceInterface
         $this->storage = $storage;
 
         if ($baseApiUrl) {
-            $this->baseApiUri = new Url($baseApiUrl);
-        } elseif (is_string($this->baseApiUri)) {
-            $this->baseApiUri = new Url($this->baseApiUri);
+            $this->baseApiUri = $baseApiUrl;
         }
 
         $this->initialize();
@@ -70,7 +74,7 @@ abstract class AbstractService implements ServiceInterface
     {
     }
 
-    public function getBaseApiUri($clone = true)
+    public function getBaseApiUri()
     {
         if (null === $this->baseApiUri) {
             throw new Exception(
@@ -78,7 +82,7 @@ abstract class AbstractService implements ServiceInterface
             );
         }
 
-        return !$clone ? $this->baseApiUri : clone $this->baseApiUri;
+        return new Url($this->injectPlaceholdersToUri($this->baseApiUri));
     }
 
     /**
@@ -90,7 +94,7 @@ abstract class AbstractService implements ServiceInterface
             throw new Exception('Authorization endpoint isn\'t defined!');
         }
 
-        return new Url($this->authorizationEndpoint);
+        return new Url($this->injectPlaceholdersToUri($this->authorizationEndpoint));
     }
 
     /**
@@ -102,7 +106,7 @@ abstract class AbstractService implements ServiceInterface
             throw new Exception('Access token endpoint isn\'t defined!');
         }
 
-        return new Url($this->accessTokenEndpoint);
+        return new Url($this->injectPlaceholdersToUri($this->accessTokenEndpoint));
     }
 
     /**
@@ -116,7 +120,7 @@ abstract class AbstractService implements ServiceInterface
         if ($path instanceof Url) {
             $uri = $path;
         } elseif (stripos($path, 'http://') === 0 || stripos($path, 'https://') === 0) {
-            $uri = new Url($path);
+            $uri = new Url($this->injectPlaceholdersToUri($path));
         } else {
             $path = (string) $path;
             $uri = $this->getBaseApiUri();
@@ -136,6 +140,12 @@ abstract class AbstractService implements ServiceInterface
         }
 
         return $uri;
+    }
+
+    protected function injectPlaceholdersToUri($uri)
+    {
+
+        return Url::replacePlaceholders($uri, $this->urlPlaceholders, $this->urlPlaceholdersEmptyReplaces);
     }
 
     /**

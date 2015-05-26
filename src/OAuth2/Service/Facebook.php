@@ -126,7 +126,7 @@ class Facebook extends AbstractService
         $baseUrl = self::WWW_URL . '{apiVersion}' . '/dialog/' . $dialogPath;
         $query = http_build_query($parameters);
 
-        return $this->injectApiVersionToUri(new Url($baseUrl . '?' . $query));
+        return $this->injectPlaceholdersToUri(new Url($baseUrl . '?' . $query));
     }
 
     /**

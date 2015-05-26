@@ -49,4 +49,41 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         // Value in clone url not changed
         $this->assertEquals('domain', $clonedUrl->getHost()->get());
     }
+
+    public function testReplacePlaceholders()
+    {
+        $this->assertEquals(
+            'http://oauth.domain/version/2?login=false',
+            Url::replacePlaceholders(
+                'http://{sub}.domain/version/{number}?login={doLogin}',
+                ['sub' => 'oauth', 'number' => 2, 'login' => 'false', 'doLogin' => 'false']
+            )
+        );
+    }
+
+    public function testReplacePlaceholdersWhenEmptyValues()
+    {
+        $this->assertEquals(
+            'http://oauth.domain/api/',
+            Url::replacePlaceholders(
+                'http://{sub}.domain/api/{version}',
+                ['sub' => 'oauth', 'version' => false]
+            )
+        );
+    }
+
+    /**
+     * @group active
+     */
+    public function testReplacePlaceholdersAndRemoveEmptyPlaceholder()
+    {
+        $this->assertEquals(
+            'http://oauth.domain/api',
+            Url::replacePlaceholders(
+                'http://{sub}.domain/api/{version}',
+                ['sub' => 'oauth'],
+                ['version' => '/{}']
+            )
+        );
+    }
 }

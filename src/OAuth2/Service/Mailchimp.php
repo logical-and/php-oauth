@@ -10,10 +10,13 @@ use OAuth\OAuth2\Token\StdOAuth2Token;
 class Mailchimp extends AbstractService
 {
 
+    protected $baseApiUri = 'https://{dc}.api.mailchimp.com/{apiVersion}/';
     protected $authorizationEndpoint = 'https://login.mailchimp.com/oauth2/authorize';
+    protected $loginEndpoint = 'https://login.mailchimp.com/oauth2/metadata?oauth_token={oauth_token}';
     protected $accessTokenEndpoint = 'https://login.mailchimp.com/oauth2/token';
     protected $authorizationMethod = self::AUTHORIZATION_METHOD_QUERY_STRING_V3;
     protected $apiVersion = '2.0';
+    protected $baseApiUriDetermined = false;
 
     public function initialize()
     {
@@ -42,6 +45,7 @@ class Mailchimp extends AbstractService
 
         // Set the right API endpoint.
         $this->setBaseApiUri($token);
+        $this->baseApiUriDetermined = true;
 
         // Mailchimp tokens evidently never expire...
         $token->setEndOfLife(StdOAuth2Token::EOL_NEVER_EXPIRES);
@@ -54,8 +58,9 @@ class Mailchimp extends AbstractService
      */
     public function request($path, array $body = [], $method = 'GET', array $extraHeaders = [])
     {
-        if (is_null($this->baseApiUri)) {
+        if (!$this->baseApiUriDetermined) {
             $this->setBaseApiUri($this->storage->retrieveAccessToken($this->service()));
+            $this->baseApiUriDetermined = true;
         }
 
         return parent::request($path, $body, $method, $extraHeaders);
@@ -71,16 +76,16 @@ class Mailchimp extends AbstractService
     protected function setBaseApiUri(TokenInterface $token)
     {
         // Make request uri.
-        $endpoint = 'https://login.mailchimp.com/oauth2/metadata?oauth_token=' . $token->getAccessToken();
+        $endpoint = Url::replacePlaceholders($this->loginEndpoint, ['oauth_token' => $token->getAccessToken()]);
 
         // Grab meta data about the token.
-        $response = $this->httpRequest($endpoint, [], [], 'GET');
+        $response = $this->httpRequest((string) $endpoint, [], [], 'GET');
 
         // Parse JSON.
         $meta = json_decode($response, true);
 
         // Set base api uri.
-        $this->baseApiUri = new Url('https://' . $meta[ 'dc' ] . '.api.mailchimp.com/{apiVersion}/');
+        $this->urlPlaceholders[ 'dc' ] = $meta[ 'dc' ];
 
         // Allow chaining.
         return $this;
