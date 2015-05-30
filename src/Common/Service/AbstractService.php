@@ -132,7 +132,7 @@ abstract class AbstractService implements ServiceInterface
                 $path = substr($path, 1);
             }
 
-            $uri->setPath($uri->getPath() . '/' . $path);
+            $uri->setPath(rtrim($uri->getPath(), '/') . '/' . $path);
         }
 
         return $uri;
