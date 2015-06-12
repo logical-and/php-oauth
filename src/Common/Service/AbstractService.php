@@ -111,7 +111,7 @@ abstract class AbstractService implements ServiceInterface
      * @return Url
      * @throws Exception
      */
-    protected function determineRequestUriFromPath($path)
+    public function determineRequestUriFromPath($path)
     {
         if ($path instanceof Url) {
             $uri = $path;
@@ -128,11 +128,11 @@ abstract class AbstractService implements ServiceInterface
                 $uri->setQuery($query);
             }
 
-            if ($path[ 0 ] === '/') {
-                $path = substr($path, 1);
-            }
+            // Add path
+            $uri->getPath()->append("$path");
 
-            $uri->setPath($uri->getPath() . '/' . $path);
+            // Clean up double slashes
+            $uri->setPath(array_filter($uri->getPath()->toArray()));
         }
 
         return $uri;

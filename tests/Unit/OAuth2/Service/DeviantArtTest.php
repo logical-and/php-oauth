@@ -77,7 +77,7 @@ class DeviantArtTest extends \PHPUnit_Framework_TestCase
         $service->expects($this->once())->method('httpRequest')->willReturnArgument(0);
 
         $this->assertEquals(
-            'https://www.deviantart.com/api/v1/oauth2//api/method',
+            'https://www.deviantart.com/api/v1/oauth2/api/method',
             (string) $service->request('/api/method')
         );
     }
