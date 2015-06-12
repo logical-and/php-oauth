@@ -130,7 +130,7 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
      */
     public function request($path, array $body = [], $method = 'GET', array $extraHeaders = [])
     {
-        $uri = $this->determineRequestUriFromPath($path, $this->baseApiUri);
+        $uri = $this->determineRequestUriFromPath($path);
 
         /** @var $token StdOAuth1Token */
         $token = $this->storage->retrieveAccessToken($this->service());
