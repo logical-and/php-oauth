@@ -99,6 +99,7 @@ class Facebook extends AbstractService
     const SCOPE_USER_WORK = 'user_work_history';
     const SCOPE_FRIENDS_WORK = 'friends_work_history';
     const SCOPE_USER_TAGGED_PLACES = 'user_tagged_places';
+    const SCOPE_USER_POSTS = 'user_posts';
     // Open Graph Permissions
     const SCOPE_USER_MUSIC = 'user_actions.music';
     const SCOPE_FRIENDS_MUSIC = 'friends_actions.music';
