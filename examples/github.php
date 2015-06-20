@@ -40,7 +40,7 @@ if ($gitHub->isGlobalRequestArgumentsPassed()) {
     $result = $gitHub->retrieveAccessTokenByGlobReqArgs()->requestJSON('user/emails');
 
     // Show some of the resultant data
-    echo 'The first email on your github account is ' . $result[ 0 ];
+    echo 'The first email on your github account is ' . $result[ 0 ][ 'email' ];
 
     echo '<br />';
     echo 'Your extracted username is a: ' . $gitHub->constructExtractor()->getUsername();

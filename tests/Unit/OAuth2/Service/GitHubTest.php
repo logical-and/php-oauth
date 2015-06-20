@@ -254,6 +254,6 @@ class GitHubTest extends \PHPUnit_Framework_TestCase
         $headers = $service->request('https://pieterhordijk.com/my/awesome/path');
 
         $this->assertTrue(array_key_exists('Accept', $headers));
-        $this->assertSame('application/vnd.github.beta+json', $headers[ 'Accept' ]);
+        $this->assertSame('application/vnd.github.v3+json', $headers[ 'Accept' ]);
     }
 }
