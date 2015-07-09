@@ -19,6 +19,10 @@ $servicesCredentials = [
         'key'    => '',
         'secret' => '',
     ],
+    'battlenet' => [
+        'key'    => '',
+        'secret' => ''
+    ],
     'bitbucket'   => [
         'key'    => '',
         'secret' => '',
