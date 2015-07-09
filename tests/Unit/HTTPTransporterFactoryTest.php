@@ -65,19 +65,11 @@ class HTTPTransporterFactoryTest extends \PHPUnit_Framework_TestCase
     public function testBuildTransporterClientArguments()
     {
         // set() method
-        $cookieJar = new CookieJar();
         $browser = HTTPTransporterFactory::buildTransporter(
             'FileGetContents',
             [
-                'cookieJar' => $cookieJar,
                 'timeout'   => 777
             ]
-        );
-
-        $this->assertSame(
-            $cookieJar,
-            $browser->getClient()->getCookieJar(),
-            'Should be the same object'
         );
         $this->assertEquals(777, $browser->getClient()->getTimeout());
 
