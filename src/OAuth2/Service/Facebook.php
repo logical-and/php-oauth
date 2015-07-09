@@ -115,7 +115,7 @@ class Facebook extends AbstractService
     const SCOPE_PAGES = 'manage_pages';
 
     protected $baseApiUri = 'https://graph.facebook.com/{apiVersion}/';
-    protected $authorizationEndpoint = 'https://www.facebook.com/{apiVersion}/dialog/oauth';
+    protected $authorizationEndpoint = 'https://www.facebook.com/dialog/oauth';
     protected $accessTokenEndpoint = 'https://graph.facebook.com/{apiVersion}/oauth/access_token';
 
     public function getDialogUri($dialogPath, array $parameters)
@@ -135,13 +135,20 @@ class Facebook extends AbstractService
      */
     protected function parseAccessTokenResponse($responseBody)
     {
-        // Facebook gives us a query string ... Oh wait. JSON is too simple, understand ?
-        parse_str($responseBody, $data);
+        // Facebook gives us a query string on old api versions
+        if (0 !== strpos($responseBody, '{')) {
+            parse_str($responseBody, $data);
+        } // JSON on new versions
+        else {
+            $data = json_decode($responseBody, true);
+        }
 
         if (null === $data || !is_array($data)) {
             throw new TokenResponseException('Unable to parse response.');
         } elseif (isset($data[ 'error' ])) {
             throw new TokenResponseException('Error in retrieving token: "' . $data[ 'error' ] . '"');
+        } elseif (empty($data[ 'access_token' ])) {
+            throw new TokenResponseException('Error in retrieving token: Access token is empty!');
         }
 
         $token = new StdOAuth2Token();
