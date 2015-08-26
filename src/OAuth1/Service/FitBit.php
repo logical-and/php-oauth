@@ -55,4 +55,26 @@ class FitBit extends AbstractService
 
         return $token;
     }
+      /**
+     * Builds the authorization header array.
+     *
+     * @return array
+     */
+    protected function getBasicAuthorizationHeaderInfo()
+    {
+        $dateTime = new \DateTime();
+        // Substracting 7 seconds since UTC time is somehow 7 seconds
+        // advance with the maximum allowable timestamp for Fitbit
+        $timestamp = $dateTime->format('U') - 7;
+        $headerParameters = [
+            'oauth_callback'         => $this->credentials->getCallbackUrl(),
+            'oauth_consumer_key'     => $this->credentials->getConsumerId(),
+            'oauth_nonce'            => $this->generateNonce(),
+            'oauth_signature_method' => $this->getSignatureMethod(),
+            'oauth_timestamp'        => $timestamp,
+            'oauth_version'          => $this->getVersion(),
+        ];
+
+        return $headerParameters;
+    }
 }
