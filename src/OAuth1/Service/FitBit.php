@@ -63,8 +63,8 @@ class FitBit extends AbstractService
     protected function getBasicAuthorizationHeaderInfo()
     {
         $dateTime = new \DateTime();
-        // Substracting 90 (1min 30s) seconds because sometimes execution is late
-        $timestamp = $dateTime->format('U') - 90;
+        // Substracting 180 (3mins) seconds because sometimes execution is late
+        $timestamp = $dateTime->format('U') - 180;
         $headerParameters = [
             'oauth_callback'         => $this->credentials->getCallbackUrl(),
             'oauth_consumer_key'     => $this->credentials->getConsumerId(),
