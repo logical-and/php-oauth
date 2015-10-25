@@ -177,4 +177,87 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\\OAuth\\Common\\Http\\Url', $uri);
         $this->assertSame('https://example.com/path', (string) $uri);
     }
+
+    /**
+     * @covers OAuth\Common\Service\AbstractService::requestJSON
+     * @expectedException \OAuth\Common\Exception\Exception
+     */
+    public function testRequestJSONThrowsExceptionOnWrongJSON()
+    {
+        $service = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Service\\AbstractService',
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                null
+            ]
+        );
+
+        $service->expects($this->once())->method('request')->willReturn('error{}');
+
+        $service->requestJSON(null);
+    }
+
+    /**
+     * @covers OAuth\Common\Service\AbstractService::requestJSON
+     * @expectedException \OAuth\Common\Exception\Exception
+     */
+    public function testRequestJSONThrowsExceptionOnNonStringValue()
+    {
+        $service = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Service\\AbstractService',
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                null
+            ]
+        );
+
+        $service->expects($this->once())->method('request')->willReturn(true);
+        $service->requestJSON(null);
+    }
+
+    /**
+     * @covers OAuth\Common\Service\AbstractService::requestJSON
+     */
+    public function testRequestJSONDontThrowsExceptionOnJSONPrimitives()
+    {
+        $service = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Service\\AbstractService',
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                null
+            ]
+        );
+
+        $service->expects($this->at(0))->method('request')->willReturn('true');
+        $service->expects($this->at(1))->method('request')->willReturn('false');
+
+        $this->assertEquals(true, $service->requestJSON(null));
+        $this->assertEquals(false, $service->requestJSON(null));
+    }
+
+    /**
+     * @covers OAuth\Common\Service\AbstractService::requestJSON
+     */
+    public function testRequestJSONDontThrowsExceptionOnValidJSON()
+    {
+        $service = $this->getMockForAbstractClass(
+            '\\OAuth\\Common\\Service\\AbstractService',
+            [
+                $this->getMock('\\OAuth\\Common\\Consumer\\CredentialsInterface'),
+                $this->getMock('\\Buzz\\Browser'),
+                $this->getMock('\\OAuth\\Common\\Storage\\TokenStorageInterface'),
+                null
+            ]
+        );
+
+        $service->expects($this->once())->method('request')->willReturn('{"test":1}');
+
+        $this->assertEquals(['test' => 1], $service->requestJSON(null));
+    }
 }

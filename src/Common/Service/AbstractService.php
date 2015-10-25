@@ -163,7 +163,16 @@ abstract class AbstractService implements ServiceInterface
      */
     public function requestJSON($uri, array $body = [], $method = 'GET', array $extraHeaders = [])
     {
-        return json_decode($this->request($uri, $body, $method, $extraHeaders), true);
+        $json = $this->request($uri, $body, $method, $extraHeaders);
+        if (!is_string($json) or (
+                0 !== strpos($json, '{') and
+                !in_array($json, ['true', 'false'])
+            )
+        ) {
+            throw new Exception('Wrong JSON! Got - ' . $json);
+        }
+
+        return json_decode($json, true);
     }
 
     /**

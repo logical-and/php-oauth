@@ -247,7 +247,6 @@ class AbstractServiceTest extends \PHPUnit_Framework_TestCase
      * @covers OAuth\OAuth2\Service\AbstractService::__construct
      * @covers OAuth\OAuth2\Service\AbstractService::request
      * @covers OAuth\OAuth2\Service\AbstractService::determineRequestUriFromPath
-     * @group active
      */
     public function testRequestThrowsExceptionWhenTokenIsExpired()
     {
