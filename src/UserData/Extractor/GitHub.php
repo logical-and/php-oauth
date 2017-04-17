@@ -98,14 +98,14 @@ class GitHub extends LazyExtractor
     {
         $email = $this->getEmailObject($emails);
 
-        return $email[ 'email' ];
+        return is_array($email) ? $email[ 'email' ] : $email;
     }
 
     protected function verifiedEmailNormalizer($emails)
     {
         $email = $this->getEmailObject($emails);
 
-        return $email[ 'verified' ];
+        return array_key_exists('verified', $email) ? $email[ 'verified' ] : false;
     }
 
     /**
