@@ -11,7 +11,7 @@ It doesn't require any framework, so you are free on that
 
 Installation
 ------------
-This library can be found on [Packagist](https://github.com/logical-and/php-oauth).
+This library can be found on [Packagist](https://packagist.org/packages/and/oauth).
 The recommended way to install this is through [composer](http://getcomposer.org):
 
 ```bash
